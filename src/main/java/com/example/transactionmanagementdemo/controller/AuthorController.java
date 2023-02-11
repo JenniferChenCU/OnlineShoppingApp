@@ -1,7 +1,7 @@
 package com.example.transactionmanagementdemo.controller;
 
-import com.example.transactionmanagementdemo.domain.entity.Author;
-import com.example.transactionmanagementdemo.domain.response.AuthorResponse;
+import com.example.transactionmanagementdemo.domain.Author.Author;
+import com.example.transactionmanagementdemo.domain.Author.AuthorResponse;
 import com.example.transactionmanagementdemo.exception.AuthorSaveFailedException;
 import com.example.transactionmanagementdemo.service.AuthorService;
 import org.springframework.beans.factory.annotation.Autowired;

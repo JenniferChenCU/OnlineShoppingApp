@@ -1,31 +1,28 @@
-package com.example.transactionmanagementdemo.domain.entity;
+package com.example.transactionmanagementdemo.domain.Author;
 
 import lombok.*;
 
 import javax.persistence.*;
 
 @Entity
-@Table(name="USER")
+@Table(name="AUTHOR")
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-public class User {
+public class Author {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", unique = true, nullable = false)
     private Integer id;
 
-    @Column(name = "username")
-    private String username;
+    @Column(name = "firstname")
+    private String firstName;
+
+    @Column(name = "lastname")
+    private String lastName;
 
     @Column(name = "email")
     private String email;
-
-    @Column(name = "password")
-    private String password;
-
-    @Column(name = "isSeller")
-    private boolean isSeller;
 }

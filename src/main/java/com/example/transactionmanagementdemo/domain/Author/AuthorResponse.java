@@ -1,7 +1,6 @@
-package com.example.transactionmanagementdemo.domain.response;
+package com.example.transactionmanagementdemo.domain.Author;
 
-
-import com.example.transactionmanagementdemo.domain.entity.Author;
+import com.example.transactionmanagementdemo.domain.Author.Author;
 import lombok.*;
 
 @Getter
