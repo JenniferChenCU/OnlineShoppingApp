@@ -64,4 +64,12 @@ public class UserService {
         userDao.deleteById(user);
     }
 
+    @Transactional
+    public Optional<User> validateLogin(String email, String password) {
+        return userDao.getAllUsers().stream()
+                .filter(a -> a.getEmail().equals(email)
+                        && a.getPassword().equals(password))
+                .findAny();
+    }
+
 }
