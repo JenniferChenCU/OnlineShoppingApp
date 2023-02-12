@@ -41,18 +41,19 @@ public class Product {
     @Column(name = "stockQuantity")
     private Integer stockQuantity;
 
-//    @OneToMany(mappedBy = "product", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-//    @ToString.Exclude
-//    private List<OrderProduct> orderProducts = new ArrayList<>();
+    // product --- 1 to M --- OrderProduct
+    @OneToMany(mappedBy = "product", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ToString.Exclude
+    private List<OrderProduct> orderProducts = new ArrayList<>();
 
-//    public void addOrderProducts(OrderProduct orderProduct) {
-//        this.orderProducts.add(orderProduct);
-//        orderProduct.setProduct(this);
-//    }
+    public void addOrderProducts(OrderProduct orderProduct) {
+        this.orderProducts.add(orderProduct);
+        orderProduct.setProduct(this);
+    }
 
     // User --- M : M --- Product
-//    @ManyToMany(mappedBy = "user", cascade = CascadeType.ALL)
-//    @ToString.Exclude
-//    private Set<User> users = new HashSet<>();
+    @ManyToMany(mappedBy = "products", cascade = CascadeType.ALL)
+    @ToString.Exclude
+    private Set<User> users = new HashSet<>();
 
 }

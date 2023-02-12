@@ -33,17 +33,17 @@ public class Orders {
     private Timestamp datePlaced;
 
     // Orders --- M to 1 --- User
-//    @ManyToOne(fetch = FetchType.LAZY)  // the Owner of the relationship
-//    @JoinColumn(name = "id") // <- name here is the exact name Hibernate can use when looking for fk in the "choice" table inside database
-//    private User user;
+    @ManyToOne(fetch = FetchType.LAZY)  // the Owner of the relationship
+    @JoinColumn(name = "user_id") // <- name here is the exact name Hibernate can use when looking for fk in the "choice" table inside database
+    private User user;
 
-//    // Orders --- 1 to M --- OrderProduct
-//    @OneToMany(mappedBy = "orders", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-//    @ToString.Exclude
-//    private List<OrderProduct> orderProducts = new ArrayList<>();
-//
-//    public void addOrderProducts(OrderProduct orderProduct) {
-//        this.orderProducts.add(orderProduct);
-//        orderProduct.setOrders(this);
-//    }
+    // Orders --- 1 to M --- OrderProduct
+    @OneToMany(mappedBy = "orders", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ToString.Exclude
+    private List<OrderProduct> orderProducts = new ArrayList<>();
+
+    public void addOrderProducts(OrderProduct orderProduct) {
+        this.orderProducts.add(orderProduct);
+        orderProduct.setOrders(this);
+    }
 }

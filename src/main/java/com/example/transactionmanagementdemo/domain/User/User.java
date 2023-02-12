@@ -38,20 +38,21 @@ public class User {
     @Column(name = "isSeller")
     private boolean isSeller;
 
-//    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-//    @ToString.Exclude
-//    private List<Orders> orders = new ArrayList<>();
-//
-//    public void addOrders(Orders orders) {
-//        this.orders.add(orders);
-//        orders.setUser(this);
-//    }
+    // user --- 1 to M --- orders
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ToString.Exclude
+    private List<Orders> orders = new ArrayList<>();
+
+    public void addOrders(Orders orders) {
+        this.orders.add(orders);
+        orders.setUser(this);
+    }
 
     // User --- M to M --- Product
-//    @ManyToMany(cascade = CascadeType.ALL)      // owner of relationship
-//    @JoinTable(name = "student_course",         // ???
-//            joinColumns = {@JoinColumn(name = "userId")},           //joinColumn specify current class's fk
-//            inverseJoinColumns = {@JoinColumn(name = "productId")})     //inverseJoinColumn that of referenced class's fk
-//    Set<Product> products = new HashSet<>();
+    @ManyToMany(cascade = CascadeType.ALL)      // owner of relationship
+    @JoinTable(name = "user_product",         // ???
+            joinColumns = {@JoinColumn(name = "user_id")},           //joinColumn specify current class's fk
+            inverseJoinColumns = {@JoinColumn(name = "product_id")})     //inverseJoinColumn that of referenced class's fk
+    Set<Product> products = new HashSet<>();
 
 }
