@@ -1,10 +1,16 @@
 package com.example.transactionmanagementdemo.domain.User;
 
+import com.example.transactionmanagementdemo.domain.Orders.Orders;
+import com.example.transactionmanagementdemo.domain.Product.Product;
 import lombok.*;
 import org.springframework.boot.jdbc.DataSourceBuilder;
 
 import javax.persistence.*;
 import javax.sql.DataSource;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name="USER")
@@ -31,5 +37,21 @@ public class User {
 
     @Column(name = "isSeller")
     private boolean isSeller;
+
+//    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+//    @ToString.Exclude
+//    private List<Orders> orders = new ArrayList<>();
+//
+//    public void addOrders(Orders orders) {
+//        this.orders.add(orders);
+//        orders.setUser(this);
+//    }
+
+    // User --- M to M --- Product
+//    @ManyToMany(cascade = CascadeType.ALL)      // owner of relationship
+//    @JoinTable(name = "student_course",         // ???
+//            joinColumns = {@JoinColumn(name = "userId")},           //joinColumn specify current class's fk
+//            inverseJoinColumns = {@JoinColumn(name = "productId")})     //inverseJoinColumn that of referenced class's fk
+//    Set<Product> products = new HashSet<>();
 
 }

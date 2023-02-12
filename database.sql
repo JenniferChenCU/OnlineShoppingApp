@@ -38,12 +38,12 @@ create table orders (
 	id int primary key auto_increment,
     userId int,
     foreign key (userId) references user(id),
-    orderStatus text,
+    orderStatus text not null,
     datePlaced timestamp
 );
 
 insert into orders 
-(userId, orderStatus, dataPlaced) values
+(userId, orderStatus, datePlaced) values
 (1, "Completed", "2022-12-01 00:00:01"),
 (1, "Canceled", "2023-01-10 00:00:01"),
 (2, "Processing", "2023-02-07 00:00:01"),

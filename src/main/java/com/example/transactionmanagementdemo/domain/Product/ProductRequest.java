@@ -1,25 +1,30 @@
-package com.example.transactionmanagementdemo.domain.User;
+package com.example.transactionmanagementdemo.domain.Product;
 
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.validation.constraints.*;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 
 @Getter
 @Setter
 @Builder
-public class UserRequest {
+public class ProductRequest {
 
-    @NotNull(message = "Username is required")
-    private String username;
+    @NotNull(message = "Name is required")
+    private String name;
 
-    @NotNull(message = "Email is required")
-    @Pattern(regexp="^.+@[^\\.].*\\.[a-z]{2,}$", message="Email address must be valid")
-    private String email;
+    private String description;
 
-    @NotNull(message = "Password is required")
-    private String password;
+    @NotNull(message = "RetailPrice is required")
+    private float retailPrice;
+
+    @NotNull(message = "WholesalePrice is required")
+    private float wholesalePrice;
+
+    @NotNull(message = "StockQuantity is required")
+    private Integer stockQuantity;
 
 //    @Size(min = 13, max = 13, message = "ISBN must be exactly 13 characters")
 //    @Pattern(regexp="^(0|[1-9][0-9]*)$", message = "ISBN must be a number")

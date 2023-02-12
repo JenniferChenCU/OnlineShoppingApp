@@ -111,7 +111,6 @@ public class UserDao {
         throw new InvalidCredentialsException("Incorrect credentials, please try again.");
     }
 
-
     public void deleteById(User user){
         Session session;
         try{

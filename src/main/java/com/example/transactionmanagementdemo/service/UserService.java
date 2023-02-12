@@ -41,6 +41,11 @@ public class UserService {
     }
 
     @Transactional
+    public void addUser(User user){
+        userDao.addUser(user);
+    }
+
+    @Transactional
     public void saveUserSuccess(User user){
         userDao.addUser(user);
     }

@@ -57,6 +57,8 @@ public class UserController {
                 .password(user.getPassword())
                 .build();
 
+        userService.addUser(newUser);
+
         return UserResponse.builder()
                 .message("New user created")
                 .user(newUser)
