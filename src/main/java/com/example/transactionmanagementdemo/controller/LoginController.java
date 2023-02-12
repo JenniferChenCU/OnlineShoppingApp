@@ -29,10 +29,6 @@ public class LoginController {
     public UserResponse loginValidation(
             @RequestBody UserRequest user
     ){
-        System.out.println("=== debug ===");
-        System.out.println(user.getEmail());
-        System.out.println(user.getPassword());
-
         Optional<User> possibleUser= loginService.validateLogin(user.getEmail(), user.getPassword());
         if (possibleUser.isPresent()) {
             return UserResponse.builder()
