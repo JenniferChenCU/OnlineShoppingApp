@@ -52,11 +52,13 @@ public class User {
     }
 
     // User --- M to M --- Product
-//    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})      // owner of relationship
-//    @JoinTable(name = "user_product",                                // conjunction table
-//            joinColumns = {@JoinColumn(name = "user_id")},           //joinColumn specify current class's fk
-//            inverseJoinColumns = {@JoinColumn(name = "product_id")})     //inverseJoinColumn that of referenced class's fk
+    @ManyToMany(cascade = CascadeType.ALL)                            // owner of relationship
+    @JoinTable(name = "user_product",                                 // conjunction table
+            joinColumns = {@JoinColumn(name = "user_id")},            //joinColumn specify current class's fk
+            inverseJoinColumns = {@JoinColumn(name = "product_id")})  //inverseJoinColumn that of referenced class's fk
 //    @JsonIgnoreProperties("products")
-//    Set<Product> products = new HashSet<>();
+    @JsonIgnore
+    @ToString.Exclude
+    Set<Product> products = new HashSet<>();
 
 }

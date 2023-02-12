@@ -21,8 +21,8 @@ public class OrderProduct {
     @Column(name = "id", unique = true, nullable = false)
     private Integer id;
 
-    @Column(name = "product_id")
-    private Integer productId;
+//    @Column(name = "product_id")
+//    private Integer productId;
 
     @Column(name = "purchasedQuantity")
     private Integer purchasedQuantity;
@@ -40,6 +40,6 @@ public class OrderProduct {
 
     // OrderProduct --- M to 1 --- Product
     @ManyToOne(fetch = FetchType.EAGER)  // the Owner of the relationship
-    @JoinColumn(name = "product_id", insertable=false, updatable=false) // <- name here is the exact name Hibernate can use when looking for fk in the "choice" table inside database
-    private Product product;
+    @JoinColumn(name = "product_id") //, insertable=false, updatable=false) // <- name here is the exact name Hibernate can use when looking for fk in the "choice" table inside database
+    private Product products;
 }

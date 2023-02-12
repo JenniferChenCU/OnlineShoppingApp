@@ -42,20 +42,20 @@ public class Product {
     private Integer stockQuantity;
 
     // product --- 1 to M --- OrderProduct
-    @OneToMany(mappedBy = "product", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "products", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JsonIgnore
     @ToString.Exclude
     private List<OrderProduct> orderProducts = new ArrayList<>();
 
     public void addOrderProducts(OrderProduct orderProduct) {
         this.orderProducts.add(orderProduct);
-        orderProduct.setProduct(this);
+        orderProduct.setProducts(this);
     }
 
     // User --- M : M --- Product
-//    @ManyToMany(mappedBy = "product", cascade = CascadeType.ALL)
+    @ManyToMany(mappedBy = "products", cascade = CascadeType.ALL)
 //    @JsonIgnoreProperties("users")
-//    @ToString.Exclude
-//    private Set<User> users = new HashSet<>();
+    @ToString.Exclude
+    private Set<User> users = new HashSet<>();
 
 }
