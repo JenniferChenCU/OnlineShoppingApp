@@ -1,8 +1,10 @@
 package com.example.transactionmanagementdemo.controller;
 
+import com.example.transactionmanagementdemo.domain.Product.Product;
 import com.example.transactionmanagementdemo.domain.User.User;
 import com.example.transactionmanagementdemo.domain.User.UserResponse;
 import com.example.transactionmanagementdemo.exception.UserSaveFailedException;
+import com.example.transactionmanagementdemo.service.ProductService;
 import com.example.transactionmanagementdemo.service.UserService;
 import com.example.transactionmanagementdemo.domain.User.UserRequest;
 
@@ -14,6 +16,7 @@ import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -21,10 +24,12 @@ import java.util.List;
 public class UserController {
 
     private final UserService userService;
+    private final ProductService productService;
 
     @Autowired
-    public UserController(UserService userService) {
+    public UserController(UserService userService, ProductService productService) {
         this.userService = userService;
+        this.productService = productService;
     }
 
     @PostMapping("/new")
@@ -55,6 +60,7 @@ public class UserController {
                 .username(user.getUsername())
                 .email(user.getEmail())
                 .password(user.getPassword())
+                .orders(new ArrayList<>())
                 .build();
 
         userService.addUser(newUser);
@@ -95,9 +101,14 @@ public class UserController {
     }
 
     @DeleteMapping("/id/{id}")
-    public ResponseEntity<String> deleteUSerById(@PathVariable int id){
-        userService.deleteUser(id);
+    public ResponseEntity<String> deleteUserById(@PathVariable int id){
+        userService.deleteUserById(id);
         return new ResponseEntity<>("User deleted.", HttpStatus.OK);
+    }
+
+    @GetMapping("/viewProducts")
+    public List<Product> viewProductsSuccess(){
+        return productService.getInstockProductsSuccess();
     }
 
 }

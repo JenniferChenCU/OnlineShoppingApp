@@ -2,6 +2,7 @@ package com.example.transactionmanagementdemo.domain.Orders;
 
 import com.example.transactionmanagementdemo.domain.OrderProduct.OrderProduct;
 import com.example.transactionmanagementdemo.domain.User.User;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.*;
@@ -23,9 +24,6 @@ public class Orders {
     @Column(name = "id", unique = true, nullable = false)
     private Integer id;
 
-    @Column(name = "userId", nullable = false)
-    private String userId;
-
     @Column(name = "orderStatus")
     private String orderStatus;
 
@@ -33,12 +31,13 @@ public class Orders {
     private Timestamp datePlaced;
 
     // Orders --- M to 1 --- User
-    @ManyToOne(fetch = FetchType.LAZY)  // the Owner of the relationship
+    @ManyToOne(fetch = FetchType.EAGER)  // the Owner of the relationship
     @JoinColumn(name = "user_id") // <- name here is the exact name Hibernate can use when looking for fk in the "choice" table inside database
     private User user;
 
     // Orders --- 1 to M --- OrderProduct
-    @OneToMany(mappedBy = "orders", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "orders", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JsonIgnore
     @ToString.Exclude
     private List<OrderProduct> orderProducts = new ArrayList<>();
 

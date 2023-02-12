@@ -1,6 +1,5 @@
 package com.example.transactionmanagementdemo.dao;
 
-
 import com.example.transactionmanagementdemo.domain.User.User;
 import com.example.transactionmanagementdemo.exception.InvalidCredentialsException;
 import com.example.transactionmanagementdemo.exception.UserSaveFailedException;
@@ -111,7 +110,7 @@ public class UserDao {
         throw new InvalidCredentialsException("Incorrect credentials, please try again.");
     }
 
-    public void deleteById(User user){
+    public void deleteUser(User user){
         Session session;
         try{
             session = sessionFactory.getCurrentSession();

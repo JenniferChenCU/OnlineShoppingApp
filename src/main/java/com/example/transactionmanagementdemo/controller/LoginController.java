@@ -28,18 +28,24 @@ public class LoginController {
     }
 
     @PostMapping("")
-    public void loginValidation(@RequestBody UserRequest user) throws InvalidCredentialsException {
+    public UserResponse loginValidation(@RequestBody UserRequest user) throws InvalidCredentialsException {
+
+        Optional<User> possibleUser;
         try {
-            Optional<User> possibleUser= loginService.validateLogin(user.getEmail(), user.getPassword());
+            possibleUser= loginService.validateLogin(user.getEmail(), user.getPassword());
             if (!possibleUser.isPresent()){
                 throw new InvalidCredentialsException("Incorrect credentials, please try again.");
             }
-//            UserResponse.builder()
-//                    .message("Login successfully!")
-//                    .user(possibleUser.get())
-//                    .build();
-        } catch (InvalidCredentialsException e){
-            System.out.println(e);
+        }catch(InvalidCredentialsException e){
+            e.printStackTrace();
+            return UserResponse.builder()
+                    .message("Login fail!")
+                    .build();
         }
+        return UserResponse.builder()
+                .message("Login successfully!")
+                .user(possibleUser.get())
+                .build();
+
     }
 }

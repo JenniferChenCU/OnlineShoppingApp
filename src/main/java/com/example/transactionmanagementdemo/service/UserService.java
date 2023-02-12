@@ -61,9 +61,9 @@ public class UserService {
     }
 
     @Transactional
-    public void deleteUser(int id){
+    public void deleteUserById(int id){
         User user = userDao.getUserById(id);
-        userDao.deleteById(user);
+        userDao.deleteUser(user);
     }
 
     @Transactional

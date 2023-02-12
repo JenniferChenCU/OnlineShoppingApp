@@ -2,6 +2,8 @@ package com.example.transactionmanagementdemo.domain.User;
 
 import com.example.transactionmanagementdemo.domain.Orders.Orders;
 import com.example.transactionmanagementdemo.domain.Product.Product;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.*;
 import org.springframework.boot.jdbc.DataSourceBuilder;
 
@@ -39,7 +41,8 @@ public class User {
     private boolean isSeller;
 
     // user --- 1 to M --- orders
-    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "user", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JsonIgnore
     @ToString.Exclude
     private List<Orders> orders = new ArrayList<>();
 
@@ -49,10 +52,11 @@ public class User {
     }
 
     // User --- M to M --- Product
-    @ManyToMany(cascade = CascadeType.ALL)      // owner of relationship
-    @JoinTable(name = "user_product",         // ???
-            joinColumns = {@JoinColumn(name = "user_id")},           //joinColumn specify current class's fk
-            inverseJoinColumns = {@JoinColumn(name = "product_id")})     //inverseJoinColumn that of referenced class's fk
-    Set<Product> products = new HashSet<>();
+//    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})      // owner of relationship
+//    @JoinTable(name = "user_product",                                // conjunction table
+//            joinColumns = {@JoinColumn(name = "user_id")},           //joinColumn specify current class's fk
+//            inverseJoinColumns = {@JoinColumn(name = "product_id")})     //inverseJoinColumn that of referenced class's fk
+//    @JsonIgnoreProperties("products")
+//    Set<Product> products = new HashSet<>();
 
 }

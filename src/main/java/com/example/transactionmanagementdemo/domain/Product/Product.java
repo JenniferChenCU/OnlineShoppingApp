@@ -1,10 +1,10 @@
 package com.example.transactionmanagementdemo.domain.Product;
 
 import com.example.transactionmanagementdemo.domain.OrderProduct.OrderProduct;
-import com.example.transactionmanagementdemo.domain.Orders.Orders;
 import com.example.transactionmanagementdemo.domain.User.User;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.*;
-import org.hibernate.criterion.Order;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -42,7 +42,8 @@ public class Product {
     private Integer stockQuantity;
 
     // product --- 1 to M --- OrderProduct
-    @OneToMany(mappedBy = "product", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "product", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JsonIgnore
     @ToString.Exclude
     private List<OrderProduct> orderProducts = new ArrayList<>();
 
@@ -52,8 +53,9 @@ public class Product {
     }
 
     // User --- M : M --- Product
-    @ManyToMany(mappedBy = "products", cascade = CascadeType.ALL)
-    @ToString.Exclude
-    private Set<User> users = new HashSet<>();
+//    @ManyToMany(mappedBy = "product", cascade = CascadeType.ALL)
+//    @JsonIgnoreProperties("users")
+//    @ToString.Exclude
+//    private Set<User> users = new HashSet<>();
 
 }

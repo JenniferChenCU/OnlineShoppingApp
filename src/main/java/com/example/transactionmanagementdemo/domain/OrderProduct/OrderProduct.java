@@ -21,10 +21,7 @@ public class OrderProduct {
     @Column(name = "id", unique = true, nullable = false)
     private Integer id;
 
-    @Column(name = "orderId", nullable = false)
-    private Integer orderId;
-
-    @Column(name = "productId")
+    @Column(name = "product_id")
     private Integer productId;
 
     @Column(name = "purchasedQuantity")
@@ -37,12 +34,12 @@ public class OrderProduct {
     private float executionWholesalePrice;
 
     // OrderProduct --- M to 1 --- Order
-    @ManyToOne(fetch = FetchType.LAZY)  // the Owner of the relationship
+    @ManyToOne(fetch = FetchType.EAGER)  // the Owner of the relationship
     @JoinColumn(name = "order_id") // <- name here is the exact name Hibernate can use when looking for fk inside database
     private Orders orders;
 
     // OrderProduct --- M to 1 --- Product
-    @ManyToOne(fetch = FetchType.LAZY)  // the Owner of the relationship
-    @JoinColumn(name = "product_id") // <- name here is the exact name Hibernate can use when looking for fk in the "choice" table inside database
+    @ManyToOne(fetch = FetchType.EAGER)  // the Owner of the relationship
+    @JoinColumn(name = "product_id", insertable=false, updatable=false) // <- name here is the exact name Hibernate can use when looking for fk in the "choice" table inside database
     private Product product;
 }
