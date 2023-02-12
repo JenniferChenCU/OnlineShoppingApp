@@ -3,6 +3,8 @@ package com.example.transactionmanagementdemo.controller;
 import com.example.transactionmanagementdemo.domain.User.User;
 import com.example.transactionmanagementdemo.domain.User.UserRequest;
 import com.example.transactionmanagementdemo.domain.User.UserResponse;
+import com.example.transactionmanagementdemo.exception.InvalidCredentialsException;
+import com.example.transactionmanagementdemo.exception.UserSaveFailedException;
 import com.example.transactionmanagementdemo.service.LoginService;
 import com.example.transactionmanagementdemo.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,17 +28,18 @@ public class LoginController {
     }
 
     @PostMapping("")
-    public UserResponse loginValidation(
-            @RequestBody UserRequest user
-    ){
-        Optional<User> possibleUser= loginService.validateLogin(user.getEmail(), user.getPassword());
-        if (possibleUser.isPresent()) {
-            return UserResponse.builder()
-                    .message("Login successfully!")
-                    .user((User) possibleUser.get())
-                    .build();
-        }else{
-            return UserResponse.builder().message("Login fail!").build();
+    public void loginValidation(@RequestBody UserRequest user) throws InvalidCredentialsException {
+        try {
+            Optional<User> possibleUser= loginService.validateLogin(user.getEmail(), user.getPassword());
+            if (!possibleUser.isPresent()){
+                throw new InvalidCredentialsException("Incorrect credentials, please try again.");
+            }
+//            UserResponse.builder()
+//                    .message("Login successfully!")
+//                    .user(possibleUser.get())
+//                    .build();
+        } catch (InvalidCredentialsException e){
+            System.out.println(e);
         }
     }
 }
