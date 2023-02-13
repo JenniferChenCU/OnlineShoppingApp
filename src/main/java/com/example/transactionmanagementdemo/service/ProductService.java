@@ -31,6 +31,11 @@ public class ProductService {
     }
 
     @Transactional
+    public Product userGetProductById(int userId, int productId){
+        return productDao.userGetProductById(userId, productId);
+    }
+
+    @Transactional
     public Product getProductById(int id){
         return productDao.getProductById(id);
     }

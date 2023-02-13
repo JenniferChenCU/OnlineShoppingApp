@@ -1,9 +1,12 @@
 package com.example.transactionmanagementdemo.controller;
 
+import com.example.transactionmanagementdemo.domain.Orders.OrdersResponse;
 import com.example.transactionmanagementdemo.domain.Product.Product;
+import com.example.transactionmanagementdemo.domain.Product.ProductResponse;
 import com.example.transactionmanagementdemo.domain.User.User;
 import com.example.transactionmanagementdemo.domain.User.UserResponse;
 import com.example.transactionmanagementdemo.exception.UserSaveFailedException;
+import com.example.transactionmanagementdemo.service.OrdersService;
 import com.example.transactionmanagementdemo.service.ProductService;
 import com.example.transactionmanagementdemo.service.UserService;
 import com.example.transactionmanagementdemo.domain.User.UserRequest;
@@ -18,6 +21,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("user")
@@ -25,11 +29,13 @@ public class UserController {
 
     private final UserService userService;
     private final ProductService productService;
+    private final OrdersService ordersService;
 
     @Autowired
-    public UserController(UserService userService, ProductService productService) {
+    public UserController(UserService userService, ProductService productService, OrdersService ordersService) {
         this.userService = userService;
         this.productService = productService;
+        this.ordersService = ordersService;
     }
 
     @PostMapping("/new")
@@ -110,5 +116,35 @@ public class UserController {
     public List<Product> viewProductsSuccess(){
         return productService.getInstockProductsSuccess();
     }
+
+    @GetMapping("/viewProducts/{userId}/{productId}")
+    public ProductResponse viewProductDetails(@PathVariable int userId, @PathVariable int productId){
+        Product product = productService.userGetProductById(userId, productId);
+        return ProductResponse.builder()
+                .message("Returning product with id: " + productId)
+                .product(product)
+                .build();
+    }
+
+    @PostMapping("/updateStatus/{orderId}/{isAdmin}")
+    public OrdersResponse updateOrderStatus(@PathVariable int orderId,
+                                            @PathVariable boolean isAdmin,
+                                            @Valid @RequestBody Map<String, String> status){
+        try{
+            ordersService.updateOrdersStatus(orderId, status.get("status"), isAdmin);
+        }catch(Exception e){
+            return OrdersResponse.builder().message("Cannot update!").build();
+        }
+        return OrdersResponse.builder().message("Order status updated!").build();
+
+    }
+
+//    @PostMapping("/purchase/{userId}/{productId}/{quantity}")
+//    public purchaseProduct(@PathVariable int userId,
+//                           @PathVariable int productId,
+//                           @PathVariable int quantity){
+//
+//
+//    }
 
 }

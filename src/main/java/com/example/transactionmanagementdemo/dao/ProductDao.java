@@ -4,6 +4,7 @@ import com.example.transactionmanagementdemo.domain.Product.Product;
 import com.example.transactionmanagementdemo.exception.ProductSaveFailedException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.criterion.Projections;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -11,6 +12,7 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
+import javax.swing.plaf.basic.BasicSplitPaneUI;
 import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
@@ -64,6 +66,29 @@ public class ProductDao {
             CriteriaQuery<Product> cq = cb.createQuery(Product.class);
             Root<Product> root = cq.from(Product.class);
             Predicate predicate = cb.equal(root.get("id"), id);
+            cq.select(root).where(predicate);
+            product = session.createQuery(cq).uniqueResultOptional();
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        }
+        return (product.isPresent())? product.get() : null;
+    }
+
+    public Product userGetProductById(int userId, int productId){
+        Session session;
+        Optional<Product> product = null;
+        try{
+            session = sessionFactory.getCurrentSession();
+            CriteriaBuilder cb = session.getCriteriaBuilder();
+            CriteriaQuery<Product> cq = cb.createQuery(Product.class);
+//                    .setProjection(Projections.projectionList()
+//                            .add(Projections.property("id"), "id")
+//                            .add(Projections.property("name"), "name")
+//                            .add(Projections.property("description"), "description")
+//                            .add(Projections.property("retailPrice"), "price"));
+            Root<Product> root = cq.from(Product.class);
+            Predicate predicate = cb.equal(root.get("id"), productId);
             cq.select(root).where(predicate);
             product = session.createQuery(cq).uniqueResultOptional();
         }

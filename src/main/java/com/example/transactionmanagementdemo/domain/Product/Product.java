@@ -55,6 +55,7 @@ public class Product {
     // User --- M : M --- Product
     @ManyToMany(mappedBy = "products", cascade = CascadeType.ALL)
 //    @JsonIgnoreProperties("users")
+    @JsonIgnore
     @ToString.Exclude
     private Set<User> users = new HashSet<>();
 
