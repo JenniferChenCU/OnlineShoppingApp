@@ -3,6 +3,7 @@ package com.example.transactionmanagementdemo.dao;
 import com.example.transactionmanagementdemo.domain.Orders.OrderStatus;
 import com.example.transactionmanagementdemo.domain.Orders.Orders;
 import com.example.transactionmanagementdemo.domain.Orders.OrdersResponse;
+import com.example.transactionmanagementdemo.domain.User.User;
 import com.example.transactionmanagementdemo.exception.OrderNotFoundException;
 import com.example.transactionmanagementdemo.exception.ProductSaveFailedException;
 import org.hibernate.Session;
@@ -10,12 +11,8 @@ import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Predicate;
-import javax.persistence.criteria.Root;
-import java.util.List;
-import java.util.Optional;
+import javax.persistence.criteria.*;
+import java.util.*;
 
 @Repository
 public class OrdersDao {
@@ -57,6 +54,10 @@ public class OrdersDao {
         return (orders.isPresent())? orders.get() : null;
     }
 
+    public void createNewOrders(Orders orders){
+        Session session = sessionFactory.getCurrentSession();
+        session.saveOrUpdate(orders);
+    }
     public OrdersResponse updateOrdersStatus(int orderId, int status, boolean isAdmin) throws OrderNotFoundException {
         Session session;
         Optional<Orders> orders = null;

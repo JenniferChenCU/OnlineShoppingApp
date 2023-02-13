@@ -1,7 +1,15 @@
 package com.example.transactionmanagementdemo.service;
 
+import com.example.transactionmanagementdemo.dao.ProductDao;
 import com.example.transactionmanagementdemo.dao.UserDao;
+import com.example.transactionmanagementdemo.domain.OrderProduct.OrderProduct;
+import com.example.transactionmanagementdemo.domain.Orders.OrderStatus;
+import com.example.transactionmanagementdemo.domain.Orders.Orders;
+import com.example.transactionmanagementdemo.domain.Orders.OrdersResponse;
+import com.example.transactionmanagementdemo.domain.Product.Product;
 import com.example.transactionmanagementdemo.domain.User.User;
+import com.example.transactionmanagementdemo.exception.NotEnoughInventoryException;
+import com.example.transactionmanagementdemo.exception.OrderNotFoundException;
 import com.example.transactionmanagementdemo.exception.UserSaveFailedException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -9,17 +17,20 @@ import org.springframework.stereotype.Service;
 import javax.transaction.Transaction;
 import javax.transaction.Transactional;
 import javax.websocket.Session;
-import java.util.List;
+import java.sql.Timestamp;
+import java.util.*;
 import java.util.Optional;
 
 @Service
 public class UserService {
 
     private final UserDao userDao;
+    private final ProductDao productDao;
 
     @Autowired
-    public UserService(UserDao userDao) {
+    public UserService(UserDao userDao, ProductDao productDao) {
         this.userDao = userDao;
+        this.productDao = productDao;
     }
 
     @Transactional
@@ -73,5 +84,6 @@ public class UserService {
                         && a.getPassword().equals(password))
                 .findAny();
     }
+
 
 }

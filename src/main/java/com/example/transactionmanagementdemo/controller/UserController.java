@@ -1,11 +1,14 @@
 package com.example.transactionmanagementdemo.controller;
 
 import com.example.transactionmanagementdemo.domain.Orders.OrderStatus;
+import com.example.transactionmanagementdemo.domain.Orders.Orders;
+import com.example.transactionmanagementdemo.domain.Orders.OrdersRequest;
 import com.example.transactionmanagementdemo.domain.Orders.OrdersResponse;
 import com.example.transactionmanagementdemo.domain.Product.Product;
 import com.example.transactionmanagementdemo.domain.Product.ProductResponse;
 import com.example.transactionmanagementdemo.domain.User.User;
 import com.example.transactionmanagementdemo.domain.User.UserResponse;
+import com.example.transactionmanagementdemo.domain.entity.PurchaseRequest;
 import com.example.transactionmanagementdemo.exception.UserSaveFailedException;
 import com.example.transactionmanagementdemo.service.OrdersService;
 import com.example.transactionmanagementdemo.service.ProductService;
@@ -125,6 +128,11 @@ public class UserController {
                 .message("Returning product with id: " + productId)
                 .product(product)
                 .build();
+    }
+
+    @PostMapping("/newOrder")
+    public OrdersResponse createNewOrder(@RequestBody PurchaseRequest purchaseRequest){
+        return ordersService.createNewOrders(purchaseRequest.getUserId(), purchaseRequest.getPurchaseDetail());
     }
 
     @PostMapping("/updateStatus/{orderId}/{isAdmin}")
