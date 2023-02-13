@@ -24,8 +24,9 @@ public class Orders {
     @Column(name = "id", unique = true, nullable = false)
     private Integer id;
 
+    @Enumerated(EnumType.ORDINAL)
     @Column(name = "orderStatus")
-    private String orderStatus;
+    private OrderStatus orderStatus;
 
     @Column(name = "datePlaced")
     private Timestamp datePlaced;

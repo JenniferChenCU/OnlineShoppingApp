@@ -1,5 +1,6 @@
 package com.example.transactionmanagementdemo.controller;
 
+import com.example.transactionmanagementdemo.domain.Orders.OrderStatus;
 import com.example.transactionmanagementdemo.domain.Orders.OrdersResponse;
 import com.example.transactionmanagementdemo.domain.Product.Product;
 import com.example.transactionmanagementdemo.domain.Product.ProductResponse;
@@ -129,14 +130,9 @@ public class UserController {
     @PostMapping("/updateStatus/{orderId}/{isAdmin}")
     public OrdersResponse updateOrderStatus(@PathVariable int orderId,
                                             @PathVariable boolean isAdmin,
-                                            @Valid @RequestBody Map<String, String> status){
-        try{
-            ordersService.updateOrdersStatus(orderId, status.get("status"), isAdmin);
-        }catch(Exception e){
-            return OrdersResponse.builder().message("Cannot update!").build();
-        }
-        return OrdersResponse.builder().message("Order status updated!").build();
+                                            @RequestParam("status") Integer status){
 
+            return ordersService.updateOrdersStatus(orderId, status, isAdmin);
     }
 
 //    @PostMapping("/purchase/{userId}/{productId}/{quantity}")

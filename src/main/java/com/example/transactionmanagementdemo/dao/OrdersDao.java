@@ -1,5 +1,6 @@
 package com.example.transactionmanagementdemo.dao;
 
+import com.example.transactionmanagementdemo.domain.Orders.OrderStatus;
 import com.example.transactionmanagementdemo.domain.Orders.Orders;
 import com.example.transactionmanagementdemo.domain.Orders.OrdersResponse;
 import com.example.transactionmanagementdemo.exception.OrderNotFoundException;
@@ -56,7 +57,7 @@ public class OrdersDao {
         return (orders.isPresent())? orders.get() : null;
     }
 
-    public OrdersResponse updateOrdersStatus(int orderId, String status, boolean isAdmin) throws OrderNotFoundException {
+    public OrdersResponse updateOrdersStatus(int orderId, int status, boolean isAdmin) throws OrderNotFoundException {
         Session session;
         Optional<Orders> orders = null;
         try{
@@ -71,19 +72,20 @@ public class OrdersDao {
                 throw new OrderNotFoundException("Order " + orderId + " does not Exist!");
             }
             Orders theOrders = orders.get();
+
             // Admin can make "Processing" orders "Completed" or "Canceled"
             // User can make "Processing" orders "Canceled"
-            String currentStatus = orders.get().getOrderStatus();
-            if (isAdmin && "Processing".equals(currentStatus)){
-                 theOrders.setOrderStatus(status);
+            OrderStatus newStatus = OrderStatus.values()[status];
+            OrderStatus currentStatus = orders.get().getOrderStatus();
+            if (isAdmin && OrderStatus.PROCESSING==currentStatus){
+                 theOrders.setOrderStatus(newStatus);
                  session.saveOrUpdate(theOrders);
                  // TODO: update stock
-            }else if (!isAdmin && "Processing".equals(currentStatus) && "Canceled".equals(status)){
-                 theOrders.setOrderStatus(status);
+            }else if (!isAdmin && OrderStatus.PROCESSING==currentStatus && OrderStatus.CANCELED==newStatus){
+                 theOrders.setOrderStatus(newStatus);
                  session.saveOrUpdate(theOrders);
                  // TODO: update stock
             }
-
         }catch (OrderNotFoundException e){
             e.printStackTrace();
             return OrdersResponse.builder().message("Order "+ orderId +" does not exist!").build();
