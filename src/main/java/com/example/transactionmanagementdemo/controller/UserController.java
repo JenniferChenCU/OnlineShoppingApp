@@ -1,14 +1,10 @@
 package com.example.transactionmanagementdemo.controller;
 
-import com.example.transactionmanagementdemo.domain.Orders.OrderStatus;
-import com.example.transactionmanagementdemo.domain.Orders.Orders;
-import com.example.transactionmanagementdemo.domain.Orders.OrdersRequest;
 import com.example.transactionmanagementdemo.domain.Orders.OrdersResponse;
 import com.example.transactionmanagementdemo.domain.Product.Product;
 import com.example.transactionmanagementdemo.domain.Product.ProductResponse;
 import com.example.transactionmanagementdemo.domain.User.User;
 import com.example.transactionmanagementdemo.domain.User.UserResponse;
-import com.example.transactionmanagementdemo.domain.WatchList.WatchList;
 import com.example.transactionmanagementdemo.domain.WatchList.WatchListResponse;
 import com.example.transactionmanagementdemo.domain.entity.PurchaseRequest;
 import com.example.transactionmanagementdemo.exception.UserSaveFailedException;
