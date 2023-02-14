@@ -41,6 +41,11 @@ public class Product {
     @Column(name = "stockQuantity")
     private int stockQuantity;
 
+    @Column(name = "soldQuantity")
+    private int soldQuantity = 0;
+    @Column(name = "profit")
+    private float profit = 0;
+
     // product --- 1 to M --- OrderProduct
     @OneToMany(mappedBy = "products", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JsonIgnore

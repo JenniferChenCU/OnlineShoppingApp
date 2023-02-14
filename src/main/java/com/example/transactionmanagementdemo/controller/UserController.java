@@ -134,11 +134,10 @@ public class UserController {
     }
 
     @PostMapping("/updateStatus/{orderId}/{isAdmin}")
-    public OrdersResponse updateOrderStatus(@PathVariable int userId,
-                                            @PathVariable int orderId,
+    public OrdersResponse updateOrderStatus(@PathVariable int orderId,
                                             @PathVariable boolean isAdmin,
                                             @RequestParam("status") Integer status){
-            return ordersService.updateOrdersStatus(orderId, status, isAdmin);
+        return ordersService.updateOrdersStatus(orderId, status, isAdmin);
     }
 
     @GetMapping("/watchList/{userId}")

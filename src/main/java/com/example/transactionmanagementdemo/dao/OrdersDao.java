@@ -98,6 +98,9 @@ public class OrdersDao {
 //
 //                }
 //            }
+
+            // update productProfit, productSoldQuantity, userSpends
+            updateProfit(orderId);
         }catch (OrderNotFoundException e){
             e.printStackTrace();
             return OrdersResponse.builder().message("Order "+ orderId +" does not exist!").build();
@@ -105,7 +108,26 @@ public class OrdersDao {
             e.printStackTrace();
             return OrdersResponse.builder().message("Illegal operation!").build();
         }
-        return OrdersResponse.builder().message("Order "+ orderId +" status get updated!").build();
+        return OrdersResponse.builder().orders(orders.get()).message("Order "+ orderId +" status get updated!").build();
+    }
+
+    public void updateProfit(int orderId){
+        Session session = sessionFactory.getCurrentSession();
+        Orders orders = getOrdersById(orderId);
+        if (orders.getOrderStatus() == OrderStatus.COMPLETED){
+            User user = orders.getUser();
+            List<OrderProduct> orderProducts = orders.getOrderProducts();
+            for (OrderProduct orderProduct: orderProducts){
+                Product product = orderProduct.getProducts();
+                int quantity = orderProduct.getPurchasedQuantity();
+                float profitPerItem = product.getWholesalePrice()-product.getRetailPrice();
+                product.setSoldQuantity(quantity + product.getSoldQuantity());
+                product.setProfit(profitPerItem*quantity + product.getProfit());
+                user.setTotalSpent(product.getWholesalePrice()*quantity + user.getTotalSpent());
+                session.saveOrUpdate(product);
+            }
+            session.saveOrUpdate(user);
+        }
     }
 
 //    public Product userGetOrderById(int userId, int productId){

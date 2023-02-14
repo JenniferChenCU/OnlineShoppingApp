@@ -40,6 +40,9 @@ public class User {
     @Column(name = "isSeller")
     private boolean isSeller;
 
+    @Column(name = "totalSpent")
+    private float totalSpent = 0;
+
     // user --- 1 to M --- orders
     @OneToMany(mappedBy = "user", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JsonIgnore
