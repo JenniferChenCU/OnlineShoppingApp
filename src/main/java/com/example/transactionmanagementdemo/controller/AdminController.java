@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.*;
 
 @RestController
-@RequestMapping("admin")
+@RequestMapping("")
 public class AdminController {
     private final UserService userService;
     private final ProductService productService;

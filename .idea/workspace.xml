@@ -5,15 +5,27 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="a0865ada-4781-4ab7-99c6-081d2b1d03f0" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/transactionmanagementdemo/config/SecurityConfig.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/transactionmanagementdemo/domain/Login/LoginRequest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/transactionmanagementdemo/domain/Login/LoginResponse.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/transactionmanagementdemo/security/AuthUserDetail.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/transactionmanagementdemo/security/JwtProvider.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/transactionmanagementdemo/controller/UserController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/transactionmanagementdemo/controller/UserController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/transactionmanagementdemo/dao/OrdersDao.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/transactionmanagementdemo/dao/OrdersDao.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/transactionmanagementdemo/controller/AdminController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/transactionmanagementdemo/controller/AdminController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/transactionmanagementdemo/controller/LoginController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/transactionmanagementdemo/controller/LoginController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/example/transactionmanagementdemo/dao/UserDao.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/transactionmanagementdemo/dao/UserDao.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/transactionmanagementdemo/service/OrdersService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/transactionmanagementdemo/service/OrdersService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/example/transactionmanagementdemo/controller/UserController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/transactionmanagementdemo/controller/UserController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/example/transactionmanagementdemo/dao/OrdersDao.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/transactionmanagementdemo/dao/OrdersDao.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/transactionmanagementdemo/domain/User/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/transactionmanagementdemo/domain/User/User.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/transactionmanagementdemo/service/LoginService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/transactionmanagementdemo/service/LoginService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/transactionmanagementdemo/service/UserService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/transactionmanagementdemo/service/UserService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/application.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/application.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/example/transactionmanagementdemo/controller/AdminController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/transactionmanagementdemo/controller/AdminController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/example/transactionmanagementdemo/controller/LoginController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/transactionmanagementdemo/controller/LoginController.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/com/example/transactionmanagementdemo/dao/UserDao.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/transactionmanagementdemo/dao/UserDao.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/example/transactionmanagementdemo/service/OrdersService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/transactionmanagementdemo/service/OrdersService.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/example/transactionmanagementdemo/domain/User/User.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/transactionmanagementdemo/domain/User/User.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/example/transactionmanagementdemo/service/LoginService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/transactionmanagementdemo/service/LoginService.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/example/transactionmanagementdemo/service/UserService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/transactionmanagementdemo/service/UserService.class" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -74,11 +86,11 @@
       <recent name="$PROJECT_DIR$/src/main/java/com/example/transactionmanagementdemo/domain/OrderProduct" />
     </key>
     <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="com.example.transactionmanagementdemo.security" />
+      <recent name="com.example.transactionmanagementdemo.domain.Login" />
+      <recent name="com.example.transactionmanagementdemo.config" />
       <recent name="com.example.transactionmanagementdemo.domain.WatchList" />
       <recent name="com.example.transactionmanagementdemo.exception" />
-      <recent name="com.example.transactionmanagementdemo.dao" />
-      <recent name="com.example.transactionmanagementdemo.service" />
-      <recent name="com.example.transactionmanagementdemo.domain.ProductWatchList" />
     </key>
   </component>
   <component name="RunManager">
@@ -100,7 +112,8 @@
       <updated>1676078699052</updated>
       <workItem from="1676078700249" duration="10260000" />
       <workItem from="1676141809458" duration="84884000" />
-      <workItem from="1676352116912" duration="10917000" />
+      <workItem from="1676352116912" duration="11587000" />
+      <workItem from="1676406498876" duration="7768000" />
     </task>
     <servers />
   </component>

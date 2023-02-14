@@ -14,6 +14,8 @@ import com.example.transactionmanagementdemo.exception.NotEnoughInventoryExcepti
 import com.example.transactionmanagementdemo.exception.OrderNotFoundException;
 import com.example.transactionmanagementdemo.exception.UserSaveFailedException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transaction;
@@ -102,5 +104,17 @@ public class UserService {
         List<User> allUsers = getAllUsersSuccess();
         return userDao.getTop3Users(allUsers);
     }
+
+
+    // ------ security part ------ //
+//    private List<GrantedAuthority> getAuthoritiesFromUser(User user){
+//        List<GrantedAuthority> userAuthorities = new ArrayList<>();
+//
+//        for (String permission :  user.getPermissions()){
+//            userAuthorities.add(new SimpleGrantedAuthority(permission));    // SimpleGrantedAuthority can be created from role Strings
+//        }
+//
+//        return userAuthorities;
+//    }
 
 }

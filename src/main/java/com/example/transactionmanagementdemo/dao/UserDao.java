@@ -95,6 +95,11 @@ public class UserDao {
         return (user.isPresent())? user.get() : null;
     }
 
+    public Optional<User> loadUserByUsername(String username){
+        List<User> allUsers = getAllUsers();
+        return allUsers.stream().filter(user -> username.equals(user.getUsername())).findAny();
+    }
+
     public void addUser(User user){
         Session session;
         try{
