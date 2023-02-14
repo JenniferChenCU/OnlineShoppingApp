@@ -58,17 +58,42 @@ public class AdminController {
 
         int productId = productRequest.getId();
         Product product = productService.getProductById(productId);
+        String description = productRequest.getDescription();
         float wholesalePrice = productRequest.getWholesalePrice();
         float retailPrice = productRequest.getRetailPrice();
-        String description = productRequest.getDescription();
         Integer stockQuantity = productRequest.getStockQuantity();
 
+        if (description!=null) product.setDescription(description);
         if (wholesalePrice!=0) product.setWholesalePrice(wholesalePrice);
         if (retailPrice!=0) product.setRetailPrice(retailPrice);
-        if (description!=null) product.setDescription(description);
         if (stockQuantity!=null) product.setStockQuantity(stockQuantity);
 
         productService.updateProduct(product);
         return ProductResponse.builder().message("Product got updated!").product(product).build();
+    }
+
+    @PostMapping("/add/{userId}")
+    public ProductResponse addProduct(@PathVariable int userId,
+                                      @RequestBody ProductRequest productRequest){
+        User user = userService.getUserById(userId);
+        if (!user.isSeller()){
+            return ProductResponse.builder().message("No permission").build();
+        }
+
+        Product product = new Product();
+        product.setName(productRequest.getName());
+
+        String description = productRequest.getDescription();
+        float wholesalePrice = productRequest.getWholesalePrice();
+        float retailPrice = productRequest.getRetailPrice();
+        Integer stockQuantity = productRequest.getStockQuantity();
+
+        if (description!=null) product.setDescription(description);
+        if (wholesalePrice!=0) product.setWholesalePrice(wholesalePrice);
+        if (retailPrice!=0) product.setRetailPrice(retailPrice);
+        if (stockQuantity!=null) product.setStockQuantity(stockQuantity);
+
+        productService.addProduct(product);
+        return ProductResponse.builder().product(product).message("New product created!").build();
     }
 }

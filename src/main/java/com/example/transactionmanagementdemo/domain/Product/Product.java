@@ -39,7 +39,7 @@ public class Product {
     private float wholesalePrice;
 
     @Column(name = "stockQuantity")
-    private Integer stockQuantity;
+    private int stockQuantity;
 
     // product --- 1 to M --- OrderProduct
     @OneToMany(mappedBy = "products", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
