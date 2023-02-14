@@ -90,6 +90,6 @@ public class OrdersService {
         orders.setDatePlaced(timestamp);
         ordersDao.createNewOrders(orders);
 
-        return OrdersResponse.builder().message("Order created!").build();
+        return OrdersResponse.builder().orders(orders).message("Order created!").build();
     }
 }
