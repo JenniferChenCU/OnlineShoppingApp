@@ -52,7 +52,7 @@ public class User {
     }
 
     // User --- M to M --- Product
-    @ManyToMany(cascade = CascadeType.ALL)                            // owner of relationship
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)                            // owner of relationship
     @JoinTable(name = "user_product",                                 // conjunction table
             joinColumns = {@JoinColumn(name = "user_id")},            //joinColumn specify current class's fk
             inverseJoinColumns = {@JoinColumn(name = "product_id")})  //inverseJoinColumn that of referenced class's fk

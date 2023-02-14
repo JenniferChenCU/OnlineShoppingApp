@@ -8,6 +8,7 @@ import com.example.transactionmanagementdemo.domain.Orders.Orders;
 import com.example.transactionmanagementdemo.domain.Orders.OrdersResponse;
 import com.example.transactionmanagementdemo.domain.Product.Product;
 import com.example.transactionmanagementdemo.domain.User.User;
+import com.example.transactionmanagementdemo.domain.WatchList.WatchListResponse;
 import com.example.transactionmanagementdemo.exception.NotEnoughInventoryException;
 import com.example.transactionmanagementdemo.exception.OrderNotFoundException;
 import com.example.transactionmanagementdemo.exception.UserSaveFailedException;
@@ -56,6 +57,11 @@ public class UserService {
     @Transactional
     public void addUser(User user){
         userDao.addUser(user);
+    }
+
+    @Transactional
+    public WatchListResponse addProductToWatchList(User user, Product product){
+        return userDao.addProductToWatchList(user, product);
     }
 
     @Transactional

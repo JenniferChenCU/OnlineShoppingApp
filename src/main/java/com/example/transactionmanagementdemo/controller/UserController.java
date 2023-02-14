@@ -8,6 +8,8 @@ import com.example.transactionmanagementdemo.domain.Product.Product;
 import com.example.transactionmanagementdemo.domain.Product.ProductResponse;
 import com.example.transactionmanagementdemo.domain.User.User;
 import com.example.transactionmanagementdemo.domain.User.UserResponse;
+import com.example.transactionmanagementdemo.domain.WatchList.WatchList;
+import com.example.transactionmanagementdemo.domain.WatchList.WatchListResponse;
 import com.example.transactionmanagementdemo.domain.entity.PurchaseRequest;
 import com.example.transactionmanagementdemo.exception.UserSaveFailedException;
 import com.example.transactionmanagementdemo.service.OrdersService;
@@ -24,8 +26,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @RestController
 @RequestMapping("user")
@@ -136,19 +137,29 @@ public class UserController {
     }
 
     @PostMapping("/updateStatus/{orderId}/{isAdmin}")
-    public OrdersResponse updateOrderStatus(@PathVariable int orderId,
+    public OrdersResponse updateOrderStatus(@PathVariable int userId,
+                                            @PathVariable int orderId,
                                             @PathVariable boolean isAdmin,
                                             @RequestParam("status") Integer status){
-
             return ordersService.updateOrdersStatus(orderId, status, isAdmin);
     }
 
-//    @PostMapping("/purchase/{userId}/{productId}/{quantity}")
-//    public purchaseProduct(@PathVariable int userId,
-//                           @PathVariable int productId,
-//                           @PathVariable int quantity){
-//
-//
-//    }
+    @GetMapping("/watchList/{userId}")
+    public WatchListResponse getWatchList(@PathVariable int userId){
+        User user = userService.getUserById(userId);
+        Set<Product> productSet = user.getProducts();
+        return WatchListResponse.builder().productSet(productSet).message("Full watch list get!").build();
+    }
+
+    @PostMapping("/watchList/new/{userId}/{productId}")
+    public WatchListResponse addProductToWatchList(@PathVariable int userId,
+                                                   @PathVariable int productId){
+        User user = userService.getUserById(userId);
+        Product product = productService.getProductById(productId);
+        return userService.addProductToWatchList(user, product);
+    }
+
+//    @DeleteMapping("/watchList/new/{userId}")
+
 
 }

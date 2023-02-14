@@ -1,6 +1,8 @@
 package com.example.transactionmanagementdemo.dao;
 
 import com.example.transactionmanagementdemo.domain.User.User;
+import com.example.transactionmanagementdemo.domain.Product.Product;
+import com.example.transactionmanagementdemo.domain.WatchList.WatchListResponse;
 import com.example.transactionmanagementdemo.exception.InvalidCredentialsException;
 import com.example.transactionmanagementdemo.exception.UserSaveFailedException;
 import org.hibernate.Session;
@@ -12,8 +14,8 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
-import java.util.List;
-import java.util.Optional;
+
+import java.util.*;
 
 @Repository
 public class UserDao {
@@ -100,6 +102,15 @@ public class UserDao {
         catch(Exception e){
             e.printStackTrace();
         }
+    }
+
+    public WatchListResponse addProductToWatchList(User user, Product product){
+        Session session = sessionFactory.getCurrentSession();
+        Set<Product> userWatchList = user.getProducts();
+        userWatchList.add(product);
+        user.setProducts(userWatchList);
+        session.saveOrUpdate(user);
+        return WatchListResponse.builder().message("Product watch list"+userWatchList).build();
     }
 
     public void somethingWentWrong () throws UserSaveFailedException {
