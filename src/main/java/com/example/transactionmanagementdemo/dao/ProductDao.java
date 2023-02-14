@@ -158,12 +158,16 @@ public class ProductDao {
     }
 
     public List<Product> getTop3Products(List<Product> allProducts){
-        if (allProducts.size()<=3){
-            return allProducts;
-        }
         return allProducts.stream()
                 .sorted(Comparator.comparingInt(Product::getSoldQuantity).reversed())
                 .limit(3)
                 .collect(Collectors.toList());
+    }
+
+    public int totalItemsSold(List<Product> allProducts){
+        return allProducts.stream()
+                .map(Product::getSoldQuantity)
+                .mapToInt(Integer::valueOf)
+                .sum();
     }
 }

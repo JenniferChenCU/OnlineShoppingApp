@@ -37,6 +37,12 @@ public class ProductService {
     }
 
     @Transactional
+    public int totalItemsSold(){
+        List<Product> allProducts = getAllProductsSuccess();
+        return productDao.totalItemsSold(allProducts);
+    }
+
+    @Transactional
     public Product userGetProductById(int userId, int productId){
         return productDao.userGetProductById(userId, productId);
     }

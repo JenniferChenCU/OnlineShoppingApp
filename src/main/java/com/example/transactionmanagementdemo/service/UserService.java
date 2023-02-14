@@ -97,5 +97,10 @@ public class UserService {
                 .findAny();
     }
 
+    @Transactional
+    public List<User> getTop3Users(){
+        List<User> allUsers = getAllUsersSuccess();
+        return userDao.getTop3Users(allUsers);
+    }
 
 }

@@ -5,6 +5,7 @@ import com.example.transactionmanagementdemo.domain.Product.Product;
 import com.example.transactionmanagementdemo.domain.Product.ProductRequest;
 import com.example.transactionmanagementdemo.domain.Product.ProductResponse;
 import com.example.transactionmanagementdemo.domain.Product.AllProductsResponse;
+import com.example.transactionmanagementdemo.domain.User.AllUsersResponse;
 import com.example.transactionmanagementdemo.domain.User.User;
 import com.example.transactionmanagementdemo.service.OrdersService;
 import com.example.transactionmanagementdemo.service.ProductService;
@@ -102,5 +103,16 @@ public class AdminController {
     public AllProductsResponse top3Products(){
         List<Product> top3 = productService.getTop3Products();
         return AllProductsResponse.builder().product(top3).message("The most popular 3 products found!").build();
+    }
+
+    @GetMapping("/totalItemsSold")
+    public int totalItemsSold(){
+        return productService.totalItemsSold();
+    }
+
+    @GetMapping("/top3Users")
+    public AllUsersResponse top3Users(){
+        List<User> top3 = userService.getTop3Users();
+        return AllUsersResponse.builder().user(top3).message("Top 3 users found!").build();
     }
 }

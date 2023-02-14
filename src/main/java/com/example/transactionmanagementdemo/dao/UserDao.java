@@ -125,6 +125,13 @@ public class UserDao {
         return WatchListResponse.builder().message("Product watch list"+newUserWatchList).build();
     }
 
+    public List<User> getTop3Users(List<User> allUsers){
+        return allUsers.stream()
+                .sorted(Comparator.comparingDouble(User::getTotalSpent).reversed())
+                .limit(3)
+                .collect(Collectors.toList());
+    }
+
     public void somethingWentWrong () throws UserSaveFailedException {
         throw new UserSaveFailedException("Something went wrong, rolling back");
     }
