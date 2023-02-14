@@ -76,32 +76,20 @@ public class OrdersDao {
             }
             Orders theOrders = orders.get();
 
-            // Admin can make "Processing" orders "Completed" or "Canceled"
-            // User can make "Processing" orders "Canceled"
+            // can make "Processing" orders "Completed" or "Canceled"
             OrderStatus newStatus = OrderStatus.values()[status];
             OrderStatus currentStatus = theOrders.getOrderStatus();
-            if (isAdmin && OrderStatus.PROCESSING==currentStatus){
-                 theOrders.setOrderStatus(newStatus);
-                 session.saveOrUpdate(theOrders);
-            }else if (!isAdmin && OrderStatus.PROCESSING==currentStatus && OrderStatus.CANCELED==newStatus){
+            if (OrderStatus.PROCESSING==currentStatus){
                  theOrders.setOrderStatus(newStatus);
                  session.saveOrUpdate(theOrders);
             }
-            // TODO: update stock if newStatus is canceled
-//            if (OrderStatus.CANCELED==newStatus){
-//                ProductDao productDao;
-//                List<OrderProduct> orderProducts = theOrders.getOrderProducts();
-//                for (OrderProduct orderProduct: orderProducts){
-//                    int productId = orderProduct.getProducts().getId();
-//                    int productQuantity = orderProduct.getPurchasedQuantity();
-//                    Product product = productDao.getProductById(productId);
-//
-//                }
-//            }
-
-            // update productProfit, productSoldQuantity, userSpends
+            // if complete update productProfit, productSoldQuantity, userSpends
             if (status == 1) {
                 updateProfit(orderId);
+            }
+            // if canceled update stock
+            if (status == 2){
+                putBackStock(orderId);
             }
         }catch (OrderNotFoundException e){
             e.printStackTrace();
@@ -130,6 +118,27 @@ public class OrdersDao {
             }
             session.saveOrUpdate(user);
         }
+    }
+
+    public void putBackStock(int orderId){
+        Session session = sessionFactory.getCurrentSession();
+        Orders orders = getOrdersById(orderId);
+        User user = orders.getUser();
+        List<OrderProduct> orderProducts = orders.getOrderProducts();
+        for (OrderProduct orderProduct: orderProducts){
+            Product product = orderProduct.getProducts();
+            int quantity = orderProduct.getPurchasedQuantity();
+            // sold quantity and stock
+            product.setSoldQuantity(product.getSoldQuantity() - quantity);
+            product.setStockQuantity(product.getStockQuantity() + quantity);
+            // product profit
+            float profitPerItem = orderProduct.getExecutionRetailPrice() - orderProduct.getExecutionWholesalePrice();
+            product.setProfit(product.getProfit() - profitPerItem*quantity);
+            // user spend
+            user.setTotalSpent(user.getTotalSpent() - orderProduct.getExecutionWholesalePrice()*quantity);
+            session.saveOrUpdate(product);
+        }
+        session.saveOrUpdate(user);
     }
 
 //    public Product userGetOrderById(int userId, int productId){
