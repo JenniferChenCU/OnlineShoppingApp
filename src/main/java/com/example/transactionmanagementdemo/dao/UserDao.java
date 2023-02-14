@@ -109,7 +109,7 @@ public class UserDao {
         Session session = sessionFactory.getCurrentSession();
         Set<Product> userWatchList = user.getProducts();
         userWatchList.add(product);
-        user.setProducts(userWatchList);
+        user.setProducts(userWatchList.stream().filter(p->p.getStockQuantity()>0).collect(Collectors.toSet()));
         session.saveOrUpdate(user);
         return WatchListResponse.builder().message("Product watch list"+userWatchList).build();
     }
@@ -118,7 +118,7 @@ public class UserDao {
         Session session = sessionFactory.getCurrentSession();
         Set<Product> userWatchList = user.getProducts();
         Set<Product> newUserWatchList = userWatchList.stream()
-                .filter(product->product.getId()!=productId)
+                .filter(p->p.getId()!=productId && p.getStockQuantity()>0)
                 .collect(Collectors.toSet());
         user.setProducts(newUserWatchList);
         session.saveOrUpdate(user);

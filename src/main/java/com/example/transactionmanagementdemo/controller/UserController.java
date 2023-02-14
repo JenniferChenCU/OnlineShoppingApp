@@ -27,6 +27,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("user")
@@ -147,7 +148,9 @@ public class UserController {
     @GetMapping("/watchList/{userId}")
     public WatchListResponse getWatchList(@PathVariable int userId){
         User user = userService.getUserById(userId);
-        Set<Product> productSet = user.getProducts();
+        Set<Product> productSet = user.getProducts().stream()
+                .filter(p->p.getStockQuantity()>0)
+                .collect(Collectors.toSet());
         return WatchListResponse.builder().productSet(productSet).message("Full watch list get!").build();
     }
 
@@ -163,7 +166,6 @@ public class UserController {
     public WatchListResponse deleteProductFromWatchList(@PathVariable int userId,
                                                         @PathVariable int productId){
         User user = userService.getUserById(userId);
-        Product product = productService.getProductById(productId);
         return userService.deleteProductFromWatchList(user, productId);
     }
 
