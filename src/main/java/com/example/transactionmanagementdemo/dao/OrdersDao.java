@@ -100,7 +100,9 @@ public class OrdersDao {
 //            }
 
             // update productProfit, productSoldQuantity, userSpends
-            updateProfit(orderId);
+            if (status == 1) {
+                updateProfit(orderId);
+            }
         }catch (OrderNotFoundException e){
             e.printStackTrace();
             return OrdersResponse.builder().message("Order "+ orderId +" does not exist!").build();
