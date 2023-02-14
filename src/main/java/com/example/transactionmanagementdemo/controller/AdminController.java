@@ -4,6 +4,7 @@ import com.example.transactionmanagementdemo.domain.Orders.Orders;
 import com.example.transactionmanagementdemo.domain.Product.Product;
 import com.example.transactionmanagementdemo.domain.Product.ProductRequest;
 import com.example.transactionmanagementdemo.domain.Product.ProductResponse;
+import com.example.transactionmanagementdemo.domain.Product.AllProductsResponse;
 import com.example.transactionmanagementdemo.domain.User.User;
 import com.example.transactionmanagementdemo.service.OrdersService;
 import com.example.transactionmanagementdemo.service.ProductService;
@@ -95,5 +96,11 @@ public class AdminController {
 
         productService.addProduct(product);
         return ProductResponse.builder().product(product).message("New product created!").build();
+    }
+
+    @GetMapping("/top3Products")
+    public AllProductsResponse top3Products(){
+        List<Product> top3 = productService.getTop3Products();
+        return AllProductsResponse.builder().product(top3).message("The most popular 3 products found!").build();
     }
 }

@@ -14,8 +14,10 @@ import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 import javax.swing.plaf.basic.BasicSplitPaneUI;
 import javax.transaction.Transactional;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Repository
 public class ProductDao {
@@ -153,5 +155,15 @@ public class ProductDao {
         catch (Exception e){
             e.printStackTrace();
         }
+    }
+
+    public List<Product> getTop3Products(List<Product> allProducts){
+        if (allProducts.size()<=3){
+            return allProducts;
+        }
+        return allProducts.stream()
+                .sorted(Comparator.comparingInt(Product::getSoldQuantity).reversed())
+                .limit(3)
+                .collect(Collectors.toList());
     }
 }

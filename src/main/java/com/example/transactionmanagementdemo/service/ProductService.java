@@ -31,6 +31,12 @@ public class ProductService {
     }
 
     @Transactional
+    public List<Product> getTop3Products(){
+        List<Product> allProducts = getAllProductsSuccess();
+        return productDao.getTop3Products(allProducts);
+    }
+
+    @Transactional
     public Product userGetProductById(int userId, int productId){
         return productDao.userGetProductById(userId, productId);
     }
