@@ -38,6 +38,45 @@ public class OrdersDao {
         return (ordersList.isEmpty()) ? null : ordersList;
     }
 
+    public List<Orders> getValidOrders(int userId){
+        Session session;
+        List<Orders> orders = null;
+        try{
+            session = sessionFactory.getCurrentSession();
+            CriteriaBuilder cb = session.getCriteriaBuilder();
+            CriteriaQuery<Orders> cq = cb.createQuery(Orders.class);
+            Root<Orders> root = cq.from(Orders.class);
+            Predicate userPredicate = cb.equal(root.get("user").get("id"), userId);
+            Predicate statusPredicate = cb.notEqual(root.get("orderStatus"), 2);
+            cq.select(root).where(cb.and(userPredicate, statusPredicate));
+            orders = session.createQuery(cq).getResultList();
+            System.out.println(orders);
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        }
+        return orders;
+    }
+
+//    public List<Orders> getTop3RecentOrders(int userId){
+//        Session session;
+//        List<Orders> orders = null;
+//        try{
+//            session = sessionFactory.getCurrentSession();
+//            CriteriaBuilder cb = session.getCriteriaBuilder();
+//            CriteriaQuery<Orders> cq = cb.createQuery(Orders.class);
+//            Root<Orders> root = cq.from(Orders.class);
+//            Predicate userPredicate = cb.equal(root.get("user").get("id"), userId);
+//            Predicate statusPredicate = cb.notEqual(root.get("status"), OrderStatus.CANCELED);
+//            cq.select(root).where(cb.and(userPredicate, statusPredicate)).orderBy(cb.desc(root.get("datePlaced")));
+//            orders = session.createQuery(cq).setMaxResults(3).getResultList();
+//        }
+//        catch (Exception e){
+//            e.printStackTrace();
+//        }
+//        return orders;
+//    }
+
     public Orders getOrdersById(int id){
         Session session;
         Optional<Orders> orders = null;

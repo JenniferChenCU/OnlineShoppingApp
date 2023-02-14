@@ -1,6 +1,7 @@
 package com.example.transactionmanagementdemo.controller;
 
 import com.example.transactionmanagementdemo.domain.Orders.OrdersResponse;
+import com.example.transactionmanagementdemo.domain.Product.AllProductsResponse;
 import com.example.transactionmanagementdemo.domain.Product.Product;
 import com.example.transactionmanagementdemo.domain.Product.ProductResponse;
 import com.example.transactionmanagementdemo.domain.User.User;
@@ -162,6 +163,28 @@ public class UserController {
                                                         @PathVariable int productId){
         User user = userService.getUserById(userId);
         return userService.deleteProductFromWatchList(user, productId);
+    }
+
+    @GetMapping("/top3FrequentProducts/{userId}")
+    public AllProductsResponse getTop3FrequentProducts(@PathVariable int userId){
+        List<Map.Entry<Product, Integer>> top3Frequent = ordersService.top3Frequent(userId);
+        List<Product> top3Products = new ArrayList<>();
+        for (Map.Entry<Product, Integer> e: top3Frequent){
+            top3Products.add(e.getKey());
+        }
+        return AllProductsResponse.builder()
+                .product(top3Products)
+                .message("Top 3 frequently bought products found!")
+                .build();
+    }
+
+    @GetMapping("/top3RecentProducts/{userId}")
+    public AllProductsResponse getTop3RecentProducts(@PathVariable int userId){
+        List<Product> top3Recent = ordersService.top3Recent(userId);
+        return AllProductsResponse.builder()
+                .product(top3Recent)
+                .message("Top 3 recently bought products found!")
+                .build();
     }
 
 }

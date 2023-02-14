@@ -9,17 +9,17 @@ import com.example.transactionmanagementdemo.domain.Orders.OrdersResponse;
 import com.example.transactionmanagementdemo.domain.Product.Product;
 import com.example.transactionmanagementdemo.domain.User.User;
 import com.example.transactionmanagementdemo.exception.NotEnoughInventoryException;
+import com.sun.org.apache.xpath.internal.operations.Or;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.example.transactionmanagementdemo.domain.Orders.Orders;
 
+import javax.persistence.criteria.Order;
 import javax.transaction.Transactional;
 import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class OrdersService {
@@ -91,5 +91,42 @@ public class OrdersService {
         ordersDao.createNewOrders(orders);
 
         return OrdersResponse.builder().orders(orders).message("Order created!").build();
+    }
+
+    @Transactional
+    public List<Map.Entry<Product, Integer>> top3Frequent(int userId){
+        List<Orders> orders = ordersDao.getValidOrders(userId);
+        Map<Product, Integer> map = new HashMap<>();
+        for (Orders o: orders){
+            for (OrderProduct p: o.getOrderProducts()){
+                Product product = p.getProducts();
+                if (!map.containsKey(product)){
+                    map.put(product, 0);
+                }
+                map.put(product, map.get(product)+1);
+            }
+        }
+        List<Map.Entry<Product, Integer>> list = new ArrayList<>(map.entrySet());
+        list.sort((o1, o2) -> o2.getValue() - o1.getValue());
+        return list.subList(0, Math.min(3, list.size()));
+    }
+
+    @Transactional
+    public List<Product> top3Recent(int userId){
+        List<Orders> orders = ordersDao.getValidOrders(userId);
+        HashSet<Product> top3 = new HashSet<>();
+        for (Orders o: orders){
+            for (OrderProduct p: o.getOrderProducts()){
+                int id = p.getProducts().getId();
+                top3.add(productDao.getProductById(id));
+                if (top3.size()>=3){
+                    break;
+                }
+            }
+        }
+
+        List<Product> list = new ArrayList<>();
+        list.addAll(top3);
+        return list;
     }
 }

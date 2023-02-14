@@ -1,5 +1,6 @@
 package com.example.transactionmanagementdemo.dao;
 
+import com.example.transactionmanagementdemo.domain.Product.AllProductsResponse;
 import com.example.transactionmanagementdemo.domain.User.User;
 import com.example.transactionmanagementdemo.domain.Product.Product;
 import com.example.transactionmanagementdemo.domain.WatchList.WatchListResponse;
