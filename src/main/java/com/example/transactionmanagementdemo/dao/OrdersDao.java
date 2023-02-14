@@ -120,7 +120,7 @@ public class OrdersDao {
             for (OrderProduct orderProduct: orderProducts){
                 Product product = orderProduct.getProducts();
                 int quantity = orderProduct.getPurchasedQuantity();
-                float profitPerItem = product.getWholesalePrice()-product.getRetailPrice();
+                float profitPerItem = product.getRetailPrice()-product.getWholesalePrice();
                 product.setSoldQuantity(quantity + product.getSoldQuantity());
                 product.setProfit(profitPerItem*quantity + product.getProfit());
                 user.setTotalSpent(product.getWholesalePrice()*quantity + user.getTotalSpent());
