@@ -16,6 +16,7 @@ import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Repository
 public class UserDao {
@@ -111,6 +112,17 @@ public class UserDao {
         user.setProducts(userWatchList);
         session.saveOrUpdate(user);
         return WatchListResponse.builder().message("Product watch list"+userWatchList).build();
+    }
+
+    public WatchListResponse deleteProductFromWatchList(User user, int productId){
+        Session session = sessionFactory.getCurrentSession();
+        Set<Product> userWatchList = user.getProducts();
+        Set<Product> newUserWatchList = userWatchList.stream()
+                .filter(product->product.getId()!=productId)
+                .collect(Collectors.toSet());
+        user.setProducts(newUserWatchList);
+        session.saveOrUpdate(user);
+        return WatchListResponse.builder().message("Product watch list"+newUserWatchList).build();
     }
 
     public void somethingWentWrong () throws UserSaveFailedException {

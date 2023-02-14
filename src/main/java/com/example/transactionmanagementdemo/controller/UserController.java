@@ -159,7 +159,12 @@ public class UserController {
         return userService.addProductToWatchList(user, product);
     }
 
-//    @DeleteMapping("/watchList/new/{userId}")
-
+    @DeleteMapping("/watchList/delete/{userId}/{productId}")
+    public WatchListResponse deleteProductFromWatchList(@PathVariable int userId,
+                                                        @PathVariable int productId){
+        User user = userService.getUserById(userId);
+        Product product = productService.getProductById(productId);
+        return userService.deleteProductFromWatchList(user, productId);
+    }
 
 }
