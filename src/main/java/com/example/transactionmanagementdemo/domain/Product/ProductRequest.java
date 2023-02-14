@@ -12,18 +12,17 @@ import javax.validation.constraints.Pattern;
 @Builder
 public class ProductRequest {
 
-    @NotNull(message = "Name is required")
+    @NotNull(message = "Id is required")
+    private Integer id;
+
     private String name;
 
     private String description;
 
-    @NotNull(message = "RetailPrice is required")
     private float retailPrice;
 
-    @NotNull(message = "WholesalePrice is required")
     private float wholesalePrice;
 
-    @NotNull(message = "StockQuantity is required")
     private Integer stockQuantity;
 
 //    @Size(min = 13, max = 13, message = "ISBN must be exactly 13 characters")

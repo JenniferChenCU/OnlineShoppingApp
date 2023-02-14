@@ -41,6 +41,11 @@ public class ProductService {
     }
 
     @Transactional
+    public Product updateProduct(Product product){
+        return productDao.updateProduct(product);
+    }
+
+    @Transactional
     public Product getProductByProductname(String productname){
         return productDao.getProductByProductname(productname);
     }

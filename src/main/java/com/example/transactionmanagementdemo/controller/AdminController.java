@@ -2,6 +2,8 @@ package com.example.transactionmanagementdemo.controller;
 
 import com.example.transactionmanagementdemo.domain.Orders.Orders;
 import com.example.transactionmanagementdemo.domain.Product.Product;
+import com.example.transactionmanagementdemo.domain.Product.ProductRequest;
+import com.example.transactionmanagementdemo.domain.Product.ProductResponse;
 import com.example.transactionmanagementdemo.domain.User.User;
 import com.example.transactionmanagementdemo.service.OrdersService;
 import com.example.transactionmanagementdemo.service.ProductService;
@@ -44,5 +46,29 @@ public class AdminController {
             dashboard.get("product").add(p);
         }
         return dashboard;
+    }
+
+    @PostMapping("/dashboard/{userId}/edit")
+    public ProductResponse editProduct(@PathVariable int userId,
+                                       @RequestBody ProductRequest productRequest){
+        User user = userService.getUserById(userId);
+        if (!user.isSeller()){
+            return ProductResponse.builder().message("No permission").build();
+        }
+
+        int productId = productRequest.getId();
+        Product product = productService.getProductById(productId);
+        float wholesalePrice = productRequest.getWholesalePrice();
+        float retailPrice = productRequest.getRetailPrice();
+        String description = productRequest.getDescription();
+        Integer stockQuantity = productRequest.getStockQuantity();
+
+        if (wholesalePrice!=0) product.setWholesalePrice(wholesalePrice);
+        if (retailPrice!=0) product.setRetailPrice(retailPrice);
+        if (description!=null) product.setDescription(description);
+        if (stockQuantity!=null) product.setStockQuantity(stockQuantity);
+
+        productService.updateProduct(product);
+        return ProductResponse.builder().message("Product got updated!").product(product).build();
     }
 }

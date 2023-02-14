@@ -72,7 +72,8 @@ public class ProductDao {
         catch (Exception e){
             e.printStackTrace();
         }
-        return (product.isPresent())? product.get() : null;
+
+        return product.orElse(null);
     }
 
     public Product userGetProductById(int userId, int productId){
@@ -129,6 +130,18 @@ public class ProductDao {
 
     public void somethingWentWrong () throws ProductSaveFailedException {
         throw new ProductSaveFailedException("Something went wrong, rolling back");
+    }
+
+    public Product updateProduct(Product product){
+        Session session;
+        try{
+            session = sessionFactory.getCurrentSession();
+            session.saveOrUpdate(product);
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        }
+        return product;
     }
 
     public void deleteProduct(Product product){
