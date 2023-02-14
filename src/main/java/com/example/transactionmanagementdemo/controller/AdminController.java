@@ -99,6 +99,12 @@ public class AdminController {
         return ProductResponse.builder().product(product).message("New product created!").build();
     }
 
+    @GetMapping("/mostProfitProduct")
+    public ProductResponse mostProfitProduct(){
+        Product product = productService.mostProfitProduct();
+        return ProductResponse.builder().product(product).message("The most profitable product found!").build();
+    }
+
     @GetMapping("/top3Products")
     public AllProductsResponse top3Products(){
         List<Product> top3 = productService.getTop3Products();

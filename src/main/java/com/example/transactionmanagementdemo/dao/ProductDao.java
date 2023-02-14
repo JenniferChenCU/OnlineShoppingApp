@@ -157,6 +157,14 @@ public class ProductDao {
         }
     }
 
+    public Product mostProfitProduct(List<Product> allProducts){
+        List<Product> product =  allProducts.stream()
+                                    .sorted(Comparator.comparingDouble(Product::getProfit).reversed())
+                                    .limit(1)
+                                    .collect(Collectors.toList());
+        return product.size()==0 ? null : product.get(0);
+    }
+
     public List<Product> getTop3Products(List<Product> allProducts){
         return allProducts.stream()
                 .sorted(Comparator.comparingInt(Product::getSoldQuantity).reversed())
