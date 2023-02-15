@@ -126,7 +126,6 @@ public class UserController {
         return ordersService.createNewOrders(purchaseRequest.getUserId(), purchaseRequest.getPurchaseDetail());
     }
 
-
     @PostMapping("/updateStatus/{orderId}")
     public OrdersResponse updateOrderStatus(@PathVariable int orderId,
                                             @RequestParam("status") Integer status){
@@ -134,47 +133,80 @@ public class UserController {
     }
 
     @GetMapping("/user/watchList/{userId}")
-    public WatchListResponse getWatchList(@PathVariable int userId){
+    public AllUserProductResponse getWatchList(@PathVariable int userId){
         User user = userService.getUserById(userId);
+        if (user==null){
+            return AllUserProductResponse.builder().message("User does not exist!").build();
+        }
         Set<Product> productSet = user.getProducts().stream()
                 .filter(p->p.getStockQuantity()>0)
                 .collect(Collectors.toSet());
-        return WatchListResponse.builder().productSet(productSet).message("Full watch list get!").build();
+
+        List<UserProduct> userProducts = new ArrayList<>();
+        for (Product p: productSet){
+            UserProduct up = new UserProduct();
+            up.setId(p.getId());
+            up.setName(p.getName());
+            up.setDescription(p.getDescription());
+            up.setPrice(p.getRetailPrice());
+            userProducts.add(up);
+        }
+
+        return AllUserProductResponse.builder().userProducts(userProducts).message("Watch list for user " + user.getUsername()).build();
     }
 
     @PostMapping("/user/watchList/new/{userId}/{productId}")
-    public WatchListResponse addProductToWatchList(@PathVariable int userId,
-                                                   @PathVariable int productId){
+    public AllUserProductResponse addProductToWatchList(@PathVariable int userId,
+                                        @PathVariable int productId){
         User user = userService.getUserById(userId);
+        if (user==null) return AllUserProductResponse.builder().message("User does not exist!").build();
         Product product = productService.getProductById(productId);
-        return userService.addProductToWatchList(user, product);
+        if (product==null) return AllUserProductResponse.builder().message("Product does not exist!").build();
+        userService.addProductToWatchList(user, product);
+        return getWatchList(userId);
     }
 
     @DeleteMapping("/user/watchList/delete/{userId}/{productId}")
-    public WatchListResponse deleteProductFromWatchList(@PathVariable int userId,
+    public AllUserProductResponse deleteProductFromWatchList(@PathVariable int userId,
                                                         @PathVariable int productId){
         User user = userService.getUserById(userId);
-        return userService.deleteProductFromWatchList(user, productId);
+        userService.deleteProductFromWatchList(user, productId);
+        return getWatchList(userId);
     }
 
     @GetMapping("/user/top3FrequentProducts/{userId}")
-    public AllProductsResponse getTop3FrequentProducts(@PathVariable int userId){
+    public AllUserProductResponse getTop3FrequentProducts(@PathVariable int userId){
         List<Map.Entry<Product, Integer>> top3Frequent = ordersService.top3Frequent(userId);
-        List<Product> top3Products = new ArrayList<>();
+        List<UserProduct> top3Products = new ArrayList<>();
         for (Map.Entry<Product, Integer> e: top3Frequent){
-            top3Products.add(e.getKey());
+            Product p = e.getKey();
+            UserProduct up = new UserProduct();
+            up.setId(p.getId());
+            up.setName(p.getName());
+            up.setDescription(p.getDescription());
+            up.setPrice(p.getRetailPrice());
+            top3Products.add(up);
         }
-        return AllProductsResponse.builder()
-                .product(top3Products)
+        return AllUserProductResponse.builder()
+                .userProducts(top3Products)
                 .message("Top 3 frequently bought products found!")
                 .build();
     }
 
     @GetMapping("/user/top3RecentProducts/{userId}")
-    public AllProductsResponse getTop3RecentProducts(@PathVariable int userId){
-        List<Product> top3Recent = ordersService.top3Recent(userId);
-        return AllProductsResponse.builder()
-                .product(top3Recent)
+    public AllUserProductResponse getTop3RecentProducts(@PathVariable int userId){
+        List<Product> products = ordersService.top3Recent(userId);
+        List<UserProduct> top3Recent = new ArrayList<>();
+        for (Product p : products){
+            UserProduct up = new UserProduct();
+            up.setId(p.getId());
+            up.setName(p.getName());
+            up.setDescription(p.getDescription());
+            up.setPrice(p.getRetailPrice());
+            top3Recent.add(up);
+        }
+        return AllUserProductResponse.builder()
+                .userProducts(top3Recent)
                 .message("Top 3 recently bought products found!")
                 .build();
     }

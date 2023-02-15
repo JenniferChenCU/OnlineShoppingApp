@@ -139,6 +139,8 @@ public class AdminController {
 
     @GetMapping("/admin/mostProfitProduct/{userId}")
     public ProductResponse mostProfitProduct(@PathVariable int userId){
+        System.out.println("\n========== debug ==========\n" + "inside profit" +"\n========== debug ==========\n");
+
         User user = userService.getUserById(userId);
         if (!user.isSeller()) return ProductResponse.builder().message("No permission!").build();
 

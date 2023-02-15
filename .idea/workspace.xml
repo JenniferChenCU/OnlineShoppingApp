@@ -5,34 +5,16 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="a0865ada-4781-4ab7-99c6-081d2b1d03f0" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/transactionmanagementdemo/domain/userProduct/AllUserProductResponse.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/transactionmanagementdemo/security/JwtFilter.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/transactionmanagementdemo/config/SecurityConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/transactionmanagementdemo/config/SecurityConfig.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/example/transactionmanagementdemo/controller/AdminController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/transactionmanagementdemo/controller/AdminController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/transactionmanagementdemo/controller/LoginController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/transactionmanagementdemo/controller/LoginController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/example/transactionmanagementdemo/controller/UserController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/transactionmanagementdemo/controller/UserController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/transactionmanagementdemo/dao/OrdersDao.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/transactionmanagementdemo/dao/OrdersDao.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/transactionmanagementdemo/domain/Login/LoginRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/transactionmanagementdemo/domain/login/LoginRequest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/transactionmanagementdemo/domain/Login/LoginResponse.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/transactionmanagementdemo/domain/login/LoginResponse.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/transactionmanagementdemo/domain/userProduct/UserProductResponse.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/transactionmanagementdemo/domain/userProduct/UserProductResponse.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/example/transactionmanagementdemo/security/JwtProvider.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/transactionmanagementdemo/security/JwtProvider.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/example/transactionmanagementdemo/service/LoginService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/transactionmanagementdemo/service/LoginService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/transactionmanagementdemo/service/OrdersService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/transactionmanagementdemo/service/OrdersService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/transactionmanagementdemo/service/UserService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/transactionmanagementdemo/service/UserService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/example/transactionmanagementdemo/config/SecurityConfig.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/transactionmanagementdemo/config/SecurityConfig.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/com/example/transactionmanagementdemo/controller/AdminController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/transactionmanagementdemo/controller/AdminController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/example/transactionmanagementdemo/controller/LoginController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/transactionmanagementdemo/controller/LoginController.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/com/example/transactionmanagementdemo/controller/UserController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/transactionmanagementdemo/controller/UserController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/example/transactionmanagementdemo/dao/OrdersDao.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/transactionmanagementdemo/dao/OrdersDao.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/example/transactionmanagementdemo/domain/Login/LoginRequest.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/transactionmanagementdemo/domain/Login/LoginRequest.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/example/transactionmanagementdemo/domain/Login/LoginResponse$LoginResponseBuilder.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/transactionmanagementdemo/domain/Login/LoginResponse$LoginResponseBuilder.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/example/transactionmanagementdemo/domain/Login/LoginResponse.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/transactionmanagementdemo/domain/Login/LoginResponse.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/example/transactionmanagementdemo/domain/userProduct/UserProductResponse$UserProductResponseBuilder.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/transactionmanagementdemo/domain/userProduct/UserProductResponse$UserProductResponseBuilder.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/example/transactionmanagementdemo/domain/userProduct/UserProductResponse.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/transactionmanagementdemo/domain/userProduct/UserProductResponse.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/example/transactionmanagementdemo/security/JwtFilter.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/transactionmanagementdemo/security/JwtFilter.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/com/example/transactionmanagementdemo/security/JwtProvider.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/transactionmanagementdemo/security/JwtProvider.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/com/example/transactionmanagementdemo/service/LoginService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/transactionmanagementdemo/service/LoginService.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/example/transactionmanagementdemo/service/OrdersService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/transactionmanagementdemo/service/OrdersService.class" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -120,7 +102,7 @@
       <workItem from="1676078700249" duration="10260000" />
       <workItem from="1676141809458" duration="84884000" />
       <workItem from="1676352116912" duration="11587000" />
-      <workItem from="1676406498876" duration="23122000" />
+      <workItem from="1676406498876" duration="34336000" />
     </task>
     <servers />
   </component>

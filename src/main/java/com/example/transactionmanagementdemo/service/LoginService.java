@@ -63,11 +63,8 @@ public class LoginService implements UserDetailsService {
     private List<GrantedAuthority> getAuthoritiesFromUser(User user){
         List<GrantedAuthority> userAuthorities = new ArrayList<>();
 
-        if (user.isSeller()){
-            userAuthorities.add(new SimpleGrantedAuthority("admin"));
-        }else{
-            userAuthorities.add(new SimpleGrantedAuthority(("user")));
-        }
+        userAuthorities.add(new SimpleGrantedAuthority(user.isSeller() ? "admin" : "user"));
+
         return userAuthorities;
     }
 }
