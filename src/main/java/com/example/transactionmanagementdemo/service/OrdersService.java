@@ -3,23 +3,20 @@ package com.example.transactionmanagementdemo.service;
 import com.example.transactionmanagementdemo.dao.OrdersDao;
 import com.example.transactionmanagementdemo.dao.ProductDao;
 import com.example.transactionmanagementdemo.dao.UserDao;
-import com.example.transactionmanagementdemo.domain.OrderProduct.OrderProduct;
-import com.example.transactionmanagementdemo.domain.Orders.OrderStatus;
-import com.example.transactionmanagementdemo.domain.Orders.OrdersResponse;
-import com.example.transactionmanagementdemo.domain.Product.Product;
-import com.example.transactionmanagementdemo.domain.User.User;
+import com.example.transactionmanagementdemo.domain.orderProduct.OrderProduct;
+import com.example.transactionmanagementdemo.domain.orders.OrderStatus;
+import com.example.transactionmanagementdemo.domain.orders.OrdersResponse;
+import com.example.transactionmanagementdemo.domain.product.Product;
+import com.example.transactionmanagementdemo.domain.user.User;
 import com.example.transactionmanagementdemo.exception.NotEnoughInventoryException;
-import com.sun.org.apache.xpath.internal.operations.Or;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.example.transactionmanagementdemo.domain.Orders.Orders;
+import com.example.transactionmanagementdemo.domain.orders.Orders;
 
-import javax.persistence.criteria.Order;
 import javax.transaction.Transactional;
 import java.sql.Timestamp;
 import java.util.*;
-import java.util.stream.Collectors;
 
 @Service
 public class OrdersService {

@@ -1,4 +1,4 @@
-package com.example.transactionmanagementdemo.domain.User;
+package com.example.transactionmanagementdemo.domain.user;
 
 import lombok.*;
 

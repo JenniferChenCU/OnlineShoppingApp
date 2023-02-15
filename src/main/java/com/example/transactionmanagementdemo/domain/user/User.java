@@ -1,14 +1,11 @@
-package com.example.transactionmanagementdemo.domain.User;
+package com.example.transactionmanagementdemo.domain.user;
 
-import com.example.transactionmanagementdemo.domain.Orders.Orders;
-import com.example.transactionmanagementdemo.domain.Product.Product;
+import com.example.transactionmanagementdemo.domain.orders.Orders;
+import com.example.transactionmanagementdemo.domain.product.Product;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.*;
-import org.springframework.boot.jdbc.DataSourceBuilder;
 
 import javax.persistence.*;
-import javax.sql.DataSource;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;

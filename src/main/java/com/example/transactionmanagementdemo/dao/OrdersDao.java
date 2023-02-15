@@ -1,11 +1,11 @@
 package com.example.transactionmanagementdemo.dao;
 
-import com.example.transactionmanagementdemo.domain.OrderProduct.OrderProduct;
-import com.example.transactionmanagementdemo.domain.Orders.OrderStatus;
-import com.example.transactionmanagementdemo.domain.Orders.Orders;
-import com.example.transactionmanagementdemo.domain.Orders.OrdersResponse;
-import com.example.transactionmanagementdemo.domain.Product.Product;
-import com.example.transactionmanagementdemo.domain.User.User;
+import com.example.transactionmanagementdemo.domain.orderProduct.OrderProduct;
+import com.example.transactionmanagementdemo.domain.orders.OrderStatus;
+import com.example.transactionmanagementdemo.domain.orders.Orders;
+import com.example.transactionmanagementdemo.domain.orders.OrdersResponse;
+import com.example.transactionmanagementdemo.domain.product.Product;
+import com.example.transactionmanagementdemo.domain.user.User;
 import com.example.transactionmanagementdemo.exception.OrderNotFoundException;
 import com.example.transactionmanagementdemo.exception.ProductSaveFailedException;
 import org.hibernate.Session;

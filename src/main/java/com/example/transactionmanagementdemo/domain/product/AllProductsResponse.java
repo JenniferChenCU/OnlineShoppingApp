@@ -1,4 +1,4 @@
-package com.example.transactionmanagementdemo.domain.User;
+package com.example.transactionmanagementdemo.domain.product;
 
 import lombok.*;
 
@@ -9,7 +9,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class AllUsersResponse {
+public class AllProductsResponse {
     private String message;
-    private List<User> user;
+    private List<Product> product;
 }

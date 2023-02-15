@@ -2,26 +2,14 @@ package com.example.transactionmanagementdemo.service;
 
 import com.example.transactionmanagementdemo.dao.ProductDao;
 import com.example.transactionmanagementdemo.dao.UserDao;
-import com.example.transactionmanagementdemo.domain.OrderProduct.OrderProduct;
-import com.example.transactionmanagementdemo.domain.Orders.OrderStatus;
-import com.example.transactionmanagementdemo.domain.Orders.Orders;
-import com.example.transactionmanagementdemo.domain.Orders.OrdersResponse;
-import com.example.transactionmanagementdemo.domain.Product.Product;
-import com.example.transactionmanagementdemo.domain.User.User;
-import com.example.transactionmanagementdemo.domain.WatchList.WatchList;
-import com.example.transactionmanagementdemo.domain.WatchList.WatchListResponse;
-import com.example.transactionmanagementdemo.exception.NotEnoughInventoryException;
-import com.example.transactionmanagementdemo.exception.OrderNotFoundException;
+import com.example.transactionmanagementdemo.domain.product.Product;
+import com.example.transactionmanagementdemo.domain.user.User;
+import com.example.transactionmanagementdemo.domain.watchList.WatchListResponse;
 import com.example.transactionmanagementdemo.exception.UserSaveFailedException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Service;
 
-import javax.transaction.Transaction;
 import javax.transaction.Transactional;
-import javax.websocket.Session;
-import java.sql.Timestamp;
 import java.util.*;
 import java.util.Optional;
 

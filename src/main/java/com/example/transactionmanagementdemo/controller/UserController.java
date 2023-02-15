@@ -1,18 +1,20 @@
 package com.example.transactionmanagementdemo.controller;
 
-import com.example.transactionmanagementdemo.domain.Orders.OrdersResponse;
-import com.example.transactionmanagementdemo.domain.Product.AllProductsResponse;
-import com.example.transactionmanagementdemo.domain.Product.Product;
-import com.example.transactionmanagementdemo.domain.Product.ProductResponse;
-import com.example.transactionmanagementdemo.domain.User.User;
-import com.example.transactionmanagementdemo.domain.User.UserResponse;
-import com.example.transactionmanagementdemo.domain.WatchList.WatchListResponse;
+import com.example.transactionmanagementdemo.domain.orders.OrdersResponse;
+import com.example.transactionmanagementdemo.domain.product.AllProductsResponse;
+import com.example.transactionmanagementdemo.domain.product.Product;
+import com.example.transactionmanagementdemo.domain.product.ProductResponse;
+import com.example.transactionmanagementdemo.domain.user.User;
+import com.example.transactionmanagementdemo.domain.user.UserResponse;
+import com.example.transactionmanagementdemo.domain.userProduct.UserProduct;
+import com.example.transactionmanagementdemo.domain.watchList.WatchListResponse;
 import com.example.transactionmanagementdemo.domain.entity.PurchaseRequest;
 import com.example.transactionmanagementdemo.exception.UserSaveFailedException;
 import com.example.transactionmanagementdemo.service.OrdersService;
 import com.example.transactionmanagementdemo.service.ProductService;
 import com.example.transactionmanagementdemo.service.UserService;
-import com.example.transactionmanagementdemo.domain.User.UserRequest;
+import com.example.transactionmanagementdemo.domain.user.UserRequest;
+import com.example.transactionmanagementdemo.domain.userProduct.UserProductResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -41,83 +43,24 @@ public class UserController {
         this.ordersService = ordersService;
     }
 
-    @PostMapping("/new")
-    public UserResponse createNewUser(
-            @Valid @RequestBody UserRequest user,
-            BindingResult bindingResult
-    ){
-        // perform validation check
-        if (bindingResult.hasErrors()) {
-            List<FieldError> errors = bindingResult.getFieldErrors();
-            errors.forEach(error -> System.out.println(
-                    "ValidationError in " + error.getObjectName() + ": " + error.getDefaultMessage()));
-            return UserResponse.builder()
-                    .message("Validation Error")
-                    .build();
+
+
+    @GetMapping("/viewProducts/{userId}")
+    public UserProductResponse viewProductsSuccess(){
+        List<Product> allProducts =  productService.getInstockProductsSuccess();
+        List<UserProduct> userProducts = new ArrayList<>();
+        for (Product product: allProducts){
+            UserProduct userProduct = new UserProduct();
+            userProduct.setId(product.getId());
+            userProduct.setName(product.getName());
+            userProduct.setDescription(product.getDescription());
+            userProduct.setPrice(product.getRetailPrice());
+            userProducts.add(userProduct);
         }
-
-        // unique username & email check
-        if (userService.getUserByUsername(user.getUsername())!=null) {
-            return UserResponse.builder().message("Username already exist!").build();
-        }
-        if (userService.getUserByEmail(user.getEmail())!=null) {
-            return UserResponse.builder().message("Email already exist!").build();
-        }
-
-        // validation passed, create new user
-        User newUser = User.builder()
-                .username(user.getUsername())
-                .email(user.getEmail())
-                .password(user.getPassword())
-                .orders(new ArrayList<>())
+        return UserProductResponse.builder()
+                .userProducts(userProducts)
+                .message("Get all products information successfully!")
                 .build();
-
-        userService.addUser(newUser);
-
-        return UserResponse.builder()
-                .message("New user created")
-                .user(newUser)
-                .build();
-    }
-
-    @GetMapping("/success")
-    public List<User> getAllUsersSuccess(){
-        return userService.getAllUsersSuccess();
-    }
-
-    @GetMapping("/id/{id}")
-    public UserResponse getUserById(@PathVariable int id){
-        User user = userService.getUserById(id);
-        return UserResponse.builder()
-                .message("Returning user with id: " + id)
-                .user(user)
-                .build();
-    }
-
-    @PutMapping("/success")
-    public UserResponse saveUserSuccess(@RequestBody User user){
-        userService.saveUserSuccess(user);
-        return UserResponse.builder()
-                .message("User saved, committing...")
-                .user(user)
-                .build();
-    }
-
-    @PutMapping("/failed")
-    public ResponseEntity saveUserFailed(@RequestBody User user) throws UserSaveFailedException {
-        userService.saveUserFailed(user);
-        return  ResponseEntity.ok().build();
-    }
-
-    @DeleteMapping("/id/{id}")
-    public ResponseEntity<String> deleteUserById(@PathVariable int id){
-        userService.deleteUserById(id);
-        return new ResponseEntity<>("User deleted.", HttpStatus.OK);
-    }
-
-    @GetMapping("/viewProducts")
-    public List<Product> viewProductsSuccess(){
-        return productService.getInstockProductsSuccess();
     }
 
     @GetMapping("/viewProducts/{userId}/{productId}")

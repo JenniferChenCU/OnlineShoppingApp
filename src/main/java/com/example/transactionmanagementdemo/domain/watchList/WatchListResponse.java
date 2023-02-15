@@ -1,6 +1,6 @@
-package com.example.transactionmanagementdemo.domain.WatchList;
+package com.example.transactionmanagementdemo.domain.watchList;
 
-import com.example.transactionmanagementdemo.domain.Product.Product;
+import com.example.transactionmanagementdemo.domain.product.Product;
 import lombok.*;
 
 import java.util.Set;

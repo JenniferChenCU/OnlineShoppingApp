@@ -1,14 +1,13 @@
 package com.example.transactionmanagementdemo.service;
 
 import com.example.transactionmanagementdemo.dao.ProductDao;
-import com.example.transactionmanagementdemo.domain.Product.Product;
+import com.example.transactionmanagementdemo.domain.product.Product;
 import com.example.transactionmanagementdemo.exception.ProductSaveFailedException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class ProductService {

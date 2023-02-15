@@ -1,9 +1,8 @@
-package com.example.transactionmanagementdemo.domain.Product;
+package com.example.transactionmanagementdemo.domain.product;
 
-import com.example.transactionmanagementdemo.domain.OrderProduct.OrderProduct;
-import com.example.transactionmanagementdemo.domain.User.User;
+import com.example.transactionmanagementdemo.domain.orderProduct.OrderProduct;
+import com.example.transactionmanagementdemo.domain.user.User;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.*;
 
 import javax.persistence.*;

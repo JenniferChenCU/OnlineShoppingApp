@@ -2,10 +2,6 @@ package com.example.transactionmanagementdemo.controller;
 
 import com.example.transactionmanagementdemo.domain.Login.LoginRequest;
 import com.example.transactionmanagementdemo.domain.Login.LoginResponse;
-import com.example.transactionmanagementdemo.domain.User.User;
-import com.example.transactionmanagementdemo.domain.User.UserRequest;
-import com.example.transactionmanagementdemo.domain.User.UserResponse;
-import com.example.transactionmanagementdemo.exception.InvalidCredentialsException;
 import com.example.transactionmanagementdemo.security.AuthUserDetail;
 import com.example.transactionmanagementdemo.security.JwtProvider;
 import com.example.transactionmanagementdemo.service.LoginService;
@@ -20,8 +16,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.util.Optional;
 
 @RestController
 @RequestMapping("")

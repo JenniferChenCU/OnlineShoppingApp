@@ -1,4 +1,4 @@
-package com.example.transactionmanagementdemo.domain.Orders;
+package com.example.transactionmanagementdemo.domain.orders;
 
 public enum OrderStatus {
     PROCESSING,

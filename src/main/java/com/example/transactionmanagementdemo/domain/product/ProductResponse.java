@@ -1,6 +1,5 @@
-package com.example.transactionmanagementdemo.domain.Product;
+package com.example.transactionmanagementdemo.domain.product;
 
-import com.example.transactionmanagementdemo.domain.Product.Product;
 import lombok.*;
 
 @Getter

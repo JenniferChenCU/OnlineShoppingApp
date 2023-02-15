@@ -1,7 +1,7 @@
-package com.example.transactionmanagementdemo.domain.Orders;
+package com.example.transactionmanagementdemo.domain.orders;
 
-import com.example.transactionmanagementdemo.domain.OrderProduct.OrderProduct;
-import com.example.transactionmanagementdemo.domain.User.User;
+import com.example.transactionmanagementdemo.domain.orderProduct.OrderProduct;
+import com.example.transactionmanagementdemo.domain.user.User;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 

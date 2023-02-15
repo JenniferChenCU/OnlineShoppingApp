@@ -1,10 +1,9 @@
 package com.example.transactionmanagementdemo.dao;
 
-import com.example.transactionmanagementdemo.domain.Product.Product;
+import com.example.transactionmanagementdemo.domain.product.Product;
 import com.example.transactionmanagementdemo.exception.ProductSaveFailedException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.hibernate.criterion.Projections;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -12,8 +11,6 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
-import javax.swing.plaf.basic.BasicSplitPaneUI;
-import javax.transaction.Transactional;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;

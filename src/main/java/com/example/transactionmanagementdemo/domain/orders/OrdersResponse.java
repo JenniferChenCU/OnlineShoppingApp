@@ -1,6 +1,5 @@
-package com.example.transactionmanagementdemo.domain.Orders;
+package com.example.transactionmanagementdemo.domain.orders;
 
-import com.example.transactionmanagementdemo.domain.Orders.Orders;
 import lombok.*;
 
 @Getter

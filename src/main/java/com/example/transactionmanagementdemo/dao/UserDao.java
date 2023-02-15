@@ -1,9 +1,8 @@
 package com.example.transactionmanagementdemo.dao;
 
-import com.example.transactionmanagementdemo.domain.Product.AllProductsResponse;
-import com.example.transactionmanagementdemo.domain.User.User;
-import com.example.transactionmanagementdemo.domain.Product.Product;
-import com.example.transactionmanagementdemo.domain.WatchList.WatchListResponse;
+import com.example.transactionmanagementdemo.domain.user.User;
+import com.example.transactionmanagementdemo.domain.product.Product;
+import com.example.transactionmanagementdemo.domain.watchList.WatchListResponse;
 import com.example.transactionmanagementdemo.exception.InvalidCredentialsException;
 import com.example.transactionmanagementdemo.exception.UserSaveFailedException;
 import org.hibernate.Session;

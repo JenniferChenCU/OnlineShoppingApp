@@ -1,8 +1,7 @@
-package com.example.transactionmanagementdemo.domain.OrderProduct;
+package com.example.transactionmanagementdemo.domain.orderProduct;
 
-import com.example.transactionmanagementdemo.domain.Orders.Orders;
-import com.example.transactionmanagementdemo.domain.Product.Product;
-import com.example.transactionmanagementdemo.domain.User.User;
+import com.example.transactionmanagementdemo.domain.orders.Orders;
+import com.example.transactionmanagementdemo.domain.product.Product;
 import lombok.*;
 
 import javax.persistence.*;
