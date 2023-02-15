@@ -9,7 +9,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class UserProductResponse {
+public class AllUserProductResponse {
     private String message;
-    private UserProduct userProduct;
+    private List<UserProduct> userProducts;
 }

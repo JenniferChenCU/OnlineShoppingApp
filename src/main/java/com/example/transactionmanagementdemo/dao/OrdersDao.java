@@ -99,7 +99,7 @@ public class OrdersDao {
         Session session = sessionFactory.getCurrentSession();
         session.saveOrUpdate(orders);
     }
-    public OrdersResponse updateOrdersStatus(int orderId, int status, boolean isAdmin) throws OrderNotFoundException {
+    public OrdersResponse updateOrdersStatus(int orderId, int status) throws OrderNotFoundException {
         Session session;
         Optional<Orders> orders = null;
         try{

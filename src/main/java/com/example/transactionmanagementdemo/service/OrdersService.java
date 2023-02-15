@@ -37,8 +37,8 @@ public class OrdersService {
     }
 
     @Transactional
-    public OrdersResponse updateOrdersStatus(int orderId, int status, boolean isAdmin){
-        return ordersDao.updateOrdersStatus(orderId, status, isAdmin);
+    public OrdersResponse updateOrdersStatus(int orderId, int status){
+        return ordersDao.updateOrdersStatus(orderId, status);
     }
 
     @Transactional(rollbackOn = {NotEnoughInventoryException.class, IllegalArgumentException.class})

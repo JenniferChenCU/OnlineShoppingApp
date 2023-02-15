@@ -1,4 +1,4 @@
-package com.example.transactionmanagementdemo.domain.Login;
+package com.example.transactionmanagementdemo.domain.login;
 
 import lombok.Builder;
 import lombok.Getter;

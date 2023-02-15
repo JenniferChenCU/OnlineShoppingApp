@@ -1,7 +1,7 @@
 package com.example.transactionmanagementdemo.controller;
 
-import com.example.transactionmanagementdemo.domain.Login.LoginRequest;
-import com.example.transactionmanagementdemo.domain.Login.LoginResponse;
+import com.example.transactionmanagementdemo.domain.login.LoginRequest;
+import com.example.transactionmanagementdemo.domain.login.LoginResponse;
 import com.example.transactionmanagementdemo.security.AuthUserDetail;
 import com.example.transactionmanagementdemo.security.JwtProvider;
 import com.example.transactionmanagementdemo.service.LoginService;
@@ -37,30 +37,8 @@ public class LoginController {
         this.jwtProvider = jwtProvider;
     }
 
-//    @PostMapping("")
-//    public UserResponse loginValidation(@RequestBody UserRequest user) throws InvalidCredentialsException {
-//
-//        Optional<User> possibleUser;
-//        try {
-//            possibleUser= loginService.validateLogin(user.getEmail(), user.getPassword());
-//            if (!possibleUser.isPresent()){
-//                throw new InvalidCredentialsException("Incorrect credentials, please try again.");
-//            }
-//        }catch(InvalidCredentialsException e){
-//            e.printStackTrace();
-//            return UserResponse.builder()
-//                    .message("Login fail!")
-//                    .build();
-//        }
-//        return UserResponse.builder()
-//                .message("Login successfully!")
-//                .user(possibleUser.get())
-//                .build();
-//
-//    }
-
     //User trying to log in with username and password
-    @PostMapping("auth/login")
+    @PostMapping("/login")
     public LoginResponse login(@RequestBody LoginRequest request){
 
         Authentication authentication;

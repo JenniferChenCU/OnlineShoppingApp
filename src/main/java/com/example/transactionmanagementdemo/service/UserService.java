@@ -93,16 +93,4 @@ public class UserService {
         return userDao.getTop3Users(allUsers);
     }
 
-
-    // ------ security part ------ //
-//    private List<GrantedAuthority> getAuthoritiesFromUser(User user){
-//        List<GrantedAuthority> userAuthorities = new ArrayList<>();
-//
-//        for (String permission :  user.getPermissions()){
-//            userAuthorities.add(new SimpleGrantedAuthority(permission));    // SimpleGrantedAuthority can be created from role Strings
-//        }
-//
-//        return userAuthorities;
-//    }
-
 }

@@ -62,22 +62,12 @@ public class LoginService implements UserDetailsService {
 
     private List<GrantedAuthority> getAuthoritiesFromUser(User user){
         List<GrantedAuthority> userAuthorities = new ArrayList<>();
-//        List<String> buyer = new ArrayList<>(Arrays.asList("retailPrice"));
-//        List<String> seller = new ArrayList<>(Arrays.asList("description", "wholesalePrice", "retailPrice", "stockQuantity"));
-
-        List<String> buyer = new ArrayList<>(Arrays.asList("read"));
-        List<String> seller = new ArrayList<>(Arrays.asList("update"));
 
         if (user.isSeller()){
-            for (String permission: seller) {
-                userAuthorities.add(new SimpleGrantedAuthority(permission));
-            }
+            userAuthorities.add(new SimpleGrantedAuthority("admin"));
         }else{
-            for (String permission: buyer){
-                userAuthorities.add(new SimpleGrantedAuthority((permission)));
-            }
+            userAuthorities.add(new SimpleGrantedAuthority(("user")));
         }
-
         return userAuthorities;
     }
 }
