@@ -183,7 +183,7 @@ public class UserController {
         String username = (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         User user = userService.getUserByUsername(username);
         int userId = user.getId();
-        
+
         List<Map.Entry<Product, Integer>> top3Frequent = ordersService.top3Frequent(userId);
         List<UserProduct> top3Products = new ArrayList<>();
         for (Map.Entry<Product, Integer> e: top3Frequent){

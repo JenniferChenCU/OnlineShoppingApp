@@ -81,7 +81,7 @@ public class AdminController {
     }
 
     @GetMapping("/admin/dashboard")
-    public DashboardResponse getDashboard(@PathVariable int userId){
+    public DashboardResponse getDashboard(){
         String username = (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         User user = userService.getUserByUsername(username);
         if (user==null || !user.isSeller()) return DashboardResponse.builder().message("No permission!").build();
