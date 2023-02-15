@@ -58,25 +58,6 @@ public class OrdersDao {
         return orders;
     }
 
-//    public List<Orders> getTop3RecentOrders(int userId){
-//        Session session;
-//        List<Orders> orders = null;
-//        try{
-//            session = sessionFactory.getCurrentSession();
-//            CriteriaBuilder cb = session.getCriteriaBuilder();
-//            CriteriaQuery<Orders> cq = cb.createQuery(Orders.class);
-//            Root<Orders> root = cq.from(Orders.class);
-//            Predicate userPredicate = cb.equal(root.get("user").get("id"), userId);
-//            Predicate statusPredicate = cb.notEqual(root.get("status"), OrderStatus.CANCELED);
-//            cq.select(root).where(cb.and(userPredicate, statusPredicate)).orderBy(cb.desc(root.get("datePlaced")));
-//            orders = session.createQuery(cq).setMaxResults(3).getResultList();
-//        }
-//        catch (Exception e){
-//            e.printStackTrace();
-//        }
-//        return orders;
-//    }
-
     public Orders getOrdersById(int id){
         Session session;
         Optional<Orders> orders = null;
@@ -99,6 +80,7 @@ public class OrdersDao {
         Session session = sessionFactory.getCurrentSession();
         session.saveOrUpdate(orders);
     }
+
     public OrdersResponse updateOrdersStatus(int orderId, int status) throws OrderNotFoundException {
         Session session;
         Optional<Orders> orders = null;

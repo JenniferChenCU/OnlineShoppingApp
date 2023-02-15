@@ -1,5 +1,6 @@
 package com.example.transactionmanagementdemo.controller;
 
+import com.example.transactionmanagementdemo.domain.orders.Orders;
 import com.example.transactionmanagementdemo.domain.orders.OrdersResponse;
 import com.example.transactionmanagementdemo.domain.product.AllProductsResponse;
 import com.example.transactionmanagementdemo.domain.product.Product;
@@ -130,6 +131,15 @@ public class UserController {
     @PostMapping("/updateStatus/{orderId}")
     public OrdersResponse updateOrderStatus(@PathVariable int orderId,
                                             @RequestParam("status") Integer status){
+        String username = (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        User user = userService.getUserByUsername(username);
+
+        Orders orders = ordersService.getOrdersById(orderId);
+        if (orders == null)
+            return OrdersResponse.builder().message("Order not found!").build();
+        if (user.getId()!=orders.getUser().getId() || !user.isSeller())
+            return OrdersResponse.builder().message("No permission!").build();
+
         return ordersService.updateOrdersStatus(orderId, status);
     }
 

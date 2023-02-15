@@ -37,6 +37,11 @@ public class OrdersService {
     }
 
     @Transactional
+    public Orders getOrdersById(int id){
+        return ordersDao.getOrdersById(id);
+    }
+
+    @Transactional
     public OrdersResponse updateOrdersStatus(int orderId, int status){
         return ordersDao.updateOrdersStatus(orderId, status);
     }
