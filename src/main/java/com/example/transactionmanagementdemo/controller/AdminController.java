@@ -19,6 +19,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.*;
@@ -43,10 +44,14 @@ public class AdminController {
 
     @GetMapping("/admin/getUser/{id}")
     public UserResponse getUserById(@PathVariable int id){
-        User user = userService.getUserById(id);
+        String username = (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        User user = userService.getUserByUsername(username);
+        if (user==null || !user.isSeller()) return UserResponse.builder().message("No permission!").build();
+
+        User todeleteUser = userService.getUserById(id);
         return UserResponse.builder()
                 .message("Returning user with id: " + id)
-                .user(user)
+                .user(todeleteUser)
                 .build();
     }
 
@@ -67,14 +72,19 @@ public class AdminController {
 
     @DeleteMapping("/admin/deleteUser/{id}")
     public ResponseEntity<String> deleteUserById(@PathVariable int id){
+        String username = (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        User user = userService.getUserByUsername(username);
+        if (user==null || !user.isSeller()) return new ResponseEntity<>("No permission.", HttpStatus.BAD_REQUEST);
+
         userService.deleteUserById(id);
         return new ResponseEntity<>("User deleted.", HttpStatus.OK);
     }
 
-    @GetMapping("/admin/dashboard/{userId}")
+    @GetMapping("/admin/dashboard")
     public DashboardResponse getDashboard(@PathVariable int userId){
-        User user = userService.getUserById(userId);
-        if (!user.isSeller()) return DashboardResponse.builder().message("No permission!").build();
+        String username = (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        User user = userService.getUserByUsername(username);
+        if (user==null || !user.isSeller()) return DashboardResponse.builder().message("No permission!").build();
 
         List<Orders> ordersList = ordersService.getAllOrdersSuccess();
         List<Product> productList = productService.getAllProductsSuccess();
@@ -90,11 +100,11 @@ public class AdminController {
                 .build();
     }
 
-    @PostMapping("/admin/dashboard/{userId}/edit")
-    public ProductResponse editProduct(@PathVariable int userId,
-                                       @RequestBody ProductRequest productRequest){
-        User user = userService.getUserById(userId);
-        if (!user.isSeller()) return ProductResponse.builder().message("No permission").build();
+    @PostMapping("/admin/dashboard/edit")
+    public ProductResponse editProduct(@RequestBody ProductRequest productRequest){
+        String username = (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        User user = userService.getUserByUsername(username);
+        if (user==null || !user.isSeller()) return ProductResponse.builder().message("No permission!").build();
 
         int productId = productRequest.getId();
         Product product = productService.getProductById(productId);
@@ -114,11 +124,11 @@ public class AdminController {
         return ProductResponse.builder().message("Product got updated!").product(product).build();
     }
 
-    @PostMapping("/admin/addProduct/{userId}")
-    public ProductResponse addProduct(@PathVariable int userId,
-                                      @RequestBody ProductRequest productRequest){
-        User user = userService.getUserById(userId);
-        if (!user.isSeller()) return ProductResponse.builder().message("No permission!").build();
+    @PostMapping("/admin/addProduct")
+    public ProductResponse addProduct(@RequestBody ProductRequest productRequest){
+        String username = (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        User user = userService.getUserByUsername(username);
+        if (user==null || !user.isSeller()) return ProductResponse.builder().message("No permission!").build();
 
         Product product = new Product();
         product.setName(productRequest.getName());
@@ -137,38 +147,40 @@ public class AdminController {
         return ProductResponse.builder().product(product).message("New product created!").build();
     }
 
-    @GetMapping("/admin/mostProfitProduct/{userId}")
-    public ProductResponse mostProfitProduct(@PathVariable int userId){
-        System.out.println("\n========== debug ==========\n" + "inside profit" +"\n========== debug ==========\n");
-
-        User user = userService.getUserById(userId);
-        if (!user.isSeller()) return ProductResponse.builder().message("No permission!").build();
+    @GetMapping("/admin/mostProfitProduct")
+    public ProductResponse mostProfitProduct(){
+        String username = (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        User user = userService.getUserByUsername(username);
+        if (user==null || !user.isSeller()) return ProductResponse.builder().message("No permission!").build();
 
         Product product = productService.mostProfitProduct();
         return ProductResponse.builder().product(product).message("The most profitable product found!").build();
     }
 
-    @GetMapping("/admin/top3PupolarProducts/{userId}")
-    public AllProductsResponse top3Products(@PathVariable int userId){
-        User user = userService.getUserById(userId);
-        if (!user.isSeller()) return AllProductsResponse.builder().message("No permission!").build();
+    @GetMapping("/admin/top3PopularProducts")
+    public AllProductsResponse top3Products(){
+        String username = (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        User user = userService.getUserByUsername(username);
+        if (user==null || !user.isSeller())  return AllProductsResponse.builder().message("No permission!").build();
 
         List<Product> top3 = productService.getTop3Products();
         return AllProductsResponse.builder().product(top3).message("The most popular 3 products found!").build();
     }
 
-    @GetMapping("/admin/totalItemsSold/{userId}")
-    public String totalItemsSold(@PathVariable int userId){
-        User user = userService.getUserById(userId);
-        if (!user.isSeller()) return "No permission!";
+    @GetMapping("/admin/totalItemsSold")
+    public String totalItemsSold(){
+        String username = (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        User user = userService.getUserByUsername(username);
+        if (user==null || !user.isSeller()) return "No permission!";
 
         return "You have sold " + productService.totalItemsSold() + " items in total!";
     }
 
-    @GetMapping("/admin/top3Users/{userId}")
-    public AllUsersResponse top3Users(@PathVariable int userId){
-        User user = userService.getUserById(userId);
-        if (!user.isSeller()) return AllUsersResponse.builder().message("No permission!").build();
+    @GetMapping("/admin/top3Users")
+    public AllUsersResponse top3Users(){
+        String username = (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        User user = userService.getUserByUsername(username);
+        if (user==null || !user.isSeller())  return AllUsersResponse.builder().message("No permission!").build();
 
         List<User> top3 = userService.getTop3Users();
         return AllUsersResponse.builder().user(top3).message("Top 3 users found!").build();

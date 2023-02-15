@@ -3,6 +3,7 @@ package com.example.transactionmanagementdemo.controller;
 import com.example.transactionmanagementdemo.domain.orders.OrdersResponse;
 import com.example.transactionmanagementdemo.domain.product.AllProductsResponse;
 import com.example.transactionmanagementdemo.domain.product.Product;
+import com.example.transactionmanagementdemo.domain.product.ProductResponse;
 import com.example.transactionmanagementdemo.domain.user.User;
 import com.example.transactionmanagementdemo.domain.user.UserResponse;
 import com.example.transactionmanagementdemo.domain.userProduct.UserProduct;
@@ -132,12 +133,12 @@ public class UserController {
         return ordersService.updateOrdersStatus(orderId, status);
     }
 
-    @GetMapping("/user/watchList/{userId}")
-    public AllUserProductResponse getWatchList(@PathVariable int userId){
-        User user = userService.getUserById(userId);
-        if (user==null){
-            return AllUserProductResponse.builder().message("User does not exist!").build();
-        }
+    @GetMapping("/user/watchList")
+    public AllUserProductResponse getWatchList(){
+        String username = (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        User user = userService.getUserByUsername(username);
+        if (user==null) return AllUserProductResponse.builder().message("No permission!").build();
+
         Set<Product> productSet = user.getProducts().stream()
                 .filter(p->p.getStockQuantity()>0)
                 .collect(Collectors.toSet());
@@ -155,27 +156,34 @@ public class UserController {
         return AllUserProductResponse.builder().userProducts(userProducts).message("Watch list for user " + user.getUsername()).build();
     }
 
-    @PostMapping("/user/watchList/new/{userId}/{productId}")
-    public AllUserProductResponse addProductToWatchList(@PathVariable int userId,
-                                        @PathVariable int productId){
-        User user = userService.getUserById(userId);
+    @PostMapping("/user/watchList/new/{productId}")
+    public AllUserProductResponse addProductToWatchList(@PathVariable int productId){
+        String username = (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        User user = userService.getUserByUsername(username);
         if (user==null) return AllUserProductResponse.builder().message("User does not exist!").build();
+
         Product product = productService.getProductById(productId);
         if (product==null) return AllUserProductResponse.builder().message("Product does not exist!").build();
+
         userService.addProductToWatchList(user, product);
-        return getWatchList(userId);
+        return AllUserProductResponse.builder().message("Product added to watch list!").build();
     }
 
-    @DeleteMapping("/user/watchList/delete/{userId}/{productId}")
-    public AllUserProductResponse deleteProductFromWatchList(@PathVariable int userId,
-                                                        @PathVariable int productId){
-        User user = userService.getUserById(userId);
+    @DeleteMapping("/user/watchList/delete/{productId}")
+    public AllUserProductResponse deleteProductFromWatchList(@PathVariable int productId){
+        String username = (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        User user = userService.getUserByUsername(username);
+
         userService.deleteProductFromWatchList(user, productId);
-        return getWatchList(userId);
+        return AllUserProductResponse.builder().message("Product deleted from watch list!").build();
     }
 
-    @GetMapping("/user/top3FrequentProducts/{userId}")
-    public AllUserProductResponse getTop3FrequentProducts(@PathVariable int userId){
+    @GetMapping("/user/top3FrequentProducts")
+    public AllUserProductResponse getTop3FrequentProducts(){
+        String username = (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        User user = userService.getUserByUsername(username);
+        int userId = user.getId();
+        
         List<Map.Entry<Product, Integer>> top3Frequent = ordersService.top3Frequent(userId);
         List<UserProduct> top3Products = new ArrayList<>();
         for (Map.Entry<Product, Integer> e: top3Frequent){
