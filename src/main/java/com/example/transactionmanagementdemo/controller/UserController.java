@@ -211,9 +211,11 @@ public class UserController {
                 .build();
     }
 
-    @GetMapping("/user/top3RecentProducts/{userId}")
-    public AllUserProductResponse getTop3RecentProducts(@PathVariable int userId){
-        List<Product> products = ordersService.top3Recent(userId);
+    @GetMapping("/user/top3RecentProducts")
+    public AllUserProductResponse getTop3RecentProducts(){
+        String username = (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        User user = userService.getUserByUsername(username);
+        List<Product> products = ordersService.top3Recent(user.getId());
         List<UserProduct> top3Recent = new ArrayList<>();
         for (Product p : products){
             UserProduct up = new UserProduct();
