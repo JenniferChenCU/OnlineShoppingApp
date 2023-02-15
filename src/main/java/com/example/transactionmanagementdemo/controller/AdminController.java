@@ -88,8 +88,6 @@ public class AdminController {
 
         List<Orders> ordersList = ordersService.getAllOrdersSuccess();
         List<Product> productList = productService.getAllProductsSuccess();
-        ordersList.addAll(ordersList);
-        productList.addAll(productList);
 
         Dashboard dashboard = new Dashboard();
         dashboard.setOrders(ordersList);
