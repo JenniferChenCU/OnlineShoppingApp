@@ -1,6 +1,5 @@
 package com.example.transactionmanagementdemo.AOP;
 
-import com.example.transactionmanagementdemo.domain.Demo;
 import com.example.transactionmanagementdemo.domain.orders.OrdersResponse;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;

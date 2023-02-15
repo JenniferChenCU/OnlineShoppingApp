@@ -98,7 +98,7 @@ public class AdminController {
                 .build();
     }
 
-    @PostMapping("/admin/dashboard/edit")
+    @PostMapping("/admin/product/edit")
     public ProductResponse editProduct(@RequestBody ProductRequest productRequest){
         String username = (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         User user = userService.getUserByUsername(username);
