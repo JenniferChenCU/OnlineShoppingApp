@@ -6,8 +6,6 @@
   <component name="ChangeListManager">
     <list default="true" id="a0865ada-4781-4ab7-99c6-081d2b1d03f0" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/src/main/java/com/example/transactionmanagementdemo/controller/UserController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/transactionmanagementdemo/controller/UserController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/transactionmanagementdemo/dao/OrdersDao.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/transactionmanagementdemo/dao/OrdersDao.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/transactionmanagementdemo/service/OrdersService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/transactionmanagementdemo/service/OrdersService.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -96,7 +94,7 @@
       <workItem from="1676141809458" duration="84884000" />
       <workItem from="1676352116912" duration="11587000" />
       <workItem from="1676406498876" duration="39422000" />
-      <workItem from="1676499392804" duration="5068000" />
+      <workItem from="1676499392804" duration="5260000" />
     </task>
     <servers />
   </component>

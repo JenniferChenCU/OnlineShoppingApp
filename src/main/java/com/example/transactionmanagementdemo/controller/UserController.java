@@ -137,7 +137,7 @@ public class UserController {
         Orders orders = ordersService.getOrdersById(orderId);
         if (orders == null)
             return OrdersResponse.builder().message("Order not found!").build();
-        if (user.getId()!=orders.getUser().getId() || !user.isSeller())
+        if (!user.getId().equals(orders.getUser().getId()) && !user.isSeller())
             return OrdersResponse.builder().message("No permission!").build();
 
         return ordersService.updateOrdersStatus(orderId, status);
