@@ -5,18 +5,20 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="a0865ada-4781-4ab7-99c6-081d2b1d03f0" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/transactionmanagementdemo/dao/OrdersProductDao.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/transactionmanagementdemo/domain/entity/OrdersDetailResponse.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/transactionmanagementdemo/service/OrdersProductService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/test/java/com/example/transactionmanagementdemo/controller/AdminControllerTest.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/example/transactionmanagementdemo/controller/AdminController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/transactionmanagementdemo/controller/AdminController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/transactionmanagementdemo/controller/UserController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/transactionmanagementdemo/controller/UserController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/transactionmanagementdemo/domain/orderProduct/OrderProduct.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/transactionmanagementdemo/domain/orderProduct/OrderProduct.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/transactionmanagementdemo/service/OrdersService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/transactionmanagementdemo/service/OrdersService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/transactionmanagementdemo/controller/LoginController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/transactionmanagementdemo/controller/LoginController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/transactionmanagementdemo/security/JwtFilter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/transactionmanagementdemo/security/JwtFilter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/transactionmanagementdemo/security/JwtProvider.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/transactionmanagementdemo/security/JwtProvider.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/transactionmanagementdemo/service/LoginService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/transactionmanagementdemo/service/UserService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/transactionmanagementdemo/service/UserService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/com/example/transactionmanagementdemo/controller/AdminController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/transactionmanagementdemo/controller/AdminController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/example/transactionmanagementdemo/controller/UserController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/transactionmanagementdemo/controller/UserController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/example/transactionmanagementdemo/domain/OrderProduct/OrderProduct.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/transactionmanagementdemo/domain/OrderProduct/OrderProduct.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/example/transactionmanagementdemo/service/OrdersService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/transactionmanagementdemo/service/OrdersService.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/example/transactionmanagementdemo/controller/LoginController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/transactionmanagementdemo/controller/LoginController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/example/transactionmanagementdemo/security/JwtFilter.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/transactionmanagementdemo/security/JwtFilter.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/example/transactionmanagementdemo/security/JwtProvider.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/transactionmanagementdemo/security/JwtProvider.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/example/transactionmanagementdemo/service/UserService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/transactionmanagementdemo/service/UserService.class" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -84,7 +86,23 @@
       <recent name="com.example.transactionmanagementdemo.domain" />
     </key>
   </component>
-  <component name="RunManager">
+  <component name="RunManager" selected="Spring Boot.TransactionManagementDemoApplication">
+    <configuration name="AdminControllerTest.testGetUserById_success" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="OnlineShoppingApp" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.example.transactionmanagementdemo.controller.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="com.example.transactionmanagementdemo.controller" />
+      <option name="MAIN_CLASS_NAME" value="com.example.transactionmanagementdemo.controller.AdminControllerTest" />
+      <option name="METHOD_NAME" value="testGetUserById_success" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="TransactionManagementDemoApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
       <module name="OnlineShoppingApp" />
       <option name="SPRING_BOOT_MAIN_CLASS" value="com.example.transactionmanagementdemo.TransactionManagementDemoApplication" />
@@ -92,6 +110,11 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="JUnit.AdminControllerTest.testGetUserById_success" />
+      </list>
+    </recent_temporary>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
@@ -108,7 +131,7 @@
       <workItem from="1676499392804" duration="8243000" />
       <workItem from="1676525004273" duration="275000" />
       <workItem from="1676526388807" duration="1257000" />
-      <workItem from="1676564366612" duration="7900000" />
+      <workItem from="1676564366612" duration="13383000" />
     </task>
     <servers />
   </component>

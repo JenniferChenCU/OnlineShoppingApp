@@ -30,6 +30,7 @@ import javax.persistence.criteria.Order;
 import java.util.*;
 
 @RestController
+@RequestMapping("")
 public class AdminController {
     private final UserService userService;
     private final ProductService productService;

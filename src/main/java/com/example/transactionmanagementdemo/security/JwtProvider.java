@@ -36,7 +36,12 @@ public class JwtProvider {
 
     // resolves the token -> use the information in the token to create a userDetail object
     public Optional<AuthUserDetail> resolveToken(HttpServletRequest request){
-        String token = request.getHeader("token"); // extract token value by key "token"
+//        String token = request.getHeader("token"); // extract token value by key "token"
+        if(request.getRequestURI().equals("/registration") || request.getRequestURI().equals("/login"))
+            return Optional.empty();
+
+        String prefixedToken = request.getHeader("Authorization"); // extract token value by key "Authorization"
+        String token = prefixedToken.substring(7);
 
         Claims claims = Jwts.parser().setSigningKey(key).parseClaimsJws(token).getBody(); // decode
 

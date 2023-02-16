@@ -4,7 +4,6 @@ import com.example.transactionmanagementdemo.domain.login.LoginRequest;
 import com.example.transactionmanagementdemo.domain.login.LoginResponse;
 import com.example.transactionmanagementdemo.security.AuthUserDetail;
 import com.example.transactionmanagementdemo.security.JwtProvider;
-import com.example.transactionmanagementdemo.service.LoginService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -21,14 +20,9 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("")
 public class LoginController {
-    private final LoginService loginService;
     private AuthenticationManager authenticationManager;
     private JwtProvider jwtProvider;
 
-    @Autowired
-    public LoginController(LoginService loginService) {
-        this.loginService = loginService;
-    }
     @Autowired
     public void setAuthenticationManager(AuthenticationManager authenticationManager) {
         this.authenticationManager = authenticationManager;
@@ -40,8 +34,8 @@ public class LoginController {
 
     //User trying to log in with username and password
     @PostMapping("/login")
-    public LoginResponse login(@RequestBody LoginRequest request){
-
+    public String login(@RequestBody LoginRequest request){
+        System.out.println("=== start ===");
         Authentication authentication;
 
         //Try to authenticate the user using the username and password
@@ -53,6 +47,8 @@ public class LoginController {
             throw new BadCredentialsException("Provided credential is invalid.");
         }
 
+        System.out.println("=== login ===");
+
         //Successfully authenticated user will be stored in the authUserDetail object
         AuthUserDetail authUserDetail = (AuthUserDetail) authentication.getPrincipal(); //getPrincipal() returns the user object
 
@@ -60,10 +56,11 @@ public class LoginController {
         String token = jwtProvider.createToken(authUserDetail);
 
         //Returns the token as a response to the frontend/postman
-        return LoginResponse.builder()
-                .message("Welcome " + authUserDetail.getUsername())
-                .token(token)
-                .build();
+//        return LoginResponse.builder()
+//                .message("Welcome " + authUserDetail.getUsername())
+//                .token(token)
+//                .build();
+        return  token;
 
     }
 }
