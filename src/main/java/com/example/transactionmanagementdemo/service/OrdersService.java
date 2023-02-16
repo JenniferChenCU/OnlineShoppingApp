@@ -47,14 +47,13 @@ public class OrdersService {
     }
 
     @Transactional(rollbackOn = {NotEnoughInventoryException.class, IllegalArgumentException.class})
-    public OrdersResponse createNewOrders(int userId, Map<Integer, Integer> purchaseDetail) throws NotEnoughInventoryException{
+    public OrdersResponse createNewOrders(User user, Map<Integer, Integer> purchaseDetail) throws NotEnoughInventoryException{
+        System.out.println("\n\n\npurchase detail:"+purchaseDetail+"\n");
+
         Orders orders = new Orders();
-        User user = userDao.getUserById(userId);
-        if (user==null){
-            throw new IllegalArgumentException("Invalid user Id");
-        }
         orders.setUser(user);
         orders.setOrderStatus(OrderStatus.PROCESSING);
+
         // Update OrderProduct
         List<OrderProduct> orderProducts = new ArrayList<>();
         for (Map.Entry<Integer, Integer> entry: purchaseDetail.entrySet()){
@@ -85,12 +84,14 @@ public class OrdersService {
                 return OrdersResponse.builder().message("Inventory shortage!!").build();
             }
         }
+
         // new order
         orders.setOrderProducts(orderProducts);
         Date date = new Date();
         Timestamp timestamp = new Timestamp(date.getTime());
         orders.setDatePlaced(timestamp);
         ordersDao.createNewOrders(orders);
+        System.out.println("\n\n\nnew order:" + orders + "\n\n\n");
 
         return OrdersResponse.builder().orders(orders).message("Order created!").build();
     }

@@ -20,9 +20,6 @@ public class OrderProduct {
     @Column(name = "id", unique = true, nullable = false)
     private Integer id;
 
-//    @Column(name = "product_id")
-//    private Integer productId;
-
     @Column(name = "purchasedQuantity")
     private Integer purchasedQuantity;
 

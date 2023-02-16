@@ -1,5 +1,7 @@
 package com.example.transactionmanagementdemo.controller;
 
+import com.example.transactionmanagementdemo.domain.entity.OrdersDetailResponse;
+import com.example.transactionmanagementdemo.domain.orderProduct.OrderProduct;
 import com.example.transactionmanagementdemo.domain.orders.Orders;
 import com.example.transactionmanagementdemo.domain.orders.OrdersResponse;
 import com.example.transactionmanagementdemo.domain.product.AllProductsResponse;
@@ -12,6 +14,7 @@ import com.example.transactionmanagementdemo.domain.userProduct.UserProductRespo
 import com.example.transactionmanagementdemo.domain.watchList.WatchListResponse;
 import com.example.transactionmanagementdemo.domain.entity.PurchaseRequest;
 import com.example.transactionmanagementdemo.security.AuthUserDetail;
+import com.example.transactionmanagementdemo.service.OrdersProductService;
 import com.example.transactionmanagementdemo.service.OrdersService;
 import com.example.transactionmanagementdemo.service.ProductService;
 import com.example.transactionmanagementdemo.service.UserService;
@@ -37,12 +40,17 @@ public class UserController {
     private final UserService userService;
     private final ProductService productService;
     private final OrdersService ordersService;
+    private final OrdersProductService ordersProductService;
 
     @Autowired
-    public UserController(UserService userService, ProductService productService, OrdersService ordersService) {
+    public UserController(UserService userService,
+                          ProductService productService,
+                          OrdersService ordersService,
+                          OrdersProductService ordersProductService) {
         this.userService = userService;
         this.productService = productService;
         this.ordersService = ordersService;
+        this.ordersProductService = ordersProductService;
     }
 
     @PostMapping("/registration")
@@ -125,7 +133,10 @@ public class UserController {
 
     @PostMapping("/user/newOrder")
     public OrdersResponse createNewOrder(@RequestBody PurchaseRequest purchaseRequest){
-        return ordersService.createNewOrders(purchaseRequest.getUserId(), purchaseRequest.getPurchaseDetail());
+        String username = (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        User user = userService.getUserByUsername(username);
+
+        return ordersService.createNewOrders(user, purchaseRequest.getPurchaseDetail());
     }
 
     @PostMapping("/updateStatus/{orderId}")
@@ -141,6 +152,36 @@ public class UserController {
             return OrdersResponse.builder().message("No permission!").build();
 
         return ordersService.updateOrdersStatus(orderId, status);
+    }
+
+    @GetMapping("/user/order/{orderId}")
+    public OrdersDetailResponse viewOrder(@PathVariable int orderId){
+        Orders orders = ordersService.getOrdersById(orderId);
+        if (orders == null) return OrdersDetailResponse.builder().message("No such order!").build();
+
+        String username = (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        User user = userService.getUserByUsername(username);
+        if (!orders.getUser().equals(user)) return OrdersDetailResponse.builder().message("No permission!").build();
+
+        List<OrderProduct> orderProducts = ordersProductService.getOrderProductsByOrder(orders);
+        List<UserProduct> userProducts = new ArrayList<>();
+
+        for (OrderProduct op: orderProducts){
+            Product p = op.getProducts();
+            UserProduct up = new UserProduct();
+            up.setId(p.getId());
+            up.setName(p.getName());
+            up.setDescription(p.getDescription());
+            up.setPrice(p.getRetailPrice());
+            userProducts.add(up);
+        }
+
+        return OrdersDetailResponse.builder()
+                .orders(orders)
+                .userProducts(userProducts)
+                .orderProducts(orderProducts)
+                .message("Order " + orderId + " details get!")
+                .build();
     }
 
     @GetMapping("/user/watchList")

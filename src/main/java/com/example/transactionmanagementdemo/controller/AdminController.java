@@ -2,7 +2,10 @@ package com.example.transactionmanagementdemo.controller;
 
 import com.example.transactionmanagementdemo.domain.dashboard.Dashboard;
 import com.example.transactionmanagementdemo.domain.dashboard.DashboardResponse;
+import com.example.transactionmanagementdemo.domain.entity.OrdersDetailResponse;
+import com.example.transactionmanagementdemo.domain.orderProduct.OrderProduct;
 import com.example.transactionmanagementdemo.domain.orders.Orders;
+import com.example.transactionmanagementdemo.domain.orders.OrdersResponse;
 import com.example.transactionmanagementdemo.domain.product.Product;
 import com.example.transactionmanagementdemo.domain.product.ProductRequest;
 import com.example.transactionmanagementdemo.domain.product.ProductResponse;
@@ -12,6 +15,7 @@ import com.example.transactionmanagementdemo.domain.user.User;
 import com.example.transactionmanagementdemo.domain.user.UserRequest;
 import com.example.transactionmanagementdemo.domain.user.UserResponse;
 import com.example.transactionmanagementdemo.exception.UserSaveFailedException;
+import com.example.transactionmanagementdemo.service.OrdersProductService;
 import com.example.transactionmanagementdemo.service.OrdersService;
 import com.example.transactionmanagementdemo.service.ProductService;
 import com.example.transactionmanagementdemo.service.UserService;
@@ -22,6 +26,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
+import javax.persistence.criteria.Order;
 import java.util.*;
 
 @RestController
@@ -29,12 +34,17 @@ public class AdminController {
     private final UserService userService;
     private final ProductService productService;
     private final OrdersService ordersService;
+    private final OrdersProductService ordersProductService;
 
     @Autowired
-    public AdminController(UserService userService, ProductService productService, OrdersService ordersService) {
+    public AdminController(UserService userService,
+                           ProductService productService,
+                           OrdersService ordersService,
+                           OrdersProductService ordersProductService) {
         this.userService = userService;
         this.productService = productService;
         this.ordersService = ordersService;
+        this.ordersProductService = ordersProductService;
     }
 
     @GetMapping("/admin/allUsers")
@@ -82,10 +92,6 @@ public class AdminController {
 
     @GetMapping("/admin/dashboard")
     public DashboardResponse getDashboard(){
-        String username = (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        User user = userService.getUserByUsername(username);
-        if (user==null || !user.isSeller()) return DashboardResponse.builder().message("No permission!").build();
-
         List<Orders> ordersList = ordersService.getAllOrdersSuccess();
         List<Product> productList = productService.getAllProductsSuccess();
 
@@ -95,6 +101,26 @@ public class AdminController {
         return DashboardResponse.builder()
                 .dashboard(dashboard)
                 .message("All orders and products information retrieved!")
+                .build();
+    }
+
+    @GetMapping("/admin/order/{orderId}")
+    public OrdersDetailResponse viewOrder(@PathVariable int orderId){
+        Orders orders = ordersService.getOrdersById(orderId);
+        if (orders == null) return OrdersDetailResponse.builder().message("No such order!").build();
+
+        List<OrderProduct> orderProducts = ordersProductService.getOrderProductsByOrder(orders);
+        List<Product> products = new ArrayList<>();
+
+        for (OrderProduct op: orderProducts){
+            products.add(op.getProducts());
+        }
+
+        return OrdersDetailResponse.builder()
+                .orders(orders)
+                .products(products)
+                .orderProducts(orderProducts)
+                .message("Order " + orderId + " details get!")
                 .build();
     }
 
