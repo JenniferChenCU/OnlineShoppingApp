@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>OrdersDao.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">TransactionManagementDemo</a> &gt; <a href="index.source.html" class="el_package">com.example.transactionmanagementdemo.dao</a> &gt; <span class="el_source">OrdersDao.java</span></div><h1>OrdersDao.java</h1><pre class="source lang-java linenums">package com.example.transactionmanagementdemo.dao;
+
+import com.example.transactionmanagementdemo.domain.orderProduct.OrderProduct;
+import com.example.transactionmanagementdemo.domain.orders.OrderStatus;
+import com.example.transactionmanagementdemo.domain.orders.Orders;
+import com.example.transactionmanagementdemo.domain.orders.OrdersResponse;
+import com.example.transactionmanagementdemo.domain.product.Product;
+import com.example.transactionmanagementdemo.domain.user.User;
+import com.example.transactionmanagementdemo.exception.OrderNotFoundException;
+import com.example.transactionmanagementdemo.exception.ProductSaveFailedException;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
+
+import javax.persistence.criteria.*;
+import java.util.*;
+
+@Repository
+<span class="fc" id="L20">public class OrdersDao {</span>
+
+    @Autowired
+    SessionFactory sessionFactory;
+
+    public List&lt;Orders&gt; getAllOrders(){
+        Session session;
+<span class="nc" id="L27">        List&lt;Orders&gt; ordersList = null;</span>
+        try{
+<span class="nc" id="L29">            session = sessionFactory.getCurrentSession();</span>
+<span class="nc" id="L30">            CriteriaBuilder cb = session.getCriteriaBuilder();</span>
+<span class="nc" id="L31">            CriteriaQuery&lt;Orders&gt; cq = cb.createQuery(Orders.class);</span>
+<span class="nc" id="L32">            Root&lt;Orders&gt; root = cq.from(Orders.class);</span>
+<span class="nc" id="L33">            cq.select(root);</span>
+<span class="nc" id="L34">            ordersList = session.createQuery(cq).getResultList();</span>
+<span class="nc" id="L35">        }catch (Exception e){</span>
+<span class="nc" id="L36">            e.printStackTrace();</span>
+<span class="nc" id="L37">        }</span>
+<span class="nc bnc" id="L38" title="All 2 branches missed.">        return (ordersList.isEmpty()) ? null : ordersList;</span>
+    }
+
+    public List&lt;Orders&gt; getValidOrders(int userId){
+        Session session;
+<span class="nc" id="L43">        List&lt;Orders&gt; orders = null;</span>
+        try{
+<span class="nc" id="L45">            session = sessionFactory.getCurrentSession();</span>
+<span class="nc" id="L46">            CriteriaBuilder cb = session.getCriteriaBuilder();</span>
+<span class="nc" id="L47">            CriteriaQuery&lt;Orders&gt; cq = cb.createQuery(Orders.class);</span>
+<span class="nc" id="L48">            Root&lt;Orders&gt; root = cq.from(Orders.class);</span>
+<span class="nc" id="L49">            Predicate userPredicate = cb.equal(root.get(&quot;user&quot;).get(&quot;id&quot;), userId);</span>
+<span class="nc" id="L50">            Predicate statusPredicate = cb.notEqual(root.get(&quot;orderStatus&quot;), 2);</span>
+<span class="nc" id="L51">            cq.select(root).where(cb.and(userPredicate, statusPredicate));</span>
+<span class="nc" id="L52">            orders = session.createQuery(cq).getResultList();</span>
+<span class="nc" id="L53">            System.out.println(orders);</span>
+        }
+<span class="nc" id="L55">        catch (Exception e){</span>
+<span class="nc" id="L56">            e.printStackTrace();</span>
+<span class="nc" id="L57">        }</span>
+<span class="nc" id="L58">        return orders;</span>
+    }
+
+    public Orders getOrdersById(int id){
+        Session session;
+<span class="nc" id="L63">        Optional&lt;Orders&gt; orders = null;</span>
+        try{
+<span class="nc" id="L65">            session = sessionFactory.getCurrentSession();</span>
+<span class="nc" id="L66">            CriteriaBuilder cb = session.getCriteriaBuilder();</span>
+<span class="nc" id="L67">            CriteriaQuery&lt;Orders&gt; cq = cb.createQuery(Orders.class);</span>
+<span class="nc" id="L68">            Root&lt;Orders&gt; root = cq.from(Orders.class);</span>
+<span class="nc" id="L69">            Predicate predicate = cb.equal(root.get(&quot;id&quot;), id);</span>
+<span class="nc" id="L70">            cq.select(root).where(predicate);</span>
+<span class="nc" id="L71">            orders = session.createQuery(cq).uniqueResultOptional();</span>
+        }
+<span class="nc" id="L73">        catch (Exception e){</span>
+<span class="nc" id="L74">            e.printStackTrace();</span>
+<span class="nc" id="L75">        }</span>
+<span class="nc bnc" id="L76" title="All 2 branches missed.">        return (orders.isPresent())? orders.get() : null;</span>
+    }
+
+    public void createNewOrders(Orders orders){
+<span class="nc" id="L80">        Session session = sessionFactory.getCurrentSession();</span>
+<span class="nc" id="L81">        session.saveOrUpdate(orders);</span>
+<span class="nc" id="L82">    }</span>
+
+    public OrdersResponse updateOrdersStatus(int orderId, int status) throws OrderNotFoundException {
+        Session session;
+<span class="nc" id="L86">        Optional&lt;Orders&gt; orders = null;</span>
+        try{
+<span class="nc" id="L88">            session = sessionFactory.getCurrentSession();</span>
+<span class="nc" id="L89">            CriteriaBuilder cb = session.getCriteriaBuilder();</span>
+<span class="nc" id="L90">            CriteriaQuery&lt;Orders&gt; cq = cb.createQuery(Orders.class);</span>
+<span class="nc" id="L91">            Root&lt;Orders&gt; root = cq.from(Orders.class);</span>
+<span class="nc" id="L92">            Predicate predicate = cb.equal(root.get(&quot;id&quot;), orderId);</span>
+<span class="nc" id="L93">            cq.select(root).where(predicate);</span>
+<span class="nc" id="L94">            orders = session.createQuery(cq).uniqueResultOptional();</span>
+<span class="nc bnc" id="L95" title="All 2 branches missed.">            if (!orders.isPresent()){</span>
+<span class="nc" id="L96">                throw new OrderNotFoundException(&quot;Order &quot; + orderId + &quot; does not Exist!&quot;);</span>
+            }
+<span class="nc" id="L98">            Orders theOrders = orders.get();</span>
+
+            // can make &quot;Processing&quot; orders &quot;Completed&quot; or &quot;Canceled&quot;
+<span class="nc" id="L101">            OrderStatus newStatus = OrderStatus.values()[status];</span>
+<span class="nc" id="L102">            OrderStatus currentStatus = theOrders.getOrderStatus();</span>
+<span class="nc bnc" id="L103" title="All 2 branches missed.">            if (OrderStatus.PROCESSING==currentStatus){</span>
+<span class="nc" id="L104">                 theOrders.setOrderStatus(newStatus);</span>
+<span class="nc" id="L105">                 session.saveOrUpdate(theOrders);</span>
+            }
+            // if complete update productProfit, productSoldQuantity, userSpends
+<span class="nc bnc" id="L108" title="All 2 branches missed.">            if (status == 1) {</span>
+<span class="nc" id="L109">                updateProfit(orderId);</span>
+            }
+            // if canceled update stock
+<span class="nc bnc" id="L112" title="All 2 branches missed.">            if (status == 2){</span>
+<span class="nc" id="L113">                putBackStock(orderId);</span>
+            }
+<span class="nc" id="L115">        }catch (OrderNotFoundException e){</span>
+<span class="nc" id="L116">            e.printStackTrace();</span>
+<span class="nc" id="L117">            return OrdersResponse.builder().message(&quot;Order &quot;+ orderId +&quot; does not exist!&quot;).build();</span>
+<span class="nc" id="L118">        }catch (Exception e){</span>
+<span class="nc" id="L119">            e.printStackTrace();</span>
+<span class="nc" id="L120">            return OrdersResponse.builder().message(&quot;Illegal operation!&quot;).build();</span>
+<span class="nc" id="L121">        }</span>
+<span class="nc" id="L122">        return OrdersResponse.builder().orders(orders.get()).message(&quot;Order &quot;+ orderId +&quot; status get updated!&quot;).build();</span>
+    }
+
+    public void updateProfit(int orderId){
+<span class="nc" id="L126">        Session session = sessionFactory.getCurrentSession();</span>
+<span class="nc" id="L127">        Orders orders = getOrdersById(orderId);</span>
+<span class="nc bnc" id="L128" title="All 2 branches missed.">        if (orders.getOrderStatus() == OrderStatus.COMPLETED){</span>
+<span class="nc" id="L129">            User user = orders.getUser();</span>
+<span class="nc" id="L130">            List&lt;OrderProduct&gt; orderProducts = orders.getOrderProducts();</span>
+<span class="nc bnc" id="L131" title="All 2 branches missed.">            for (OrderProduct orderProduct: orderProducts){</span>
+<span class="nc" id="L132">                Product product = orderProduct.getProducts();</span>
+<span class="nc" id="L133">                int quantity = orderProduct.getPurchasedQuantity();</span>
+<span class="nc" id="L134">                product.setSoldQuantity(quantity + product.getSoldQuantity());</span>
+<span class="nc" id="L135">                float profitPerItem = orderProduct.getExecutionRetailPrice() - orderProduct.getExecutionWholesalePrice();</span>
+<span class="nc" id="L136">                product.setProfit(profitPerItem*quantity + product.getProfit());</span>
+<span class="nc" id="L137">                user.setTotalSpent(orderProduct.getExecutionWholesalePrice()*quantity + user.getTotalSpent());</span>
+<span class="nc" id="L138">                session.saveOrUpdate(product);</span>
+<span class="nc" id="L139">            }</span>
+<span class="nc" id="L140">            session.saveOrUpdate(user);</span>
+        }
+<span class="nc" id="L142">    }</span>
+
+    public void putBackStock(int orderId){
+<span class="nc" id="L145">        Session session = sessionFactory.getCurrentSession();</span>
+<span class="nc" id="L146">        Orders orders = getOrdersById(orderId);</span>
+<span class="nc" id="L147">        User user = orders.getUser();</span>
+<span class="nc" id="L148">        List&lt;OrderProduct&gt; orderProducts = orders.getOrderProducts();</span>
+<span class="nc bnc" id="L149" title="All 2 branches missed.">        for (OrderProduct orderProduct: orderProducts){</span>
+<span class="nc" id="L150">            Product product = orderProduct.getProducts();</span>
+<span class="nc" id="L151">            int quantity = orderProduct.getPurchasedQuantity();</span>
+            // sold quantity and stock
+<span class="nc" id="L153">            product.setSoldQuantity(product.getSoldQuantity() - quantity);</span>
+<span class="nc" id="L154">            product.setStockQuantity(product.getStockQuantity() + quantity);</span>
+            // product profit
+<span class="nc" id="L156">            float profitPerItem = orderProduct.getExecutionRetailPrice() - orderProduct.getExecutionWholesalePrice();</span>
+<span class="nc" id="L157">            product.setProfit(product.getProfit() - profitPerItem*quantity);</span>
+            // user spend
+<span class="nc" id="L159">            user.setTotalSpent(user.getTotalSpent() - orderProduct.getExecutionWholesalePrice()*quantity);</span>
+<span class="nc" id="L160">            session.saveOrUpdate(product);</span>
+<span class="nc" id="L161">        }</span>
+<span class="nc" id="L162">        session.saveOrUpdate(user);</span>
+<span class="nc" id="L163">    }</span>
+
+//    public Product userGetOrderById(int userId, int productId){
+//        Session session;
+//        Optional&lt;Product&gt; product = null;
+//        try{
+//            session = sessionFactory.getCurrentSession();
+//            CriteriaBuilder cb = session.getCriteriaBuilder();
+//            CriteriaQuery&lt;Product&gt; cq = cb.createQuery(Product.class);
+////                    .setProjection(Projections.projectionList()
+////                            .add(Projections.property(&quot;id&quot;), &quot;id&quot;)
+////                            .add(Projections.property(&quot;name&quot;), &quot;name&quot;)
+////                            .add(Projections.property(&quot;description&quot;), &quot;description&quot;)
+////                            .add(Projections.property(&quot;retailPrice&quot;), &quot;price&quot;));
+//            Root&lt;Product&gt; root = cq.from(Product.class);
+//            Predicate predicate = cb.equal(root.get(&quot;id&quot;), productId);
+//            cq.select(root).where(predicate);
+//            product = session.createQuery(cq).uniqueResultOptional();
+//        }
+//        catch (Exception e){
+//            e.printStackTrace();
+//        }
+//        return (product.isPresent())? product.get() : null;
+//    }
+
+    public void somethingWentWrong () throws ProductSaveFailedException {
+<span class="nc" id="L189">        throw new ProductSaveFailedException(&quot;Something went wrong, rolling back&quot;);</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.8.202204050719</span></div></body></html>

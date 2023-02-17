@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ProductDao.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">TransactionManagementDemo</a> &gt; <a href="index.source.html" class="el_package">com.example.transactionmanagementdemo.dao</a> &gt; <span class="el_source">ProductDao.java</span></div><h1>ProductDao.java</h1><pre class="source lang-java linenums">package com.example.transactionmanagementdemo.dao;
+
+import com.example.transactionmanagementdemo.domain.product.Product;
+import com.example.transactionmanagementdemo.exception.ProductSaveFailedException;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
+
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
+import java.util.Comparator;
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
+
+@Repository
+<span class="fc" id="L20">public class ProductDao {</span>
+
+    @Autowired
+    SessionFactory sessionFactory;
+
+    public List&lt;Product&gt; getAllProducts(){
+        Session session;
+<span class="nc" id="L27">        List&lt;Product&gt; productList = null;</span>
+        try{
+<span class="nc" id="L29">            session = sessionFactory.getCurrentSession();</span>
+<span class="nc" id="L30">            CriteriaBuilder cb = session.getCriteriaBuilder();</span>
+<span class="nc" id="L31">            CriteriaQuery&lt;Product&gt; cq = cb.createQuery(Product.class);</span>
+<span class="nc" id="L32">            Root&lt;Product&gt; root = cq.from(Product.class);</span>
+<span class="nc" id="L33">            cq.select(root);</span>
+<span class="nc" id="L34">            productList = session.createQuery(cq).getResultList();</span>
+<span class="nc" id="L35">        }catch (Exception e){</span>
+<span class="nc" id="L36">            e.printStackTrace();</span>
+<span class="nc" id="L37">        }</span>
+<span class="nc bnc" id="L38" title="All 2 branches missed.">        return (productList.isEmpty()) ? null : productList;</span>
+    }
+
+    public List&lt;Product&gt; getInstockProductsSuccess(){
+        Session session;
+<span class="nc" id="L43">        List&lt;Product&gt; instockProductList = null;</span>
+        try{
+<span class="nc" id="L45">            session = sessionFactory.getCurrentSession();</span>
+<span class="nc" id="L46">            CriteriaBuilder cb = session.getCriteriaBuilder();</span>
+<span class="nc" id="L47">            CriteriaQuery&lt;Product&gt; cq = cb.createQuery(Product.class);</span>
+<span class="nc" id="L48">            Root&lt;Product&gt; root = cq.from(Product.class);</span>
+<span class="nc" id="L49">            Predicate predicate = cb.gt(root.get(&quot;stockQuantity&quot;), 0);</span>
+<span class="nc" id="L50">            cq.select(root).where(predicate);</span>
+<span class="nc" id="L51">            instockProductList = session.createQuery(cq).getResultList();</span>
+<span class="nc" id="L52">        }catch (Exception e){</span>
+<span class="nc" id="L53">            e.printStackTrace();</span>
+<span class="nc" id="L54">        }</span>
+<span class="nc" id="L55">        System.out.println(&quot;size: &quot;+instockProductList.size());</span>
+<span class="nc bnc" id="L56" title="All 2 branches missed.">        return (instockProductList.isEmpty()) ? null : instockProductList;</span>
+    }
+
+    public Product getProductById(int id){
+        Session session;
+<span class="nc" id="L61">        Optional&lt;Product&gt; product = null;</span>
+        try{
+<span class="nc" id="L63">            session = sessionFactory.getCurrentSession();</span>
+<span class="nc" id="L64">            CriteriaBuilder cb = session.getCriteriaBuilder();</span>
+<span class="nc" id="L65">            CriteriaQuery&lt;Product&gt; cq = cb.createQuery(Product.class);</span>
+<span class="nc" id="L66">            Root&lt;Product&gt; root = cq.from(Product.class);</span>
+<span class="nc" id="L67">            Predicate predicate = cb.equal(root.get(&quot;id&quot;), id);</span>
+<span class="nc" id="L68">            cq.select(root).where(predicate);</span>
+<span class="nc" id="L69">            product = session.createQuery(cq).uniqueResultOptional();</span>
+        }
+<span class="nc" id="L71">        catch (Exception e){</span>
+<span class="nc" id="L72">            e.printStackTrace();</span>
+<span class="nc" id="L73">        }</span>
+
+<span class="nc" id="L75">        return product.orElse(null);</span>
+    }
+
+    public Product userGetProductById(int userId, int productId){
+        Session session;
+<span class="nc" id="L80">        Optional&lt;Product&gt; product = null;</span>
+        try{
+<span class="nc" id="L82">            session = sessionFactory.getCurrentSession();</span>
+<span class="nc" id="L83">            CriteriaBuilder cb = session.getCriteriaBuilder();</span>
+<span class="nc" id="L84">            CriteriaQuery&lt;Product&gt; cq = cb.createQuery(Product.class);</span>
+//                    .setProjection(Projections.projectionList()
+//                            .add(Projections.property(&quot;id&quot;), &quot;id&quot;)
+//                            .add(Projections.property(&quot;name&quot;), &quot;name&quot;)
+//                            .add(Projections.property(&quot;description&quot;), &quot;description&quot;)
+//                            .add(Projections.property(&quot;retailPrice&quot;), &quot;price&quot;));
+<span class="nc" id="L90">            Root&lt;Product&gt; root = cq.from(Product.class);</span>
+<span class="nc" id="L91">            Predicate predicate = cb.equal(root.get(&quot;id&quot;), productId);</span>
+<span class="nc" id="L92">            cq.select(root).where(predicate);</span>
+<span class="nc" id="L93">            product = session.createQuery(cq).uniqueResultOptional();</span>
+        }
+<span class="nc" id="L95">        catch (Exception e){</span>
+<span class="nc" id="L96">            e.printStackTrace();</span>
+<span class="nc" id="L97">        }</span>
+<span class="nc bnc" id="L98" title="All 2 branches missed.">        return (product.isPresent())? product.get() : null;</span>
+    }
+
+    public Product getProductByProductname(String productname){
+        Session session;
+<span class="nc" id="L103">        Optional&lt;Product&gt; product = null;</span>
+        try{
+<span class="nc" id="L105">            session = sessionFactory.getCurrentSession();</span>
+<span class="nc" id="L106">            CriteriaBuilder cb = session.getCriteriaBuilder();</span>
+<span class="nc" id="L107">            CriteriaQuery&lt;Product&gt; cq = cb.createQuery(Product.class);</span>
+<span class="nc" id="L108">            Root&lt;Product&gt; root = cq.from(Product.class);</span>
+<span class="nc" id="L109">            Predicate predicate = cb.equal(root.get(&quot;name&quot;), productname);</span>
+<span class="nc" id="L110">            cq.select(root).where(predicate);</span>
+<span class="nc" id="L111">            product = session.createQuery(cq).uniqueResultOptional();</span>
+        }
+<span class="nc" id="L113">        catch (Exception e){</span>
+<span class="nc" id="L114">            e.printStackTrace();</span>
+<span class="nc" id="L115">        }</span>
+<span class="nc bnc" id="L116" title="All 2 branches missed.">        return (product.isPresent())? product.get() : null;</span>
+    }
+
+    public void addProduct(Product product){
+        Session session;
+        try{
+<span class="nc" id="L122">            session = sessionFactory.getCurrentSession();</span>
+<span class="nc" id="L123">            session.saveOrUpdate(product);</span>
+        }
+<span class="nc" id="L125">        catch(Exception e){</span>
+<span class="nc" id="L126">            e.printStackTrace();</span>
+<span class="nc" id="L127">        }</span>
+<span class="nc" id="L128">    }</span>
+
+    public void somethingWentWrong () throws ProductSaveFailedException {
+<span class="nc" id="L131">        throw new ProductSaveFailedException(&quot;Something went wrong, rolling back&quot;);</span>
+    }
+
+    public Product updateProduct(Product product){
+        Session session;
+        try{
+<span class="nc" id="L137">            session = sessionFactory.getCurrentSession();</span>
+<span class="nc" id="L138">            session.saveOrUpdate(product);</span>
+        }
+<span class="nc" id="L140">        catch (Exception e){</span>
+<span class="nc" id="L141">            e.printStackTrace();</span>
+<span class="nc" id="L142">        }</span>
+<span class="nc" id="L143">        return product;</span>
+    }
+
+    public void deleteProduct(Product product){
+        Session session;
+        try{
+<span class="nc" id="L149">            session = sessionFactory.getCurrentSession();</span>
+<span class="nc" id="L150">            session.delete(product);</span>
+        }
+<span class="nc" id="L152">        catch (Exception e){</span>
+<span class="nc" id="L153">            e.printStackTrace();</span>
+<span class="nc" id="L154">        }</span>
+<span class="nc" id="L155">    }</span>
+
+    public Product mostProfitProduct(List&lt;Product&gt; allProducts){
+<span class="nc" id="L158">        List&lt;Product&gt; product =  allProducts.stream()</span>
+<span class="nc" id="L159">                                    .sorted(Comparator.comparingDouble(Product::getProfit).reversed())</span>
+<span class="nc" id="L160">                                    .limit(1)</span>
+<span class="nc" id="L161">                                    .collect(Collectors.toList());</span>
+<span class="nc bnc" id="L162" title="All 2 branches missed.">        return product.size()==0 ? null : product.get(0);</span>
+    }
+
+    public List&lt;Product&gt; getTop3Products(List&lt;Product&gt; allProducts){
+<span class="nc" id="L166">        return allProducts.stream()</span>
+<span class="nc" id="L167">                .sorted(Comparator.comparingInt(Product::getSoldQuantity).reversed())</span>
+<span class="nc" id="L168">                .limit(3)</span>
+<span class="nc" id="L169">                .collect(Collectors.toList());</span>
+    }
+
+    public int totalItemsSold(List&lt;Product&gt; allProducts){
+<span class="nc" id="L173">        return allProducts.stream()</span>
+<span class="nc" id="L174">                .map(Product::getSoldQuantity)</span>
+<span class="nc" id="L175">                .mapToInt(Integer::valueOf)</span>
+<span class="nc" id="L176">                .sum();</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.8.202204050719</span></div></body></html>

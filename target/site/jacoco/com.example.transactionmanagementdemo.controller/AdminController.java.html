@@ -1,0 +1,214 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>AdminController.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">TransactionManagementDemo</a> &gt; <a href="index.source.html" class="el_package">com.example.transactionmanagementdemo.controller</a> &gt; <span class="el_source">AdminController.java</span></div><h1>AdminController.java</h1><pre class="source lang-java linenums">package com.example.transactionmanagementdemo.controller;
+
+import com.example.transactionmanagementdemo.domain.dashboard.Dashboard;
+import com.example.transactionmanagementdemo.domain.dashboard.DashboardResponse;
+import com.example.transactionmanagementdemo.domain.entity.OrdersDetailResponse;
+import com.example.transactionmanagementdemo.domain.orderProduct.OrderProduct;
+import com.example.transactionmanagementdemo.domain.orders.Orders;
+import com.example.transactionmanagementdemo.domain.orders.OrdersResponse;
+import com.example.transactionmanagementdemo.domain.product.Product;
+import com.example.transactionmanagementdemo.domain.product.ProductRequest;
+import com.example.transactionmanagementdemo.domain.product.ProductResponse;
+import com.example.transactionmanagementdemo.domain.product.AllProductsResponse;
+import com.example.transactionmanagementdemo.domain.user.AllUsersResponse;
+import com.example.transactionmanagementdemo.domain.user.User;
+import com.example.transactionmanagementdemo.domain.user.UserRequest;
+import com.example.transactionmanagementdemo.domain.user.UserResponse;
+import com.example.transactionmanagementdemo.exception.UserSaveFailedException;
+import com.example.transactionmanagementdemo.service.OrdersProductService;
+import com.example.transactionmanagementdemo.service.OrdersService;
+import com.example.transactionmanagementdemo.service.ProductService;
+import com.example.transactionmanagementdemo.service.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.web.bind.annotation.*;
+
+import javax.persistence.criteria.Order;
+import java.util.*;
+
+@RestController
+@RequestMapping(&quot;&quot;)
+public class AdminController {
+    private final UserService userService;
+    private final ProductService productService;
+    private final OrdersService ordersService;
+    private final OrdersProductService ordersProductService;
+
+    @Autowired
+    public AdminController(UserService userService,
+                           ProductService productService,
+                           OrdersService ordersService,
+<span class="fc" id="L44">                           OrdersProductService ordersProductService) {</span>
+<span class="fc" id="L45">        this.userService = userService;</span>
+<span class="fc" id="L46">        this.productService = productService;</span>
+<span class="fc" id="L47">        this.ordersService = ordersService;</span>
+<span class="fc" id="L48">        this.ordersProductService = ordersProductService;</span>
+<span class="fc" id="L49">    }</span>
+
+    @GetMapping(&quot;/admin/allUsers&quot;)
+    public List&lt;User&gt; getAllUsersSuccess(){
+<span class="fc" id="L53">        return userService.getAllUsersSuccess();</span>
+    }
+
+    @GetMapping(&quot;/admin/getUser/{id}&quot;)
+    public UserResponse getUserById(@PathVariable int id){
+<span class="fc" id="L58">        String username = SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString();</span>
+<span class="fc" id="L59">        User user = userService.getUserByUsername(username);</span>
+<span class="pc bpc" id="L60" title="3 of 4 branches missed.">        if (user==null || !user.isSeller()) return UserResponse.builder().message(&quot;No permission!&quot;).build();</span>
+
+<span class="nc" id="L62">        User todeleteUser = userService.getUserById(id);</span>
+<span class="nc" id="L63">        return UserResponse.builder()</span>
+<span class="nc" id="L64">                .message(&quot;Returning user with id: &quot; + id)</span>
+<span class="nc" id="L65">                .user(todeleteUser)</span>
+<span class="nc" id="L66">                .build();</span>
+    }
+
+    @PutMapping(&quot;/admin/saveUserSuccess&quot;)
+    public UserResponse saveUserSuccess(@RequestBody User user){
+<span class="fc" id="L71">        userService.saveUserSuccess(user);</span>
+<span class="fc" id="L72">        return UserResponse.builder()</span>
+<span class="fc" id="L73">                .message(&quot;User saved, committing...&quot;)</span>
+<span class="fc" id="L74">                .user(user)</span>
+<span class="fc" id="L75">                .build();</span>
+    }
+
+    @PutMapping(&quot;/admin/failed&quot;)
+    public ResponseEntity saveUserFailed(@RequestBody User user) throws UserSaveFailedException {
+<span class="fc" id="L80">        userService.saveUserFailed(user);</span>
+<span class="fc" id="L81">        return  ResponseEntity.ok().build();</span>
+    }
+
+    @DeleteMapping(&quot;/admin/deleteUser/{id}&quot;)
+    public ResponseEntity&lt;String&gt; deleteUserById(@PathVariable int id){
+<span class="fc" id="L86">        String username = SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString();</span>
+<span class="fc" id="L87">        User user = userService.getUserByUsername(username);</span>
+<span class="pc bpc" id="L88" title="3 of 4 branches missed.">        if (user==null || !user.isSeller()) return new ResponseEntity&lt;&gt;(&quot;No permission.&quot;, HttpStatus.BAD_REQUEST);</span>
+
+<span class="nc" id="L90">        userService.deleteUserById(id);</span>
+<span class="nc" id="L91">        return new ResponseEntity&lt;&gt;(&quot;User deleted.&quot;, HttpStatus.OK);</span>
+    }
+
+    @GetMapping(&quot;/admin/dashboard&quot;)
+    public DashboardResponse getDashboard(){
+<span class="nc" id="L96">        List&lt;Orders&gt; ordersList = ordersService.getAllOrdersSuccess();</span>
+<span class="nc" id="L97">        List&lt;Product&gt; productList = productService.getAllProductsSuccess();</span>
+
+<span class="nc" id="L99">        Dashboard dashboard = new Dashboard();</span>
+<span class="nc" id="L100">        dashboard.setOrders(ordersList);</span>
+<span class="nc" id="L101">        dashboard.setProducts(productList);</span>
+<span class="nc" id="L102">        return DashboardResponse.builder()</span>
+<span class="nc" id="L103">                .dashboard(dashboard)</span>
+<span class="nc" id="L104">                .message(&quot;All orders and products information retrieved!&quot;)</span>
+<span class="nc" id="L105">                .build();</span>
+    }
+
+    @GetMapping(&quot;/admin/order/{orderId}&quot;)
+    public OrdersDetailResponse viewOrder(@PathVariable int orderId){
+<span class="nc" id="L110">        Orders orders = ordersService.getOrdersById(orderId);</span>
+<span class="nc bnc" id="L111" title="All 2 branches missed.">        if (orders == null) return OrdersDetailResponse.builder().message(&quot;No such order!&quot;).build();</span>
+
+<span class="nc" id="L113">        List&lt;OrderProduct&gt; orderProducts = ordersProductService.getOrderProductsByOrder(orders);</span>
+<span class="nc" id="L114">        List&lt;Product&gt; products = new ArrayList&lt;&gt;();</span>
+
+<span class="nc bnc" id="L116" title="All 2 branches missed.">        for (OrderProduct op: orderProducts){</span>
+<span class="nc" id="L117">            products.add(op.getProducts());</span>
+<span class="nc" id="L118">        }</span>
+
+<span class="nc" id="L120">        return OrdersDetailResponse.builder()</span>
+<span class="nc" id="L121">                .orders(orders)</span>
+<span class="nc" id="L122">                .products(products)</span>
+<span class="nc" id="L123">                .orderProducts(orderProducts)</span>
+<span class="nc" id="L124">                .message(&quot;Order &quot; + orderId + &quot; details get!&quot;)</span>
+<span class="nc" id="L125">                .build();</span>
+    }
+
+    @PostMapping(&quot;/admin/product/edit&quot;)
+    public ProductResponse editProduct(@RequestBody ProductRequest productRequest){
+<span class="fc" id="L130">        String username = SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString();</span>
+<span class="fc" id="L131">        User user = userService.getUserByUsername(username);</span>
+<span class="pc bpc" id="L132" title="3 of 4 branches missed.">        if (user==null || !user.isSeller()) return ProductResponse.builder().message(&quot;No permission!&quot;).build();</span>
+
+<span class="nc" id="L134">        int productId = productRequest.getId();</span>
+<span class="nc" id="L135">        Product product = productService.getProductById(productId);</span>
+<span class="nc bnc" id="L136" title="All 2 branches missed.">        if (product==null) return ProductResponse.builder().message(&quot;Product &quot; + product + &quot; does not exist!&quot;).build();</span>
+
+<span class="nc" id="L138">        String description = productRequest.getDescription();</span>
+<span class="nc" id="L139">        float wholesalePrice = productRequest.getWholesalePrice();</span>
+<span class="nc" id="L140">        float retailPrice = productRequest.getRetailPrice();</span>
+<span class="nc" id="L141">        Integer stockQuantity = productRequest.getStockQuantity();</span>
+
+<span class="nc bnc" id="L143" title="All 2 branches missed.">        if (description!=null) product.setDescription(description);</span>
+<span class="nc bnc" id="L144" title="All 2 branches missed.">        if (wholesalePrice!=0) product.setWholesalePrice(wholesalePrice);</span>
+<span class="nc bnc" id="L145" title="All 2 branches missed.">        if (retailPrice!=0) product.setRetailPrice(retailPrice);</span>
+<span class="nc bnc" id="L146" title="All 2 branches missed.">        if (stockQuantity!=null) product.setStockQuantity(stockQuantity);</span>
+
+<span class="nc" id="L148">        productService.updateProduct(product);</span>
+<span class="nc" id="L149">        return ProductResponse.builder().message(&quot;Product got updated!&quot;).product(product).build();</span>
+    }
+
+    @PostMapping(&quot;/admin/addProduct&quot;)
+    public ProductResponse addProduct(@RequestBody ProductRequest productRequest){
+<span class="fc" id="L154">        String username = SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString();</span>
+<span class="fc" id="L155">        User user = userService.getUserByUsername(username);</span>
+<span class="pc bpc" id="L156" title="3 of 4 branches missed.">        if (user==null || !user.isSeller()) return ProductResponse.builder().message(&quot;No permission!&quot;).build();</span>
+
+<span class="nc" id="L158">        Product product = new Product();</span>
+<span class="nc" id="L159">        product.setName(productRequest.getName());</span>
+
+<span class="nc" id="L161">        String description = productRequest.getDescription();</span>
+<span class="nc" id="L162">        float wholesalePrice = productRequest.getWholesalePrice();</span>
+<span class="nc" id="L163">        float retailPrice = productRequest.getRetailPrice();</span>
+<span class="nc" id="L164">        Integer stockQuantity = productRequest.getStockQuantity();</span>
+
+<span class="nc bnc" id="L166" title="All 2 branches missed.">        if (description!=null) product.setDescription(description);</span>
+<span class="nc bnc" id="L167" title="All 2 branches missed.">        if (wholesalePrice!=0) product.setWholesalePrice(wholesalePrice);</span>
+<span class="nc bnc" id="L168" title="All 2 branches missed.">        if (retailPrice!=0) product.setRetailPrice(retailPrice);</span>
+<span class="nc bnc" id="L169" title="All 2 branches missed.">        if (stockQuantity!=null) product.setStockQuantity(stockQuantity);</span>
+
+<span class="nc" id="L171">        productService.addProduct(product);</span>
+<span class="nc" id="L172">        return ProductResponse.builder().product(product).message(&quot;New product created!&quot;).build();</span>
+    }
+
+    @GetMapping(&quot;/admin/mostProfitProduct&quot;)
+    public ProductResponse mostProfitProduct(){
+<span class="fc" id="L177">        String username = SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString();</span>
+<span class="fc" id="L178">        User user = userService.getUserByUsername(username);</span>
+<span class="pc bpc" id="L179" title="3 of 4 branches missed.">        if (user==null || !user.isSeller()) return ProductResponse.builder().message(&quot;No permission!&quot;).build();</span>
+
+<span class="nc" id="L181">        Product product = productService.mostProfitProduct();</span>
+<span class="nc" id="L182">        return ProductResponse.builder().product(product).message(&quot;The most profitable product found!&quot;).build();</span>
+    }
+
+    @GetMapping(&quot;/admin/top3PopularProducts&quot;)
+    public AllProductsResponse top3Products(){
+<span class="fc" id="L187">        String username = SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString();</span>
+<span class="fc" id="L188">        User user = userService.getUserByUsername(username);</span>
+<span class="pc bpc" id="L189" title="3 of 4 branches missed.">        if (user==null || !user.isSeller())  return AllProductsResponse.builder().message(&quot;No permission!&quot;).build();</span>
+
+<span class="nc" id="L191">        List&lt;Product&gt; top3 = productService.getTop3Products();</span>
+<span class="nc" id="L192">        return AllProductsResponse.builder().product(top3).message(&quot;The most popular 3 products found!&quot;).build();</span>
+    }
+
+    @GetMapping(&quot;/admin/totalItemsSold&quot;)
+    public String totalItemsSold(){
+<span class="fc" id="L197">        String username = SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString();</span>
+<span class="fc" id="L198">        User user = userService.getUserByUsername(username);</span>
+<span class="pc bpc" id="L199" title="3 of 4 branches missed.">        if (user==null || !user.isSeller()) return &quot;No permission!&quot;;</span>
+
+<span class="nc" id="L201">        return &quot;You have sold &quot; + productService.totalItemsSold() + &quot; items in total!&quot;;</span>
+    }
+
+    @GetMapping(&quot;/admin/top3Users&quot;)
+    public AllUsersResponse top3Users(){
+<span class="fc" id="L206">        String username = SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString();</span>
+<span class="fc" id="L207">        User user = userService.getUserByUsername(username);</span>
+<span class="pc bpc" id="L208" title="3 of 4 branches missed.">        if (user==null || !user.isSeller())  return AllUsersResponse.builder().message(&quot;No permission!&quot;).build();</span>
+
+<span class="nc" id="L210">        List&lt;User&gt; top3 = userService.getTop3Users();</span>
+<span class="nc" id="L211">        return AllUsersResponse.builder().user(top3).message(&quot;Top 3 users found!&quot;).build();</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.8.202204050719</span></div></body></html>

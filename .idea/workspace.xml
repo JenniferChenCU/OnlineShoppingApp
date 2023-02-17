@@ -5,20 +5,17 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="a0865ada-4781-4ab7-99c6-081d2b1d03f0" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/test/java/com/example/transactionmanagementdemo/controller/AdminControllerTest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/test/java/com/example/transactionmanagementdemo/controller/UserControllerTest.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/example/transactionmanagementdemo/controller/AdminController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/transactionmanagementdemo/controller/AdminController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/example/transactionmanagementdemo/controller/LoginController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/transactionmanagementdemo/controller/LoginController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/transactionmanagementdemo/security/JwtFilter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/transactionmanagementdemo/security/JwtFilter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/transactionmanagementdemo/security/JwtProvider.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/transactionmanagementdemo/security/JwtProvider.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/transactionmanagementdemo/service/LoginService.java" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/example/transactionmanagementdemo/service/UserService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/transactionmanagementdemo/service/UserService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/example/transactionmanagementdemo/controller/AdminControllerTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/example/transactionmanagementdemo/controller/AdminControllerTest.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/com/example/transactionmanagementdemo/controller/AdminController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/transactionmanagementdemo/controller/AdminController.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/com/example/transactionmanagementdemo/controller/LoginController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/transactionmanagementdemo/controller/LoginController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/example/transactionmanagementdemo/security/JwtFilter.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/transactionmanagementdemo/security/JwtFilter.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/example/transactionmanagementdemo/security/JwtProvider.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/transactionmanagementdemo/security/JwtProvider.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/com/example/transactionmanagementdemo/service/UserService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/example/transactionmanagementdemo/service/UserService.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/test-classes/com/example/transactionmanagementdemo/controller/AdminControllerTest.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/test-classes/com/example/transactionmanagementdemo/controller/AdminControllerTest.class" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -79,15 +76,15 @@
       <recent name="$PROJECT_DIR$/src/main/java/com/example/transactionmanagementdemo/domain/OrderProduct" />
     </key>
     <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="com.example.transactionmanagementdemo.controller" />
       <recent name="com.example.transactionmanagementdemo.service" />
       <recent name="com.example.transactionmanagementdemo.dao" />
       <recent name="com.example.transactionmanagementdemo.domain.entity" />
       <recent name="com.example.transactionmanagementdemo.AOP" />
-      <recent name="com.example.transactionmanagementdemo.domain" />
     </key>
   </component>
-  <component name="RunManager" selected="Spring Boot.TransactionManagementDemoApplication">
-    <configuration name="AdminControllerTest.testGetUserById_success" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+  <component name="RunManager" selected="JUnit.AdminControllerTest.testAddProduct">
+    <configuration name="AdminControllerTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="OnlineShoppingApp" />
       <extension name="coverage">
         <pattern>
@@ -97,7 +94,70 @@
       </extension>
       <option name="PACKAGE_NAME" value="com.example.transactionmanagementdemo.controller" />
       <option name="MAIN_CLASS_NAME" value="com.example.transactionmanagementdemo.controller.AdminControllerTest" />
-      <option name="METHOD_NAME" value="testGetUserById_success" />
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="AdminControllerTest.testAddProduct" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="OnlineShoppingApp" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.example.transactionmanagementdemo.controller.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="com.example.transactionmanagementdemo.controller" />
+      <option name="MAIN_CLASS_NAME" value="com.example.transactionmanagementdemo.controller.AdminControllerTest" />
+      <option name="METHOD_NAME" value="testAddProduct" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="AdminControllerTest.testDeleteUserById" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="OnlineShoppingApp" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.example.transactionmanagementdemo.controller.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="com.example.transactionmanagementdemo.controller" />
+      <option name="MAIN_CLASS_NAME" value="com.example.transactionmanagementdemo.controller.AdminControllerTest" />
+      <option name="METHOD_NAME" value="testDeleteUserById" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="AdminControllerTest.testTotalItemsSold" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="OnlineShoppingApp" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.example.transactionmanagementdemo.controller.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="com.example.transactionmanagementdemo.controller" />
+      <option name="MAIN_CLASS_NAME" value="com.example.transactionmanagementdemo.controller.AdminControllerTest" />
+      <option name="METHOD_NAME" value="testTotalItemsSold" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="AdminControllerTest.testTotalItemsSoldValid" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="OnlineShoppingApp" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.example.transactionmanagementdemo.controller.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="com.example.transactionmanagementdemo.controller" />
+      <option name="MAIN_CLASS_NAME" value="com.example.transactionmanagementdemo.controller.AdminControllerTest" />
+      <option name="METHOD_NAME" value="testTotalItemsSoldValid" />
       <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
@@ -112,7 +172,11 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="JUnit.AdminControllerTest.testGetUserById_success" />
+        <item itemvalue="JUnit.AdminControllerTest.testAddProduct" />
+        <item itemvalue="JUnit.AdminControllerTest.testTotalItemsSoldValid" />
+        <item itemvalue="JUnit.AdminControllerTest.testTotalItemsSold" />
+        <item itemvalue="JUnit.AdminControllerTest.testDeleteUserById" />
+        <item itemvalue="JUnit.AdminControllerTest" />
       </list>
     </recent_temporary>
   </component>
@@ -131,7 +195,8 @@
       <workItem from="1676499392804" duration="8243000" />
       <workItem from="1676525004273" duration="275000" />
       <workItem from="1676526388807" duration="1257000" />
-      <workItem from="1676564366612" duration="13383000" />
+      <workItem from="1676564366612" duration="20298000" />
+      <workItem from="1676590408153" duration="21065000" />
     </task>
     <servers />
   </component>

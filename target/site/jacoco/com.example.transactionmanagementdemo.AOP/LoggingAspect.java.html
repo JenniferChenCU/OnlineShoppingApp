@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>LoggingAspect.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">TransactionManagementDemo</a> &gt; <a href="index.source.html" class="el_package">com.example.transactionmanagementdemo.AOP</a> &gt; <span class="el_source">LoggingAspect.java</span></div><h1>LoggingAspect.java</h1><pre class="source lang-java linenums">package com.example.transactionmanagementdemo.AOP;
+
+import com.example.transactionmanagementdemo.domain.orders.OrdersResponse;
+import org.aspectj.lang.ProceedingJoinPoint;
+import org.aspectj.lang.annotation.Around;
+import org.aspectj.lang.annotation.Aspect;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
+
+
+@Aspect
+@Component
+<span class="fc" id="L14">public class LoggingAspect {</span>
+
+<span class="fc" id="L16">    private Logger logger = LoggerFactory.getLogger(LoggingAspect.class);</span>
+
+//    @Before(&quot;com.beaconfire.springaop.AOPDemo.AOP.PointCuts.inControllerLayer()&quot;)
+//    public void logStartTime(){
+//        logger.info(&quot;From LoggingAspect.logStartTime in controller: &quot; + System.currentTimeMillis()); // advice
+//    }
+//
+//    @After(&quot;com.beaconfire.springaop.AOPDemo.AOP.PointCuts.inService()&quot;)
+//    public void logEndTime(JoinPoint joinPoint){
+//        logger.info(&quot;From LoggingAspect.logEndTime in service: &quot; + System.currentTimeMillis()  + &quot;: &quot; + joinPoint.getSignature());
+//    }
+//
+//    @AfterReturning(value = &quot;com.beaconfire.springaop.AOPDemo.AOP.PointCuts.inDAOLayer()&quot;, returning = &quot;res&quot;)
+//    public void logReturnObject(JoinPoint joinPoint, Object res){
+//        logger.info(&quot;From LoggingAspect.logReturnObject in DAO: &quot; + res + &quot;: &quot; + joinPoint.getSignature());
+//    }
+//
+//    @AfterThrowing(value = &quot;com.beaconfire.springaop.AOPDemo.AOP.PointCuts.inControllerLayer()&quot;, throwing = &quot;ex&quot;)
+//    public void logThrownException(JoinPoint joinPoint, Throwable ex){
+//        logger.error(&quot;From LoggingAspect.logThrownException in controller: &quot; + ex.getMessage() + &quot;: &quot; + joinPoint.getSignature());
+//    }
+
+    @Around(&quot;com.example.transactionmanagementdemo.AOP.PointCuts.inDAOLayerNewOrder()&quot;)
+    public OrdersResponse logNewOrderStartAndEndTime(ProceedingJoinPoint proceedingJoinPoint) throws Throwable{
+        // before
+<span class="nc" id="L41">        logger.info(&quot;From LoggingAspect.logNewOrderStartAndEndTime: &quot; + proceedingJoinPoint.getSignature());</span>
+<span class="nc" id="L42">        logger.info(&quot;New order start time: &quot; + System.currentTimeMillis());</span>
+        // Invoke the actual object
+<span class="nc" id="L44">        OrdersResponse ordersResponse = (OrdersResponse) proceedingJoinPoint.proceed();</span>
+        // after
+<span class="nc" id="L46">        logger.info(&quot;New order end time: &quot; + System.currentTimeMillis());</span>
+<span class="nc" id="L47">        return ordersResponse;</span>
+    }
+
+    @Around(&quot;com.example.transactionmanagementdemo.AOP.PointCuts.inDAOLayerUpdateOrder()&quot;)
+    public OrdersResponse logUpdateOrderStartAndEndTime(ProceedingJoinPoint proceedingJoinPoint) throws Throwable{
+        // before
+<span class="nc" id="L53">        logger.info(&quot;From LoggingAspect.logUpdateOrderStartAndEndTime: &quot; + proceedingJoinPoint.getSignature());</span>
+<span class="nc" id="L54">        logger.info(&quot;Order status update start time: &quot; + System.currentTimeMillis());</span>
+        //Invoke the actual object
+<span class="nc" id="L56">        OrdersResponse ordersResponse = (OrdersResponse) proceedingJoinPoint.proceed();</span>
+        // after
+<span class="nc" id="L58">        logger.info(&quot;Order status update end time: &quot; + System.currentTimeMillis());</span>
+<span class="nc" id="L59">        return ordersResponse;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.8.202204050719</span></div></body></html>

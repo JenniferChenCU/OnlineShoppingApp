@@ -47,7 +47,6 @@ public class LoginController {
             throw new BadCredentialsException("Provided credential is invalid.");
         }
 
-        System.out.println("=== login ===");
 
         //Successfully authenticated user will be stored in the authUserDetail object
         AuthUserDetail authUserDetail = (AuthUserDetail) authentication.getPrincipal(); //getPrincipal() returns the user object

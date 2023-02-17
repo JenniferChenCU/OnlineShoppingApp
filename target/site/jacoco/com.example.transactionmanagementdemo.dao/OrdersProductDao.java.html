@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>OrdersProductDao.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">TransactionManagementDemo</a> &gt; <a href="index.source.html" class="el_package">com.example.transactionmanagementdemo.dao</a> &gt; <span class="el_source">OrdersProductDao.java</span></div><h1>OrdersProductDao.java</h1><pre class="source lang-java linenums">package com.example.transactionmanagementdemo.dao;
+
+import com.example.transactionmanagementdemo.domain.orderProduct.OrderProduct;
+import com.example.transactionmanagementdemo.domain.orders.OrderStatus;
+import com.example.transactionmanagementdemo.domain.orders.Orders;
+import com.example.transactionmanagementdemo.domain.orders.OrdersResponse;
+import com.example.transactionmanagementdemo.domain.product.Product;
+import com.example.transactionmanagementdemo.domain.user.User;
+import com.example.transactionmanagementdemo.exception.OrderNotFoundException;
+import com.example.transactionmanagementdemo.exception.ProductSaveFailedException;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
+
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
+import java.util.List;
+import java.util.Optional;
+
+@Repository
+<span class="fc" id="L24">public class OrdersProductDao {</span>
+
+    @Autowired
+    SessionFactory sessionFactory;
+
+    public List&lt;OrderProduct&gt; getAllOrderProduct(){
+        Session session;
+<span class="nc" id="L31">        List&lt;OrderProduct&gt; orderProductsList = null;</span>
+        try{
+<span class="nc" id="L33">            session = sessionFactory.getCurrentSession();</span>
+<span class="nc" id="L34">            CriteriaBuilder cb = session.getCriteriaBuilder();</span>
+<span class="nc" id="L35">            CriteriaQuery&lt;OrderProduct&gt; cq = cb.createQuery(OrderProduct.class);</span>
+<span class="nc" id="L36">            Root&lt;OrderProduct&gt; root = cq.from(OrderProduct.class);</span>
+<span class="nc" id="L37">            cq.select(root);</span>
+<span class="nc" id="L38">            orderProductsList = session.createQuery(cq).getResultList();</span>
+<span class="nc" id="L39">        }catch (Exception e){</span>
+<span class="nc" id="L40">            e.printStackTrace();</span>
+<span class="nc" id="L41">        }</span>
+<span class="nc bnc" id="L42" title="All 2 branches missed.">        return (orderProductsList.isEmpty()) ? null : orderProductsList;</span>
+    }
+
+    public List&lt;OrderProduct&gt; getOrderProductsByOrder(Orders orders){
+        Session session;
+<span class="nc" id="L47">        List&lt;OrderProduct&gt; orderProduct = null;</span>
+        try{
+<span class="nc" id="L49">            session = sessionFactory.getCurrentSession();</span>
+<span class="nc" id="L50">            CriteriaBuilder cb = session.getCriteriaBuilder();</span>
+<span class="nc" id="L51">            CriteriaQuery&lt;OrderProduct&gt; cq = cb.createQuery(OrderProduct.class);</span>
+<span class="nc" id="L52">            Root&lt;OrderProduct&gt; root = cq.from(OrderProduct.class);</span>
+<span class="nc" id="L53">            Predicate predicate = cb.equal(root.get(&quot;orders&quot;), orders);</span>
+<span class="nc" id="L54">            cq.select(root).where(predicate);</span>
+<span class="nc" id="L55">            orderProduct = session.createQuery(cq).getResultList();</span>
+        }
+<span class="nc" id="L57">        catch (Exception e){</span>
+<span class="nc" id="L58">            e.printStackTrace();</span>
+<span class="nc" id="L59">        }</span>
+<span class="nc" id="L60">        return orderProduct;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.8.202204050719</span></div></body></html>

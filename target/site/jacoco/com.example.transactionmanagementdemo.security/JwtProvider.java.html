@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>JwtProvider.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">TransactionManagementDemo</a> &gt; <a href="index.source.html" class="el_package">com.example.transactionmanagementdemo.security</a> &gt; <span class="el_source">JwtProvider.java</span></div><h1>JwtProvider.java</h1><pre class="source lang-java linenums">package com.example.transactionmanagementdemo.security;
+
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.PropertySource;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.stereotype.Component;
+
+import javax.servlet.http.HttpServletRequest;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
+
+@Component
+@PropertySource(&quot;classpath:application.properties&quot;)
+<span class="fc" id="L21">public class JwtProvider {</span>
+
+    @Value(&quot;${security.jwt.token.key}&quot;)
+    private String key;
+
+    // create jwt from a UserDetail
+    public String createToken(UserDetails userDetails){
+        //Claims is essentially a key-value pair, where the key is a string and the value is an object
+<span class="nc" id="L29">        Claims claims = Jwts.claims().setSubject(userDetails.getUsername()); // user identifier</span>
+<span class="nc" id="L30">        claims.put(&quot;permissions&quot;, userDetails.getAuthorities()); // user permission</span>
+<span class="nc" id="L31">        return Jwts.builder()</span>
+<span class="nc" id="L32">                .setClaims(claims)</span>
+<span class="nc" id="L33">                .signWith(SignatureAlgorithm.HS256, key) // algorithm and key to sign the token</span>
+<span class="nc" id="L34">                .compact();</span>
+    }
+
+    // resolves the token -&gt; use the information in the token to create a userDetail object
+    public Optional&lt;AuthUserDetail&gt; resolveToken(HttpServletRequest request){
+//        String token = request.getHeader(&quot;token&quot;); // extract token value by key &quot;token&quot;
+<span class="nc bnc" id="L40" title="All 4 branches missed.">        if(request.getRequestURI().equals(&quot;/registration&quot;) || request.getRequestURI().equals(&quot;/login&quot;))</span>
+<span class="nc" id="L41">            return Optional.empty();</span>
+
+<span class="nc" id="L43">        String prefixedToken = request.getHeader(&quot;Authorization&quot;); // extract token value by key &quot;Authorization&quot;</span>
+<span class="nc" id="L44">        String token = prefixedToken.substring(7);</span>
+
+<span class="nc" id="L46">        Claims claims = Jwts.parser().setSigningKey(key).parseClaimsJws(token).getBody(); // decode</span>
+
+<span class="nc" id="L48">        String username = claims.getSubject();</span>
+<span class="nc" id="L49">        List&lt;LinkedHashMap&lt;String, String&gt;&gt; permissions = (List&lt;LinkedHashMap&lt;String, String&gt;&gt;) claims.get(&quot;permissions&quot;);</span>
+
+        // convert the permission list to a list of GrantedAuthority
+<span class="nc" id="L52">        List&lt;GrantedAuthority&gt; authorities = permissions.stream()</span>
+<span class="nc" id="L53">                .map(p -&gt; new SimpleGrantedAuthority(p.get(&quot;authority&quot;)))</span>
+<span class="nc" id="L54">                .collect(Collectors.toList());</span>
+
+        //return a userDetail object with the permissions the user has
+<span class="nc" id="L57">        return Optional.of(AuthUserDetail.builder()</span>
+<span class="nc" id="L58">                .username(username)</span>
+<span class="nc" id="L59">                .authorities(authorities)</span>
+<span class="nc" id="L60">                .build());</span>
+
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.8.202204050719</span></div></body></html>

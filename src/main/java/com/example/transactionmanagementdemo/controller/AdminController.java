@@ -55,7 +55,7 @@ public class AdminController {
 
     @GetMapping("/admin/getUser/{id}")
     public UserResponse getUserById(@PathVariable int id){
-        String username = (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        String username = SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString();
         User user = userService.getUserByUsername(username);
         if (user==null || !user.isSeller()) return UserResponse.builder().message("No permission!").build();
 
@@ -83,7 +83,7 @@ public class AdminController {
 
     @DeleteMapping("/admin/deleteUser/{id}")
     public ResponseEntity<String> deleteUserById(@PathVariable int id){
-        String username = (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        String username = SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString();
         User user = userService.getUserByUsername(username);
         if (user==null || !user.isSeller()) return new ResponseEntity<>("No permission.", HttpStatus.BAD_REQUEST);
 
@@ -127,7 +127,7 @@ public class AdminController {
 
     @PostMapping("/admin/product/edit")
     public ProductResponse editProduct(@RequestBody ProductRequest productRequest){
-        String username = (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        String username = SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString();
         User user = userService.getUserByUsername(username);
         if (user==null || !user.isSeller()) return ProductResponse.builder().message("No permission!").build();
 
@@ -151,7 +151,7 @@ public class AdminController {
 
     @PostMapping("/admin/addProduct")
     public ProductResponse addProduct(@RequestBody ProductRequest productRequest){
-        String username = (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        String username = SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString();
         User user = userService.getUserByUsername(username);
         if (user==null || !user.isSeller()) return ProductResponse.builder().message("No permission!").build();
 
@@ -174,7 +174,7 @@ public class AdminController {
 
     @GetMapping("/admin/mostProfitProduct")
     public ProductResponse mostProfitProduct(){
-        String username = (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        String username = SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString();
         User user = userService.getUserByUsername(username);
         if (user==null || !user.isSeller()) return ProductResponse.builder().message("No permission!").build();
 
@@ -184,7 +184,7 @@ public class AdminController {
 
     @GetMapping("/admin/top3PopularProducts")
     public AllProductsResponse top3Products(){
-        String username = (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        String username = SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString();
         User user = userService.getUserByUsername(username);
         if (user==null || !user.isSeller())  return AllProductsResponse.builder().message("No permission!").build();
 
@@ -194,7 +194,7 @@ public class AdminController {
 
     @GetMapping("/admin/totalItemsSold")
     public String totalItemsSold(){
-        String username = (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        String username = SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString();
         User user = userService.getUserByUsername(username);
         if (user==null || !user.isSeller()) return "No permission!";
 
@@ -203,7 +203,7 @@ public class AdminController {
 
     @GetMapping("/admin/top3Users")
     public AllUsersResponse top3Users(){
-        String username = (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        String username = SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString();
         User user = userService.getUserByUsername(username);
         if (user==null || !user.isSeller())  return AllUsersResponse.builder().message("No permission!").build();
 

@@ -4,6 +4,7 @@ import com.example.transactionmanagementdemo.dao.ProductDao;
 import com.example.transactionmanagementdemo.dao.UserDao;
 import com.example.transactionmanagementdemo.domain.product.Product;
 import com.example.transactionmanagementdemo.domain.user.User;
+import com.example.transactionmanagementdemo.domain.user.UserResponse;
 import com.example.transactionmanagementdemo.domain.watchList.WatchListResponse;
 import com.example.transactionmanagementdemo.exception.InvalidCredentialsException;
 import com.example.transactionmanagementdemo.exception.UserSaveFailedException;

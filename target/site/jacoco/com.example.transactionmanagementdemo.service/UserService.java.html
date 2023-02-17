@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>UserService.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">TransactionManagementDemo</a> &gt; <a href="index.source.html" class="el_package">com.example.transactionmanagementdemo.service</a> &gt; <span class="el_source">UserService.java</span></div><h1>UserService.java</h1><pre class="source lang-java linenums">package com.example.transactionmanagementdemo.service;
+
+import com.example.transactionmanagementdemo.dao.ProductDao;
+import com.example.transactionmanagementdemo.dao.UserDao;
+import com.example.transactionmanagementdemo.domain.product.Product;
+import com.example.transactionmanagementdemo.domain.user.User;
+import com.example.transactionmanagementdemo.domain.user.UserResponse;
+import com.example.transactionmanagementdemo.domain.watchList.WatchListResponse;
+import com.example.transactionmanagementdemo.exception.InvalidCredentialsException;
+import com.example.transactionmanagementdemo.exception.UserSaveFailedException;
+import com.example.transactionmanagementdemo.security.AuthUserDetail;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.stereotype.Service;
+
+import javax.transaction.Transactional;
+import java.util.*;
+import java.util.Optional;
+
+@Service
+public class UserService implements UserDetailsService {
+
+    private final UserDao userDao;
+    private final ProductDao productDao;
+
+
+    @Autowired
+<span class="fc" id="L32">    public UserService(UserDao userDao, ProductDao productDao) {</span>
+<span class="fc" id="L33">        this.userDao = userDao;</span>
+<span class="fc" id="L34">        this.productDao = productDao;</span>
+<span class="fc" id="L35">    }</span>
+
+    @Transactional
+    @Override
+    public UserDetails loadUserByUsername(String username) throws InvalidCredentialsException {
+<span class="nc" id="L40">        Optional&lt;User&gt; userOptional = userDao.loadUserByUsername(username);</span>
+
+<span class="nc bnc" id="L42" title="All 2 branches missed.">        if (!userOptional.isPresent()){</span>
+<span class="nc" id="L43">            throw new InvalidCredentialsException(&quot;Invalid credential!&quot;);</span>
+        }
+
+<span class="nc" id="L46">        User user = userOptional.get(); // database user</span>
+
+<span class="nc" id="L48">        return AuthUserDetail.builder() // spring security's userDetail</span>
+<span class="nc" id="L49">                .username(user.getUsername())</span>
+<span class="nc" id="L50">                .password(new BCryptPasswordEncoder().encode(user.getPassword()))</span>
+<span class="nc" id="L51">                .authorities(getAuthoritiesFromUser(user))</span>
+<span class="nc" id="L52">                .accountNonExpired(true)</span>
+<span class="nc" id="L53">                .accountNonLocked(true)</span>
+<span class="nc" id="L54">                .credentialsNonExpired(true)</span>
+<span class="nc" id="L55">                .enabled(true)</span>
+<span class="nc" id="L56">                .build();</span>
+    }
+
+    private List&lt;GrantedAuthority&gt; getAuthoritiesFromUser(User user){
+<span class="nc" id="L60">        List&lt;GrantedAuthority&gt; userAuthorities = new ArrayList&lt;&gt;();</span>
+
+<span class="nc bnc" id="L62" title="All 2 branches missed.">        userAuthorities.add(new SimpleGrantedAuthority(user.isSeller() ? &quot;admin&quot; : &quot;user&quot;));</span>
+
+<span class="nc" id="L64">        return userAuthorities;</span>
+    }
+
+
+    @Transactional
+    public List&lt;User&gt; getAllUsersSuccess(){
+<span class="nc" id="L70">        return userDao.getAllUsers();</span>
+    }
+
+    @Transactional
+    public User getUserById(int id){
+<span class="nc" id="L75">        return userDao.getUserById(id);</span>
+    }
+
+    @Transactional
+    public User getUserByUsername(String username){
+<span class="nc" id="L80">        return userDao.getUserByUsername(username);</span>
+    }
+
+    @Transactional
+    public User getUserByEmail(String email){
+<span class="nc" id="L85">        return userDao.getUserByEmail(email);</span>
+    }
+
+    @Transactional
+    public void addUser(User user){
+<span class="nc" id="L90">        userDao.addUser(user);</span>
+<span class="nc" id="L91">    }</span>
+
+    @Transactional
+    public WatchListResponse addProductToWatchList(User user, Product product){
+<span class="nc" id="L95">        return userDao.addProductToWatchList(user, product);</span>
+    }
+
+    @Transactional
+    public WatchListResponse deleteProductFromWatchList(User user, int productId){
+<span class="nc" id="L100">        return userDao.deleteProductFromWatchList(user, productId);</span>
+    }
+
+    @Transactional
+    public void saveUserSuccess(User user){
+<span class="nc" id="L105">        userDao.addUser(user);</span>
+<span class="nc" id="L106">    }</span>
+
+    @Transactional(rollbackOn = UserSaveFailedException.class)
+    public void saveUserFailed(User user) throws UserSaveFailedException {
+        //success operation
+<span class="nc" id="L111">        userDao.addUser(user);</span>
+        //failed operation
+<span class="nc" id="L113">        userDao.somethingWentWrong();</span>
+<span class="nc" id="L114">    }</span>
+
+    @Transactional
+    public void deleteUserById(int id){
+<span class="nc" id="L118">        User user = userDao.getUserById(id);</span>
+<span class="nc" id="L119">        userDao.deleteUser(user);</span>
+<span class="nc" id="L120">    }</span>
+
+    @Transactional
+    public Optional&lt;User&gt; validateLogin(String email, String password) {
+<span class="nc" id="L124">        return userDao.getAllUsers().stream()</span>
+<span class="nc bnc" id="L125" title="All 2 branches missed.">                .filter(a -&gt; a.getEmail().equals(email)</span>
+<span class="nc bnc" id="L126" title="All 2 branches missed.">                        &amp;&amp; a.getPassword().equals(password))</span>
+<span class="nc" id="L127">                .findAny();</span>
+    }
+
+    @Transactional
+    public List&lt;User&gt; getTop3Users(){
+<span class="nc" id="L132">        List&lt;User&gt; allUsers = getAllUsersSuccess();</span>
+<span class="nc" id="L133">        return userDao.getTop3Users(allUsers);</span>
+    }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.8.202204050719</span></div></body></html>
