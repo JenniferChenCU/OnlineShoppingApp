@@ -161,7 +161,7 @@ public class UserController {
 
 <span class="nc" id="L162">        String username = (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();</span>
 <span class="nc" id="L163">        User user = userService.getUserByUsername(username);</span>
-<span class="nc bnc" id="L164" title="All 2 branches missed.">        if (!orders.getUser().equals(user)) return OrdersDetailResponse.builder().message(&quot;No permission!&quot;).build();</span>
+<span class="nc bnc" id="L164" title="All 2 branches missed.">        if (orders.getUser().getId()!=user.getId()) return OrdersDetailResponse.builder().message(&quot;No permission!&quot;).build();</span>
 
 <span class="nc" id="L166">        List&lt;OrderProduct&gt; orderProducts = ordersProductService.getOrderProductsByOrder(orders);</span>
 <span class="nc" id="L167">        List&lt;UserProduct&gt; userProducts = new ArrayList&lt;&gt;();</span>

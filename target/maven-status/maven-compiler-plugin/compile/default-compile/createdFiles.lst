@@ -12,7 +12,6 @@ com/example/transactionmanagementdemo/exception/AuthorSaveFailedException.class
 com/example/transactionmanagementdemo/domain/user/AllUsersResponse$AllUsersResponseBuilder.class
 com/example/transactionmanagementdemo/domain/userProduct/UserProduct.class
 com/example/transactionmanagementdemo/dao/OrdersProductDao.class
-com/example/transactionmanagementdemo/domain/watchList/WatchList.class
 com/example/transactionmanagementdemo/domain/orders/AllOrdersResponse$AllOrdersResponseBuilder.class
 com/example/transactionmanagementdemo/config/HibernateProperty.class
 com/example/transactionmanagementdemo/dao/OrdersDao.class

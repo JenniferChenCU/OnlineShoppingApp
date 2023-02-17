@@ -48,7 +48,6 @@
 /Users/wenchen/Documents/Github/OnlineShoppingApp/src/main/java/com/example/transactionmanagementdemo/service/UserService.java
 /Users/wenchen/Documents/Github/OnlineShoppingApp/src/main/java/com/example/transactionmanagementdemo/dao/OrdersDao.java
 /Users/wenchen/Documents/Github/OnlineShoppingApp/src/main/java/com/example/transactionmanagementdemo/controller/UserController.java
-/Users/wenchen/Documents/Github/OnlineShoppingApp/src/main/java/com/example/transactionmanagementdemo/domain/watchList/WatchList.java
 /Users/wenchen/Documents/Github/OnlineShoppingApp/src/main/java/com/example/transactionmanagementdemo/domain/orders/AllOrdersResponse.java
 /Users/wenchen/Documents/Github/OnlineShoppingApp/src/main/java/com/example/transactionmanagementdemo/domain/orderProduct/OrderProductResponse.java
 /Users/wenchen/Documents/Github/OnlineShoppingApp/src/main/java/com/example/transactionmanagementdemo/AOP/PointCuts.java

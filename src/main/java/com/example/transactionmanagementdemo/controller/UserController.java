@@ -161,7 +161,7 @@ public class UserController {
 
         String username = (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         User user = userService.getUserByUsername(username);
-        if (!orders.getUser().equals(user)) return OrdersDetailResponse.builder().message("No permission!").build();
+        if (orders.getUser().getId()!=user.getId()) return OrdersDetailResponse.builder().message("No permission!").build();
 
         List<OrderProduct> orderProducts = ordersProductService.getOrderProductsByOrder(orders);
         List<UserProduct> userProducts = new ArrayList<>();
